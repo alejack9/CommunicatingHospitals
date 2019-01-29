@@ -1,0 +1,9 @@
+{
+    "morgan": {
+        "enabled": true,
+        "format": "dev"
+    },
+    "helmet": {
+        "enabled": false
+    }
+}
