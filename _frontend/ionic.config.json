@@ -1,0 +1,7 @@
+{
+  "name": "communicating-hospitals",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}
