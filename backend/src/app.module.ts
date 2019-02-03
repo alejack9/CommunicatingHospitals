@@ -1,21 +1,26 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { ToolsService } from './utils/tools/tools.service';
 import { HospitalsModule } from './hospitals/hospitals.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PreparationsModule } from './preparations/preparations.module';
+import { AppService } from './app.service';
+import { ConfigModule } from './config/config.module';
 import * as dotenv from 'dotenv';
-import * as path from 'path';
-dotenv.config({ path: path.join(__dirname, '..', 'run.env') });
+import * as fs from 'fs';
+const db = dotenv.parse(
+  fs.readFileSync(`${process.env.NODE_ENV || 'development'}.env`),
+).DATABASE;
 
 @Module({
   imports: [
-    MongooseModule.forRoot(process.env.MONGO_ADD, { useNewUrlParser: true }),
+    ConfigModule,
+    // connect to db
+    // MongooseModule is a mongoose module made by nest
+    MongooseModule.forRoot(db, { useNewUrlParser: true }),
     PreparationsModule,
     HospitalsModule,
   ],
   controllers: [AppController],
-  providers: [AppService, ToolsService],
+  providers: [AppService],
 })
 export class AppModule {}
