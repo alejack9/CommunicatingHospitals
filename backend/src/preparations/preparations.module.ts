@@ -6,6 +6,7 @@ import { PreparationSchema } from './schemas/preparation.schema';
 
 @Module({
   imports: [
+    // which schema has to be used in this scope
     MongooseModule.forFeature([
       { name: 'Preparation', schema: PreparationSchema },
     ]),
