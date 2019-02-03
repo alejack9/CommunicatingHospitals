@@ -1,9 +1,9 @@
 import * as mongoose from 'mongoose';
-import { FeatureSchema } from './geoJSONFeature.schema';
+import { GeoJSONMultiPointSchema } from './geoJSONMultiPoint.schema';
 
 const HospitalSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  coordinates: { type: FeatureSchema, required: true },
+  coordinates: { type: GeoJSONMultiPointSchema, required: true },
   preparations: [
     {
       required: false,
