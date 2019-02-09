@@ -35,4 +35,7 @@ testem.log
 
 # End of https://www.gitignore.io/api/angular
 
+src/moduleAdder.ts
+create hospital query.txt
+tokes.txt
 *.env
