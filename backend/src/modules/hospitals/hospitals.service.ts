@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Hospital } from '../../common/interfaces/hospital.interface';
 import { GeoJSONDto } from '../../common/dtos/geojson-point.dto';
 import { PreparationType } from 'src/common/preparation-type';
+import { CreateHospitalDto } from 'src/common/dtos/create-hospital.dto';
 
 @Injectable()
 export class HospitalsService {
@@ -11,10 +12,22 @@ export class HospitalsService {
     @InjectModel('Hospital') private readonly hospitalModel: Model<Hospital>,
   ) {}
 
-  // async create(createHospitalDto: CreateHospitalDto): Promise<Hospital> {
-  //   const createdHospital = new this.hospitalModel(createHospitalDto);
-  //   return await createdHospital.save();
-  // }
+  async create(createHospitalDto: CreateHospitalDto): Promise<Hospital> {
+    return await new this.hospitalModel(createHospitalDto).save(err => {
+      if (err) {
+        throw err;
+      }
+    });
+  }
+
+  async push(preparationID: Types.ObjectId, hospitalID: Types.ObjectId) {
+    // produces a false deprecation warning
+    this.hospitalModel
+      .findByIdAndUpdate(hospitalID, {
+        $push: { preparations: preparationID },
+      })
+      .exec();
+  }
 
   async findAll(): Promise<Hospital[]> {
     return await this.hospitalModel

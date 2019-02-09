@@ -1,14 +1,13 @@
-import { Controller, Get, Param, UsePipes } from '@nestjs/common';
+import { Controller, Get, Param, Post, UseGuards, Body } from '@nestjs/common';
 import { PreparationsService } from './preparations.service';
 import { Preparation } from '../../common/interfaces/preparation.interface';
 import { UserService } from '../user/user.service';
 import { User } from '../user/user.decorator';
 import { UserDto } from 'src/common/dtos/user.dto';
-import {
-  PreparationType,
-  PreparationTypesArray,
-} from 'src/common/preparation-type';
+import { PreparationType } from 'src/common/preparation-type';
 import { PreparationTypePipe } from 'src/common/pipes/preparation-type.pipe';
+import { AdminGuard } from '../auth/guards/admin.guard';
+import { CreatePreparationDto } from 'src/common/dtos/create-preparation.dto';
 
 @Controller('preparations')
 export class PreparationsController {
@@ -17,6 +16,11 @@ export class PreparationsController {
     private readonly userService: UserService,
   ) {}
 
+  @Post()
+  @UseGuards(new AdminGuard())
+  async createPreparation(@Body() prep: CreatePreparationDto) {
+    return await this.preparationsService.create(prep);
+  }
   /**
    * @param user user object inserted by express-jwt in AuthenicationMiddleware (for this reason, it is unchangable by the client)
    */

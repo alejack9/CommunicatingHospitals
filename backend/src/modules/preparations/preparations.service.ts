@@ -5,6 +5,7 @@ import { Hospital } from '../../common/interfaces/hospital.interface';
 import * as moment from 'moment';
 import { PreparationType } from 'src/common/preparation-type';
 import { Preparation } from 'src/common/interfaces/preparation.interface';
+import { CreatePreparationDto } from 'src/common/dtos/create-preparation.dto';
 
 @Injectable()
 export class PreparationsService {
@@ -16,21 +17,21 @@ export class PreparationsService {
     private readonly preparationModel: Model<Preparation>,
   ) {}
 
-  // async create(
-  //   createPreparationDto: CreatePreparationDto,
-  // ): Promise<Preparation> {
-  //   // create a model based on createPreparationDto)
-  //   const createdPreparation = new this.preparationModel(createPreparationDto);
-  //   return await createdPreparation.save();
-  // }
+  async create(
+    createPreparationDto: CreatePreparationDto,
+  ): Promise<Preparation> {
+    return await new this.preparationModel(createPreparationDto).save(err => {
+      if (err) {
+        throw err;
+      }
+    });
+  }
 
   async getPreparations(
     hospitalId: Types.ObjectId,
     pType: PreparationType,
   ): Promise<[Preparation]> {
-    // TODO TO COMMENT
     const now = moment().startOf('day');
-
     return (await this.hospitalModel
       .findById(hospitalId)
       .populate(
@@ -49,18 +50,5 @@ export class PreparationsService {
         },
       )
       .exec()).preparations;
-
-    // const query = {
-    //   hospital: hospitalId,
-    //   date: {
-    //     $gte: now.toDate(),
-    //     $lt: moment(now)
-    //       .add(31, 'days')
-    //       .endOf('day')
-    //       .toDate(),
-    //   },
-    // };
-    // console.log(query);
-    // return await this.hospitalModel.find(query).exec();
   }
 }

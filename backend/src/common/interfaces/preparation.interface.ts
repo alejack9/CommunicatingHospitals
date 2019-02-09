@@ -6,5 +6,5 @@ export interface Preparation extends Document {
   readonly numberOfPreparations: number;
   readonly date: Date;
   readonly type: PreparationType;
-  readonly hospital: Hospital;
+  // readonly hospital: Hospital;
 }

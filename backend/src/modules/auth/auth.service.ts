@@ -5,7 +5,7 @@
 
 // @Injectable()
 // export class AuthService {
-//   constructor() {}
+//   constructor(@InjectModel('User') private readonly user: Model<User>) {}
 //   async isValidUser(id: string) {
 //     return !!(await this.user.findOne({ authId: id }).exec());
 //   }
