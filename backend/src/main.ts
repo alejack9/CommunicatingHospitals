@@ -1,36 +1,29 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { ValidationPipe } from '@nestjs/common';
+import * as dotenv from 'dotenv';
+import * as fs from 'fs';
+// Make an environment object that is module-scoped to get environment variables
+const environments = dotenv.parse(
+  fs.readFileSync(`${process.env.NODE_ENV || 'development'}.env`),
+);
 
 async function bootstrap() {
-  const PORT = process.env.PORT;
+  const PORT = environments.PORT || 3000;
+  const detailedResponses = environments.DETAILED_RESPONSES.match('true');
+  const DETAILS = environments.DETAILS.match('true');
+
   const app = await NestFactory.create(AppModule);
+  app.useGlobalPipes(
+    new ValidationPipe({
+      disableErrorMessages: !detailedResponses,
+    }),
+  );
   await app.listen(PORT);
-  // tslint:disable-next-line: no-console
-  console.log(`Listening on port ${PORT}`);
+  if (DETAILS) {
+    // tslint:disable-next-line: no-console
+    console.log(`\x1b[35mapp:Bootstrap\x1b[0m Listening on port ${PORT}`);
+  }
 }
 
 bootstrap();
-
-// mongoose
-// .connect(process.env.MONGO_ADD, { useNewUrlParser: true })
-// .then(() => {
-//   console.log('Connected to MongoDB...');
-//   create();
-// })
-// .catch(err => console.error('Error connecting to MongoDB: ', err.message));
-
-// async function create() {
-//   const hosp1 = new Hospital({
-//     name: 'Falconara',
-//     coordinates: {
-//       type: 'feautre',
-//       geometry: {
-//         type: 'Point',
-//         coordinates: [125.6, 10.1],
-//       },
-//       properties: {},
-//     },
-//   });
-//   await hosp1.save();
-//   console.log('Saved!!!!');
-// }

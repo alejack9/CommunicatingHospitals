@@ -1,21 +1,37 @@
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { ToolsService } from './utils/tools/tools.service';
-import { HospitalsModule } from './hospitals/hospitals.module';
+import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { PreparationsModule } from './preparations/preparations.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { ConfigModule } from './modules/config/config.module';
+import { HospitalsModule } from './modules/hospitals/hospitals.module';
+import { PreparationsModule } from './modules/preparations/preparations.module';
+import { AuthenticationMiddleware } from './middleware/authentication.middleware';
+import { UserModule } from './modules/user/user.module';
+// same reason of the main
 import * as dotenv from 'dotenv';
-import * as path from 'path';
-dotenv.config({ path: path.join(__dirname, '..', 'run.env') });
+import * as fs from 'fs';
+const db = dotenv.parse(
+  fs.readFileSync(`${process.env.NODE_ENV || 'development'}.env`),
+).DATABASE;
 
 @Module({
   imports: [
-    MongooseModule.forRoot(process.env.MONGO_ADD, { useNewUrlParser: true }),
+    // contains the environment variables
+    ConfigModule,
+    // connect to db
+    // MongooseModule is a mongoose module made by nest
+    MongooseModule.forRoot(db, { useNewUrlParser: true }),
+    // importing this we set the guards provided by the module as global
+    AuthModule,
     PreparationsModule,
     HospitalsModule,
+    UserModule,
   ],
-  controllers: [AppController],
-  providers: [AppService, ToolsService],
+  controllers: [],
+  providers: [],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    // apply authentication middleware for all routes
+    consumer.apply(AuthenticationMiddleware).forRoutes('*');
+  }
+}
