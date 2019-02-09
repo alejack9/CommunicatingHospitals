@@ -2,7 +2,8 @@ import { Module } from '@nestjs/common';
 import { PreparationsService } from './preparations.service';
 import { PreparationsController } from './preparations.controller';
 import { MongooseModule } from '@nestjs/mongoose';
-import { PreparationSchema } from './schemas/preparation.schema';
+import { PreparationSchema } from '../../common/schemas/preparation.schema';
+import { UserModule } from '../user/user.module';
 
 @Module({
   imports: [
@@ -10,6 +11,7 @@ import { PreparationSchema } from './schemas/preparation.schema';
     MongooseModule.forFeature([
       { name: 'Preparation', schema: PreparationSchema },
     ]),
+    UserModule,
   ],
   controllers: [PreparationsController],
   providers: [PreparationsService],

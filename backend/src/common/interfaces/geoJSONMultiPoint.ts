@@ -8,23 +8,10 @@ import { Document } from 'mongoose';
 //   };
 // }
 
-type MultiPoint = 'MultiPoint';
-export type GeoType = MultiPoint | 'Point';
-
-// export enum GeoType {
-//   ...MultiPointEnum,
-//   'Point',
-// }
-
-enum MultiPointEnum {
+enum Type {
   'MultiPoint',
 }
-// export enum GeoGeoType {
-//   'MultiPoint',
-//   'Point',
-// }
-
 export interface GeoJSONMultiPoint extends Document {
-  readonly type: MultiPointEnum;
+  readonly type: Type;
   readonly coordinates: [[number]];
 }

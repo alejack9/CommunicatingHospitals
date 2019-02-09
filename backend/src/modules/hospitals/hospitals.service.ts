@@ -1,8 +1,9 @@
-import { Model } from 'mongoose';
-import { Injectable, Body } from '@nestjs/common';
+import { Model, Types } from 'mongoose';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Hospital } from './interfaces/hospital.interface';
-import { GeoJSONDto } from './dto/geojson-point.dto';
+import { Hospital } from '../../common/interfaces/hospital.interface';
+import { GeoJSONDto } from '../../common/dtos/geojson-point.dto';
+import { PreparationTypesEnum } from 'src/common/preparationTypes';
 
 @Injectable()
 export class HospitalsService {
@@ -16,7 +17,10 @@ export class HospitalsService {
   // }
 
   async findAll(): Promise<Hospital[]> {
-    return await this.hospitalModel.find().exec();
+    return await this.hospitalModel
+      .find()
+      .populate('preparations')
+      .exec();
   }
 
   async find(geojson: GeoJSONDto, distance?: number): Promise<Hospital[]> {
@@ -36,5 +40,18 @@ export class HospitalsService {
       },
     };
     return this.hospitalModel.find(query).exec();
+  }
+
+  async getPreparationTypes(
+    hospitalId: Types.ObjectId,
+  ): Promise<PreparationTypesEnum[]> {
+    if (Types.ObjectId.isValid(hospitalId)) {
+      const r = (await this.hospitalModel
+        .findById(hospitalId)
+        .select('preparations')
+        .populate('preparations', 'type')
+        .exec()).preparations.map(p => p.type);
+    }
+    return null;
   }
 }

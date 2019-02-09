@@ -3,7 +3,6 @@ import {
   ValidationArguments,
   ValidatorConstraint,
 } from 'class-validator';
-import { LoggerService } from 'src/utils/tools/logger.service';
 
 @ValidatorConstraint({ name: 'validCoordinates', async: false })
 export class CoordinatesValidator implements ValidatorConstraintInterface {
@@ -21,7 +20,6 @@ export class CoordinatesValidator implements ValidatorConstraintInterface {
   }
 
   defaultMessage(args: ValidationArguments) {
-    // here you can provide default error message if validation failed
     return 'Coordinates are not in bound.';
   }
 }

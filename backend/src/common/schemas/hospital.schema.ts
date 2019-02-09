@@ -6,8 +6,10 @@ const HospitalSchema = new mongoose.Schema({
   coordinates: { type: GeoJSONMultiPointSchema, required: true },
   preparations: [
     {
+      // ref or embedded? ref: preparations number grows very quickly
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Preparation',
       required: false,
-      type: { type: mongoose.Schema.Types.ObjectId, ref: 'Preparation' },
     },
   ],
 });

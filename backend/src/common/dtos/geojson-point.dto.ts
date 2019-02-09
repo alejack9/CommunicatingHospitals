@@ -1,4 +1,3 @@
-import { GeoType } from '../interfaces/geoJSONMultiPoint';
 import {
   ArrayMaxSize,
   ArrayMinSize,
@@ -7,11 +6,17 @@ import {
   ArrayNotEmpty,
   Min,
   Validate,
+  IsString,
+  IsOptional,
+  Equals,
 } from 'class-validator';
-import { CoordinatesValidator } from './validators/coordinates-validator';
+import { CoordinatesValidator } from '../validators/coordinates-validator';
 
 export class GeoJSONDto {
-  type: GeoType = 'Point';
+  @IsOptional()
+  @IsString()
+  @Equals('Point')
+  type: string = 'Point';
 
   @IsArray()
   @ArrayNotEmpty()
@@ -21,6 +26,7 @@ export class GeoJSONDto {
   // long, lat
   coordinates: [number];
 
+  @IsOptional()
   @IsNumber()
   @Min(0)
   distance: number = 100;

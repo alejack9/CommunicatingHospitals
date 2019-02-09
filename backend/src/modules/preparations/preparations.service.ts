@@ -1,7 +1,9 @@
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Preparation } from './interfaces/preparation.interface';
+import { Preparation } from '../../common/interfaces/preparation.interface';
+import { Hospital } from '../../common/interfaces/hospital.interface';
+import * as moment from 'moment';
 
 @Injectable()
 export class PreparationsService {
@@ -19,7 +21,19 @@ export class PreparationsService {
   //   return await createdPreparation.save();
   // }
 
-  async findAll(): Promise<Preparation[]> {
-    return await this.preparationModel.find().exec();
+  async getPreparations(hospitalId: Types.ObjectId) {
+    // TODO TO COMMENT
+    const now = moment().startOf('day');
+    const query = {
+      hospital: hospitalId,
+      date: {
+        $gte: now.toDate(),
+        $lt: moment(now)
+          .add(31, 'days')
+          .endOf('day')
+          .toDate(),
+      },
+    };
+    return await this.preparationModel.find(query).exec();
   }
 }

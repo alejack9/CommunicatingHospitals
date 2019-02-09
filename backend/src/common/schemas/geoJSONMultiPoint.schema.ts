@@ -1,3 +1,4 @@
+// TODO Use Feature instead of Multipoint?
 import * as mongoose from 'mongoose';
 const GeoJSONMultiPointSchema = new mongoose.Schema({
   type: {

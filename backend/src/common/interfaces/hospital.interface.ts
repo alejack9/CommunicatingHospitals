@@ -1,5 +1,5 @@
 import { Document } from 'mongoose';
-import { Preparation } from 'src/preparations/interfaces/preparation.interface';
+import { Preparation } from './preparation.interface';
 import { GeoJSONMultiPoint } from './geoJSONMultiPoint';
 
 export interface Hospital extends Document {

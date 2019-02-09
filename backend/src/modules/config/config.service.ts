@@ -31,6 +31,7 @@ export class ConfigService {
       DATABASE: Joi.string(),
       DETAILS: Joi.boolean(),
       DETAILED_RESPONSES: Joi.boolean(),
+      AUTH0_DOMAIN: Joi.string(),
     });
 
     const { error, value: validatedEnvConfig } = Joi.validate(
@@ -63,5 +64,8 @@ export class ConfigService {
   }
   get DETAILED_RESPONSES(): boolean {
     return Boolean(this.envConfig.DETAILED_RESPONSES);
+  }
+  get AUTH0_DOMAIN(): string {
+    return this.envConfig.AUTH0_DOMAIN;
   }
 }
