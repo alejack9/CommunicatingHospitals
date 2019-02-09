@@ -12,12 +12,16 @@ export class UserService {
    * @param userId Could be eather objectId or authId
    */
   async getHospitalID(userId: string): Promise<Types.ObjectId> {
-    // retrive the hospital 'object' from the passed userId
-    const toReturn = (Types.ObjectId.isValid(userId)
-      ? (await this.user.findById(userId).exec()).hospital
-      : (await this.user.findOne({ authId: userId }).exec())
-          .hospital) as Types.ObjectId;
-    return toReturn;
+    // retrive the hospital's id from the passed userId
+    return (Types.ObjectId.isValid(userId)
+      ? (await this.user
+          .findById(userId)
+          .select('')
+          .exec()).hospital
+      : (await this.user
+          .findOne({ authId: userId })
+          .select('')
+          .exec()).hospital) as Types.ObjectId;
   }
 
   async getUser(pAuthId: string) {

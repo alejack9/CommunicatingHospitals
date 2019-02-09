@@ -5,7 +5,7 @@ import { GeoJSONDto } from '../../common/dtos/geojson-point.dto';
 import { User } from '../user/user.decorator';
 import { UserDto } from 'src/common/dtos/user.dto';
 import { UserService } from '../user/user.service';
-import { PreparationTypesEnum } from 'src/common/preparationTypes';
+import { PreparationType } from 'src/common/preparation-type';
 
 @Controller('hospitals')
 export class HospitalsController {
@@ -25,9 +25,7 @@ export class HospitalsController {
   }
 
   @Get('/preparationTypes')
-  async getpreparationTypes(
-    @User() user: UserDto,
-  ): Promise<PreparationTypesEnum[]> {
+  async getpreparationTypes(@User() user: UserDto): Promise<PreparationType[]> {
     return await this.hospitalsService.getPreparationTypes(
       await this.userService.getHospitalID(user.sub),
     );

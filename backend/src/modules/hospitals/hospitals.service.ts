@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Hospital } from '../../common/interfaces/hospital.interface';
 import { GeoJSONDto } from '../../common/dtos/geojson-point.dto';
-import { PreparationTypesEnum } from 'src/common/preparationTypes';
+import { PreparationType } from 'src/common/preparation-type';
 
 @Injectable()
 export class HospitalsService {
@@ -44,7 +44,7 @@ export class HospitalsService {
 
   async getPreparationTypes(
     hospitalId: Types.ObjectId,
-  ): Promise<PreparationTypesEnum[]> {
+  ): Promise<PreparationType[]> {
     if (Types.ObjectId.isValid(hospitalId)) {
       const r = (await this.hospitalModel
         .findById(hospitalId)

@@ -1,10 +1,10 @@
 import { Schema } from 'mongoose';
-import { PreparationTypes } from '../preparationTypes';
+import { PreparationTypesArray } from '../preparation-type';
 
 const PreparationSchema = new Schema({
   type: {
     type: Schema.Types.String,
-    enum: PreparationTypes,
+    enum: PreparationTypesArray,
     required: true,
   },
   numberOfPreparations: {

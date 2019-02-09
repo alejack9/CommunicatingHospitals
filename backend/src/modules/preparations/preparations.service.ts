@@ -1,14 +1,17 @@
 import { Model, Types } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Preparation } from '../../common/interfaces/preparation.interface';
 import { Hospital } from '../../common/interfaces/hospital.interface';
 import * as moment from 'moment';
+import { PreparationType } from 'src/common/preparation-type';
+import { Preparation } from 'src/common/interfaces/preparation.interface';
 
 @Injectable()
 export class PreparationsService {
   constructor(
     // inject the module scoped (in the preparation.module.ts) into preparationModel
+    @InjectModel('Hospital')
+    private readonly hospitalModel: Model<Hospital>,
     @InjectModel('Preparation')
     private readonly preparationModel: Model<Preparation>,
   ) {}
@@ -21,19 +24,43 @@ export class PreparationsService {
   //   return await createdPreparation.save();
   // }
 
-  async getPreparations(hospitalId: Types.ObjectId) {
+  async getPreparations(
+    hospitalId: Types.ObjectId,
+    pType: PreparationType,
+  ): Promise<[Preparation]> {
     // TODO TO COMMENT
     const now = moment().startOf('day');
-    const query = {
-      hospital: hospitalId,
-      date: {
-        $gte: now.toDate(),
-        $lt: moment(now)
-          .add(31, 'days')
-          .endOf('day')
-          .toDate(),
-      },
-    };
-    return await this.preparationModel.find(query).exec();
+
+    return (await this.hospitalModel
+      .findById(hospitalId)
+      .populate(
+        'preparations',
+        'numberOfPreparations date type',
+        this.preparationModel,
+        {
+          type: pType,
+          date: {
+            $gte: now.toDate(),
+            $lt: moment(now)
+              .add(31, 'days')
+              .endOf('day')
+              .toDate(),
+          },
+        },
+      )
+      .exec()).preparations;
+
+    // const query = {
+    //   hospital: hospitalId,
+    //   date: {
+    //     $gte: now.toDate(),
+    //     $lt: moment(now)
+    //       .add(31, 'days')
+    //       .endOf('day')
+    //       .toDate(),
+    //   },
+    // };
+    // console.log(query);
+    // return await this.hospitalModel.find(query).exec();
   }
 }

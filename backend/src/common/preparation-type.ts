@@ -1,7 +1,7 @@
 /**
  * Used in PreparationInterface
  */
-const PreparationTypes = [
+const PreparationTypesArray = [
   'Liquid',
   'Tablet',
   'Capsules',
@@ -14,7 +14,7 @@ const PreparationTypes = [
   'Buccal',
 ];
 
-type PreparationTypesEnum = typeof PreparationTypes[number];
+type PreparationType = typeof PreparationTypesArray[number];
 
 /**
  * Used in PreparationSchema
@@ -22,4 +22,4 @@ type PreparationTypesEnum = typeof PreparationTypes[number];
 // const PreparationTypes = Object.keys(PreparationTypesEnum).filter(
 //   k => typeof PreparationTypesEnum[k as any] === 'number',
 // );
-export { PreparationTypes, PreparationTypesEnum };
+export { PreparationTypesArray, PreparationType };

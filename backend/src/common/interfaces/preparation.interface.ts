@@ -1,10 +1,10 @@
-import { Document, Types } from 'mongoose';
-import { PreparationTypesEnum } from '../preparationTypes';
+import { Document } from 'mongoose';
+import { PreparationType } from '../preparation-type';
 import { Hospital } from './hospital.interface';
 
 export interface Preparation extends Document {
   readonly numberOfPreparations: number;
   readonly date: Date;
-  readonly type: PreparationTypesEnum;
+  readonly type: PreparationType;
   readonly hospital: Hospital;
 }
