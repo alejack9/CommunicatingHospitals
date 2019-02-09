@@ -1,8 +1,5 @@
-/**
- * For logging and other tools
- */
 import { Injectable } from '@nestjs/common';
-import { ConfigService } from 'src/config/config.service';
+import { ConfigService } from '../../modules/config/config.service';
 const fgcolors = [
   // '\x1b[31m',
   '\x1b[32m',
@@ -11,6 +8,10 @@ const fgcolors = [
   '\x1b[35m',
 ];
 
+// TODO Return e 'log' function instead of a class?
+/**
+ * @classdesc Logging and other tools
+ */
 @Injectable()
 export class LoggerService {
   private readonly reset = '\x1b[0m';
@@ -45,6 +46,7 @@ export class LoggerService {
       // this.bg +
       // this.appColor +
       // '[App] - ' +
+      // TODO We can use moment
       // BeautifyDate.beautify(Date.now()) +
       //   ' ' +
       this.loggers.get(namespace) +
