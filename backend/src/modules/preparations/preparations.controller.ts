@@ -3,11 +3,11 @@ import { PreparationsService } from './preparations.service';
 import { Preparation } from '../../common/interfaces/preparation.interface';
 import { UserService } from '../user/user.service';
 import { User } from '../user/user.decorator';
-import { UserDto } from 'src/common/dtos/user.dto';
-import { PreparationType } from 'src/common/preparation-type';
-import { PreparationTypePipe } from 'src/common/pipes/preparation-type.pipe';
+import { UserDto } from '../../common/dtos/user.dto';
+import { PreparationType } from '../../common/preparation-type';
+import { PreparationTypePipe } from '../../common/pipes/preparation-type.pipe';
 import { AdminGuard } from '../auth/guards/admin.guard';
-import { CreatePreparationDto } from 'src/common/dtos/create-preparation.dto';
+import { CreatePreparationDto } from '../../common/dtos/create-preparation.dto';
 
 @Controller('preparations')
 export class PreparationsController {

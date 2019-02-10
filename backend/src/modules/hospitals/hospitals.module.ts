@@ -3,7 +3,7 @@ import { HospitalsController } from './hospitals.controller';
 import { HospitalsService } from './hospitals.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { HospitalSchema } from '../../common/schemas/hospital.schema';
-import { LoggerService } from 'src/utils/tools/logger.service';
+import { LoggerService } from '../../utils/tools/logger.service';
 import { UserModule } from '../user/user.module';
 
 @Module({
