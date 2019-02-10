@@ -33,13 +33,14 @@ export class HospitalsController {
   }
 
   @Get()
+  @UseGuards(new AdminGuard())
   async findAll() {
     return this.hospitalsService.findAll();
   }
 
   @Get('/location')
   async find(@Body() location: GeoJSONDto): Promise<Hospital[]> {
-    return this.hospitalsService.find(location);
+    return this.hospitalsService.find(location, location.distance);
   }
 
   @Get('/preparationTypes')
