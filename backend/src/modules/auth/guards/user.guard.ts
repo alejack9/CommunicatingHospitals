@@ -1,5 +1,5 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
-import { UserService } from 'src/modules/user/user.service';
+import { UserService } from '../../../modules/user/user.service';
 // import { InjectModel } from '@nestjs/mongoose';
 // import { Model } from 'mongoose';
 // import { User } from '../../../common/interfaces/user.interface';

@@ -3,8 +3,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Hospital } from '../../common/interfaces/hospital.interface';
 import { GeoJSONDto } from '../../common/dtos/geojson-point.dto';
-import { PreparationType } from 'src/common/preparation-type';
-import { CreateHospitalDto } from 'src/common/dtos/create-hospital.dto';
+import { PreparationType } from '../../common/preparation-type';
+import { CreateHospitalDto } from '../../common/dtos/create-hospital.dto';
 
 @Injectable()
 export class HospitalsService {
@@ -59,7 +59,7 @@ export class HospitalsService {
     hospitalId: Types.ObjectId,
   ): Promise<PreparationType[]> {
     if (Types.ObjectId.isValid(hospitalId)) {
-      const r = (await this.hospitalModel
+      return (await this.hospitalModel
         .findById(hospitalId)
         .select('preparations')
         .populate('preparations', 'type')
