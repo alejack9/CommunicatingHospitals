@@ -59,7 +59,7 @@ export class HospitalsService {
     hospitalId: Types.ObjectId,
   ): Promise<PreparationType[]> {
     if (Types.ObjectId.isValid(hospitalId)) {
-      const r = (await this.hospitalModel
+      return (await this.hospitalModel
         .findById(hospitalId)
         .select('preparations')
         .populate('preparations', 'type')
