@@ -23,15 +23,6 @@ export class HospitalsController {
     return await this.hospitalsService.create(hosp);
   }
 
-  @Put()
-  @UseGuards(new AdminGuard())
-  async pushPreparation(@Body() push: PushPreparationDto) {
-    return await this.hospitalsService.push(
-      push.preparationID,
-      push.hospitalID,
-    );
-  }
-
   @Get()
   @UseGuards(new AdminGuard())
   async findAll() {
@@ -45,8 +36,14 @@ export class HospitalsController {
 
   @Get('/preparationTypes')
   async getpreparationTypes(@User() user: UserDto): Promise<PreparationType[]> {
-    return await this.hospitalsService.getPreparationTypes(
+    return await this.hospitalsService.getPreparationsTypes(
       await this.userService.getHospitalID(user.sub),
     );
+  }
+
+  @Get('/myHospital')
+  async getHospital(@User() user: UserDto): Promise<Hospital> {
+    return (await this.userService.getUserHospital(user.sub))
+      .hospital as Hospital;
   }
 }

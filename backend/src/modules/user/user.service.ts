@@ -28,6 +28,13 @@ export class UserService {
     return await this.user.findOne({ authId: pAuthId }).exec();
   }
 
+  async getUserHospital(authId) {
+    return await this.user
+      .findById((await this.getUser(authId))._id)
+      .populate('hospital')
+      .exec();
+  }
+
   /**
    * @description We thought to 'map' the authId into the mongoDB ObjectID to keep only 1 id and decode the authId from the object's one.
    *  Although, we choose to keep 2 IDs: the mongodb' and the auth' in order to respect mongoDB best pratices (ObjectID has an own format)

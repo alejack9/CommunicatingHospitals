@@ -17,21 +17,30 @@ export class PreparationsService {
     private readonly preparationModel: Model<Preparation>,
   ) {}
 
+  async push(
+    preparationID: Types.ObjectId,
+    hospitalID: Types.ObjectId,
+  ): Promise<Hospital> {
+    // produces a false deprecation warning
+    return this.hospitalModel
+      .findByIdAndUpdate(hospitalID, {
+        $push: { preparations: preparationID },
+      })
+      .exec();
+  }
+
   async create(
     createPreparationDto: CreatePreparationDto,
   ): Promise<Preparation> {
-    return await new this.preparationModel(createPreparationDto).save(err => {
-      if (err) {
-        throw err;
-      }
-    });
+    return await new this.preparationModel(createPreparationDto).save();
   }
 
   async getPreparations(
     hospitalId: Types.ObjectId,
     pType: PreparationType,
+    range: Date[],
   ): Promise<[Preparation]> {
-    const now = moment().startOf('day');
+    const now = moment(range[0]).startOf('day');
     return (await this.hospitalModel
       .findById(hospitalId)
       .populate(
@@ -42,8 +51,7 @@ export class PreparationsService {
           type: pType,
           date: {
             $gte: now.toDate(),
-            $lt: moment(now)
-              .add(31, 'days')
+            $lt: moment(range[1])
               .endOf('day')
               .toDate(),
           },
