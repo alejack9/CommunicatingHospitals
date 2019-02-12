@@ -11,6 +11,13 @@ export class RankingService {
     @InjectModel('Preparation')
     private readonly preparationModel: Model<Preparation>,
   ) {}
+
+  /**
+   * @description According to this article ( https://jkchu.com/2016/02/17/designing-and-implementing-a-ranking-algorithm/ ),
+   *  I've decided to implement the ranking as a query because of low-impact and relatively semplicity.
+   *  A better way could be writing the ranking table in a collection and retrive it from a query, updating it every days or, in an even better way,
+   *  scheduling a trigger that reacts to the 'hospitals' and 'preparations' collections.
+   */
   async rank(
     pType: PreparationType,
     dates: Date[],
