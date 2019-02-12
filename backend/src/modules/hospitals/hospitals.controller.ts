@@ -2,13 +2,12 @@ import { Controller, Body, Get, UseGuards, Post, Put } from '@nestjs/common';
 import { HospitalsService } from './hospitals.service';
 import { Hospital } from '../../common/interfaces/hospital.interface';
 import { GeoJSONDto } from '../../common/dtos/geojson-point.dto';
-import { User } from '../user/user.decorator';
+import { User } from '../../common/decorators/user.decorator';
 import { UserDto } from '../../common/dtos/user.dto';
 import { UserService } from '../user/user.service';
 import { PreparationType } from '../../common/preparation-type';
 import { CreateHospitalDto } from '../../common/dtos/create-hospital.dto';
 import { AdminGuard } from '../auth/guards/admin.guard';
-import { PushPreparationDto } from '../../common/dtos/push-preparation.dto';
 
 @Controller('hospitals')
 export class HospitalsController {
@@ -34,7 +33,7 @@ export class HospitalsController {
     return this.hospitalsService.find(location, location.distance);
   }
 
-  @Get('/preparationTypes')
+  @Get('/preparationsTypes')
   async getpreparationTypes(@User() user: UserDto): Promise<PreparationType[]> {
     return await this.hospitalsService.getPreparationsTypes(
       await this.userService.getHospitalID(user.sub),
