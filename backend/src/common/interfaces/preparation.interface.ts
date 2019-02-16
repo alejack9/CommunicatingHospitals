@@ -1,5 +1,5 @@
 import { Document, Types } from 'mongoose';
-import { PreparationType } from '../preparation-type';
+import { PreparationType } from '../preparation.type';
 import { Hospital } from './hospital.interface';
 
 export interface Preparation extends Document {

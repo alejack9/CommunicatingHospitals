@@ -4,7 +4,7 @@ import {
   ArgumentMetadata,
   BadRequestException,
 } from '@nestjs/common';
-import { PreparationType, PreparationTypesArray } from '../preparation-type';
+import { PreparationType, PreparationTypesArray } from '../preparation.type';
 
 @Injectable()
 export class PreparationTypePipe

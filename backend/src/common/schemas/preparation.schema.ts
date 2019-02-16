@@ -1,5 +1,5 @@
 import { Schema } from 'mongoose';
-import { PreparationTypesArray } from '../preparation-type';
+import { PreparationTypesArray } from '../preparation.type';
 
 const PreparationSchema = new Schema({
   type: {

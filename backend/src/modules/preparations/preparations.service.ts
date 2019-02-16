@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Hospital } from '../../common/interfaces/hospital.interface';
 import * as moment from 'moment';
-import { PreparationType } from '../../common/preparation-type';
+import { PreparationType } from '../../common/preparation.type';
 import { Preparation } from '../../common/interfaces/preparation.interface';
 import { CreatePreparationDto } from '../../common/dtos/create-preparation.dto';
 

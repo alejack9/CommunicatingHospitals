@@ -7,7 +7,7 @@ import {
 import { Types } from 'mongoose';
 
 /**
- * could be usefull but it's unused
+ * could be usefull even if it's unused
  */
 
 @Injectable()

@@ -1,11 +1,11 @@
-import { Controller, Body, Get, UseGuards, Post, Put } from '@nestjs/common';
+import { Controller, Body, Get, UseGuards, Post } from '@nestjs/common';
 import { HospitalsService } from './hospitals.service';
 import { Hospital } from '../../common/interfaces/hospital.interface';
 import { GeoJSONDto } from '../../common/dtos/geojson-point.dto';
 import { User } from '../../common/decorators/user.decorator';
 import { UserDto } from '../../common/dtos/user.dto';
 import { UserService } from '../user/user.service';
-import { PreparationType } from '../../common/preparation-type';
+import { PreparationType } from '../../common/preparation.type';
 import { CreateHospitalDto } from '../../common/dtos/create-hospital.dto';
 import { AdminGuard } from '../auth/guards/admin.guard';
 

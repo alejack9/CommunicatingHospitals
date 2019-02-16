@@ -4,12 +4,12 @@ import { Preparation } from '../../common/interfaces/preparation.interface';
 import { UserService } from '../user/user.service';
 import { User } from '../../common/decorators/user.decorator';
 import { UserDto } from '../../common/dtos/user.dto';
-import { PreparationType } from '../../common/preparation-type';
+import { PreparationType } from '../../common/preparation.type';
 import { PreparationTypePipe } from '../../common/pipes/preparation-type.pipe';
 import { AdminGuard } from '../auth/guards/admin.guard';
 import { CreatePreparationDto } from '../../common/dtos/create-preparation.dto';
 import { ObjectID } from 'bson';
-import { DateRangeDto } from '../../common/dtos/date-range.dto';
+import { DateRangeDto } from 'src/common/dtos/date-range.dto';
 
 @Controller('preparations')
 export class PreparationsController {
@@ -34,6 +34,7 @@ export class PreparationsController {
   async getPrepration(
     @User() user: UserDto,
     @Param('type', new PreparationTypePipe()) type: PreparationType,
+    // @Body('dateUnit', new DateUnitPipe()) dateUnit: DateUnit,
     @Body() range: DateRangeDto,
   ): Promise<Preparation[]> {
     // Uses the userService to get the hosptial of the user, than uses the hospitalId to retrive the preparations
