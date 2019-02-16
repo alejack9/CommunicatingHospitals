@@ -6,6 +6,7 @@ import { HospitalsModule } from './modules/hospitals/hospitals.module';
 import { PreparationsModule } from './modules/preparations/preparations.module';
 import { AuthenticationMiddleware } from './middleware/authentication.middleware';
 import { UserModule } from './modules/user/user.module';
+import { RankingModule } from './modules/ranking/ranking.module';
 // same reason of the main
 import * as dotenv from 'dotenv';
 import * as fs from 'fs';
@@ -25,6 +26,7 @@ const db = dotenv.parse(
     PreparationsModule,
     HospitalsModule,
     UserModule,
+    RankingModule,
   ],
   controllers: [],
   providers: [],
