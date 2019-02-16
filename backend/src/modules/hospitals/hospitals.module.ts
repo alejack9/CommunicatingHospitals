@@ -5,7 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { HospitalSchema } from '../../common/schemas/hospital.schema';
 import { LoggerService } from '../../utils/tools/logger.service';
 import { UserModule } from '../user/user.module';
-import { PreparationSchema } from 'src/common/schemas/preparation.schema';
+import { PreparationSchema } from '../../common/schemas/preparation.schema';
 
 @Module({
   imports: [

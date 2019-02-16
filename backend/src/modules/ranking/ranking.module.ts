@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { RankingController } from './ranking.controller';
 import { MongooseModule } from '@nestjs/mongoose';
-import { PreparationSchema } from 'src/common/schemas/preparation.schema';
-import { HospitalSchema } from 'src/common/schemas/hospital.schema';
+import { PreparationSchema } from '../../common/schemas/preparation.schema';
+import { HospitalSchema } from '../../common/schemas/hospital.schema';
 import { RankingService } from './ranking.service';
-import { UserModule } from 'src/modules/user/user.module';
+import { UserModule } from '../../modules/user/user.module';
 import { HospitalsService } from '../hospitals/hospitals.service';
-import { RankSchema } from 'src/common/schemas/rank.schema';
+import { RankSchema } from '../../common/schemas/rank.schema';
 
 @Module({
   imports: [

@@ -5,7 +5,7 @@ import { Hospital } from '../../common/interfaces/hospital.interface';
 import { GeoJSONDto } from '../../common/dtos/geojson-point.dto';
 import { PreparationType } from '../../common/preparation.type';
 import { CreateHospitalDto } from '../../common/dtos/create-hospital.dto';
-import { Preparation } from 'src/common/interfaces/preparation.interface';
+import { Preparation } from '../../common/interfaces/preparation.interface';
 
 @Injectable()
 export class HospitalsService {

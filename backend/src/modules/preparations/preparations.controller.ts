@@ -9,7 +9,7 @@ import { PreparationTypePipe } from '../../common/pipes/preparation-type.pipe';
 import { AdminGuard } from '../auth/guards/admin.guard';
 import { CreatePreparationDto } from '../../common/dtos/create-preparation.dto';
 import { ObjectID } from 'bson';
-import { DateRangeDto } from 'src/common/dtos/date-range.dto';
+import { DateRangeDto } from '../../common/dtos/date-range.dto';
 
 @Controller('preparations')
 export class PreparationsController {
