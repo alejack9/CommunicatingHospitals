@@ -9,23 +9,25 @@ export class UserService {
 
   /**
    *
-   * @param userId Could be eather objectId or authId
+   * @param pAuthId authId
    */
-  async getHospitalID(userId: string): Promise<Types.ObjectId> {
+  async getHospitalID(pAuthId: string): Promise<Types.ObjectId> {
     // retrive the hospital's id from the passed userId
-    return (Types.ObjectId.isValid(userId)
-      ? (await this.user
-          .findById(userId)
-          .select('')
-          .exec()).hospital
-      : (await this.user
-          .findOne({ authId: userId })
-          .select('')
-          .exec()).hospital) as Types.ObjectId;
+    return (await this.user
+      .findOne({ authId: pAuthId })
+      .select('')
+      .exec()).hospital as Types.ObjectId;
   }
 
   async getUser(pAuthId: string) {
     return await this.user.findOne({ authId: pAuthId }).exec();
+  }
+
+  async getUserHospital(authId) {
+    return await this.user
+      .findById((await this.getUser(authId))._id)
+      .populate('hospital')
+      .exec();
   }
 
   /**

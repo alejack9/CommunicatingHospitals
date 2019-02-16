@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { HospitalSchema } from '../../common/schemas/hospital.schema';
 import { LoggerService } from '../../utils/tools/logger.service';
 import { UserModule } from '../user/user.module';
+import { PreparationSchema } from 'src/common/schemas/preparation.schema';
 
 @Module({
   imports: [
@@ -12,6 +13,9 @@ import { UserModule } from '../user/user.module';
     // name: the name of the model
     // schema: the schema
     MongooseModule.forFeature([{ name: 'Hospital', schema: HospitalSchema }]),
+    MongooseModule.forFeature([
+      { name: 'Preparation', schema: PreparationSchema },
+    ]),
     UserModule,
   ],
   controllers: [HospitalsController],
