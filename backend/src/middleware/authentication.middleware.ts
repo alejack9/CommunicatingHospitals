@@ -3,7 +3,7 @@ import { Injectable, MiddlewareFunction, NestMiddleware } from '@nestjs/common';
 import * as jwt from 'express-jwt';
 // A library to retrieve RSA signing keys from a JWKS (JSON Web Key Set) endpoint.
 import { expressJwtSecret } from 'jwks-rsa';
-import { ConfigService } from '../modules/config/config.service';
+// import { ConfigService } from '../modules/config/config.service';
 
 /**
  * @class AuthenticationMiddleware
@@ -11,9 +11,8 @@ import { ConfigService } from '../modules/config/config.service';
  */
 @Injectable()
 export class AuthenticationMiddleware implements NestMiddleware {
-  /// We can use ConfigService because this middleware is defined in AppModule, so it is not global scoped but 'lives' into the injection engine.
-  constructor(private readonly configuration: ConfigService) {}
-  readonly DOMAIN = this.configuration.AUTH0_DOMAIN;
+  // // We can use ConfigService because this middleware is defined in AppModule, so it is not global scoped but 'lives' into the injection engine.
+  readonly DOMAIN = process.env.AUTH0_DOMAIN;
 
   // NestMiddleware's interface function that return a middleware function
   resolve(): MiddlewareFunction {
