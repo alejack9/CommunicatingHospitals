@@ -1,15 +1,15 @@
 import { Injectable, Type } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-import { Preparation } from 'src/common/interfaces/preparation.interface';
+import { Preparation } from '../../common/interfaces/preparation.interface';
 import * as moment from 'moment';
-import { PreparationType } from 'src/common/preparation.type';
-import { Hospital } from 'src/common/interfaces/hospital.interface';
-import { PreparationTypesArray } from 'src/common/preparation.type';
-import { DateUnit, DateUnitsArray } from 'src/common/date-unit.type';
-import { TypeRank } from 'src/common/interfaces/type-rank.interfaces';
+import { PreparationType } from '../../common/preparation.type';
+import { Hospital } from '../../common/interfaces/hospital.interface';
+import { PreparationTypesArray } from '../../common/preparation.type';
+import { DateUnit, DateUnitsArray } from '../../common/date-unit.type';
+import { TypeRank } from '../../common/interfaces/type-rank.interfaces';
 import { HospitalsService } from '../hospitals/hospitals.service';
-import { Rank } from 'src/common/interfaces/rank.interface';
+import { Rank } from '../../common/interfaces/rank.interface';
 
 @Injectable()
 export class RankingService {

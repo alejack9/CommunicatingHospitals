@@ -1,5 +1,5 @@
 import { Document, Types } from 'mongoose';
-import { Hospital } from 'src/common/interfaces/hospital.interface';
+import { Hospital } from './hospital.interface';
 
 export interface User extends Document {
   readonly authId: string;
