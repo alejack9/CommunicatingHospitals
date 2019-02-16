@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { ConfigService } from '../../modules/config/config.service';
+// import { ConfigService } from '../../modules/config/config.service';
+
 const fgcolors = [
   // '\x1b[31m',
   '\x1b[32m',
@@ -20,7 +21,7 @@ export class LoggerService {
   private currentColor = 0;
 
   private loggers: Map<string, string> = new Map();
-  constructor(private readonly config: ConfigService) {
+  constructor() {
     this.loggers.set('LOGGERS-MANAGER', '\x1b[36m');
   }
 
@@ -38,7 +39,7 @@ export class LoggerService {
   }
 
   private print(namespace: string, message: string, unique?: boolean) {
-    if (!this.config.DETAILS) {
+    if (!Boolean(process.env.DETAILS)) {
       return;
     }
     // tslint:disable-next-line: no-console
