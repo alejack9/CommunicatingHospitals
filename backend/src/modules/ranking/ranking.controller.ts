@@ -1,12 +1,13 @@
-import { Controller, Get, Param, Body, Type } from '@nestjs/common';
-import { PreparationType } from 'dist/common/preparation-type';
+import { Controller, Get, Param, Body, UseGuards, Put } from '@nestjs/common';
+import { PreparationType } from '../../common/preparation.type';
 import { PreparationTypePipe } from 'src/common/pipes/preparation-type.pipe';
 import { RankingService } from './ranking.service';
-import { DateRangeDto } from 'src/common/dtos/date-range.dto';
 import { User } from 'src/common/decorators/user.decorator';
 import { UserDto } from 'src/common/dtos/user.dto';
-import { UserService } from 'dist/modules/user/user.service';
-import { Types } from 'mongoose';
+import { UserService } from 'src/modules/user/user.service';
+import { AdminGuard } from '../auth/guards/admin.guard';
+import { DateUnitPipe } from 'src/common/pipes/date-unit.pipe';
+import { DateUnit } from 'src/common/date-unit.type';
 
 @Controller('ranking')
 export class RankingController {
@@ -15,30 +16,29 @@ export class RankingController {
     private readonly userService: UserService,
   ) {}
 
-  @Get('/me')
-  async test() {
-    // TODO
-    throw new Error('TODO');
+  @Put()
+  @UseGuards(new AdminGuard())
+  async setRanks() {
+    return await this.rankingService.setRanks();
   }
 
   @Get('/:type')
   async getTypeRank(
     @Param('type', new PreparationTypePipe()) type: PreparationType,
-    @Body() dateRange: DateRangeDto,
+    @Body('dateUnit', new DateUnitPipe()) dateUnit: DateUnit,
   ) {
-    return await this.rankingService.rank(type, dateRange.dates);
+    return await this.rankingService.rank(type, dateUnit);
   }
 
   @Get('/:type/me')
   async getTypeRankHospital(
     @Param('type', new PreparationTypePipe()) type: PreparationType,
+    @Body('dateUnit', new DateUnitPipe()) dateUnit: DateUnit,
     @User() user: UserDto,
-    @Body()
-    dateRange: DateRangeDto,
   ) {
     return await this.rankingService.rank(
       type,
-      dateRange.dates,
+      dateUnit,
       await this.userService.getHospitalID(user.sub),
     );
   }

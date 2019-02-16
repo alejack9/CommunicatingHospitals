@@ -1,37 +1,137 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Type } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { Preparation } from 'src/common/interfaces/preparation.interface';
 import * as moment from 'moment';
-import { PreparationType } from 'src/common/preparation-type';
+import { PreparationType } from 'src/common/preparation.type';
+import { Hospital } from 'src/common/interfaces/hospital.interface';
+import { PreparationTypesArray } from 'src/common/preparation.type';
+import { DateUnit, DateUnitsArray } from 'src/common/date-unit.type';
+import { TypeRank } from 'src/common/interfaces/type-rank.interfaces';
+import { HospitalsService } from '../hospitals/hospitals.service';
+import { Rank } from 'src/common/interfaces/rank.interface';
 
 @Injectable()
 export class RankingService {
   constructor(
     @InjectModel('Preparation')
     private readonly preparationModel: Model<Preparation>,
+    @InjectModel('Hospital')
+    private readonly hospitalModel: Model<Hospital>,
+    @InjectModel('Rank')
+    private readonly rankModel: Model<Rank>,
+    private readonly hospitalService: HospitalsService,
   ) {}
 
   /**
    * @description According to this article ( https://jkchu.com/2016/02/17/designing-and-implementing-a-ranking-algorithm/ ),
    *  I've decided to implement the ranking as a query because of low-impact and relatively semplicity.
-   *  A better way could be writing the ranking table in a collection and retrive it from a query, updating it every days or, in an even better way,
-   *  scheduling a trigger that reacts to the 'hospitals' and 'preparations' collections.
+   *  A better way could be to write the ranking table in a collection and retrive it from a simpler query, updating it every day or,
+   *  in an even better way scheduling a trigger that reacts to the 'hospitals' and 'preparations' collections.
    */
   async rank(
     pType: PreparationType,
-    dates: Date[],
+    dateUnit: DateUnit,
     hospitalID?: Types.ObjectId,
-  ) {
-    const momFrom = moment(dates[0]).startOf();
-    const momTo = moment(dates[1]).endOf();
-    const query = [
+  ): Promise<[TypeRank]> {
+    let query: any[];
+    switch (dateUnit) {
+      case 'day':
+        query = this.getRanksQuery(
+          moment(Date.now()).startOf('day'),
+          moment(Date.now()).endOf('day'),
+          pType,
+        );
+        break;
+      case 'month':
+        query = this.getRanksQuery(
+          moment(Date.now()).startOf('month'),
+          moment(Date.now()).endOf('month'),
+          pType,
+        );
+        break;
+      case 'year':
+        query = this.getRanksQuery(
+          moment(Date.now()).startOf('year'),
+          moment(Date.now()).endOf('year'),
+          pType,
+        );
+        break;
+      default:
+        throw new Error(`'${dateUnit}' unknown`);
+    }
+    if (hospitalID) {
+      query.push({ $match: { _id: hospitalID } });
+    }
+    return await this.preparationModel.aggregate(query).exec();
+  }
+
+  /**
+   * @description It sets the average hospitals' ranks
+   * @param dateUnit the date unit to calculate
+   */
+  async setRanks() {
+    const hospitalsMap: Map<string, Map<DateUnit, number[]>> = new Map();
+    // const start = Date.now();
+    for (const type of PreparationTypesArray) {
+      for (const dateUnit of DateUnitsArray) {
+        for (const rankingEntry of await this.rank(type, dateUnit)) {
+          if (hospitalsMap.has(rankingEntry._id.toHexString())) {
+            if (
+              hospitalsMap.get(rankingEntry._id.toHexString()).has(dateUnit)
+            ) {
+              hospitalsMap
+                .get(rankingEntry._id.toHexString())
+                .get(dateUnit)
+                .push(rankingEntry.ranking);
+            } else {
+              hospitalsMap
+                .get(rankingEntry._id.toHexString())
+                .set(dateUnit, [rankingEntry.ranking]);
+            }
+          } else {
+            hospitalsMap.set(
+              rankingEntry._id.toHexString(),
+              new Map([[dateUnit, [rankingEntry.ranking]]]),
+            );
+          }
+        }
+      }
+    }
+    for (const hospitalEntry of hospitalsMap) {
+      const vals = new Array();
+      for (const periodValues of hospitalEntry[1]) {
+        const rank = new this.rankModel();
+        rank._id = null;
+        rank.period = periodValues[0];
+        rank.rank = Math.ceil(
+          periodValues[1].reduce((a, b) => a + b) / periodValues[1].length,
+        );
+        rank.lastUpdate = new Date(Date.now());
+        vals.push(rank);
+      }
+      await this.hospitalModel
+        .findByIdAndUpdate(Types.ObjectId(hospitalEntry[0]), {
+          averageRanks: vals,
+        })
+        .exec();
+    }
+    // console.log(Date.now() - start);
+    return true;
+  }
+
+  private getRanksQuery(
+    start: moment.Moment,
+    end: moment.Moment,
+    pType,
+  ): any[] {
+    return [
       {
         $match: {
           type: pType,
           date: {
-            $gte: momFrom.toDate(),
-            $lte: momTo.toDate(),
+            $gte: start.toDate(),
+            $lte: end.toDate(),
           },
         },
       },
@@ -46,7 +146,7 @@ export class RankingService {
       {
         $project: {
           media: {
-            $divide: ['$tot', momTo.diff(momFrom, 'day') + 1],
+            $divide: ['$tot', end.diff(start, 'day') + 1],
           },
         },
       },
@@ -99,14 +199,5 @@ export class RankingService {
         },
       },
     ];
-    const toReturn = this.preparationModel.aggregate(query);
-    if (!hospitalID) {
-      return await toReturn.exec();
-    }
-    return await toReturn
-      .match({
-        _id: hospitalID,
-      })
-      .exec();
   }
 }
