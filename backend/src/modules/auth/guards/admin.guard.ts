@@ -1,8 +1,5 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 
-/**
- * @deprecated It tests the scope but we don't care about that, it was used to understand the auth0 workflow
- */
 @Injectable()
 export class AdminGuard implements CanActivate {
   canActivate(context: ExecutionContext): boolean {
