@@ -27,6 +27,7 @@ export class AuthenticationMiddleware implements NestMiddleware {
           jwksUri: `https://${this.DOMAIN}/.well-known/jwks.json`,
         }),
         // documented as audience but only works as "aud"
+        // https://github.com/auth0-blog/nodejs-jwt-authentication-sample/issues/30
         aud: process.env.AUDIENCE || 'http://localhost:3000/',
         issuer: `https://${this.DOMAIN}/`,
         algorithm: 'RS256',
