@@ -7,7 +7,7 @@ import { expressJwtSecret } from 'jwks-rsa';
 
 /**
  * @class AuthenticationMiddleware
- * @classdesc Middleware that check the token validity
+ * @classdesc Middleware that check the validity of the token
  */
 @Injectable()
 export class AuthenticationMiddleware implements NestMiddleware {
@@ -26,8 +26,8 @@ export class AuthenticationMiddleware implements NestMiddleware {
           jwksRequestsPerMinute: 5,
           jwksUri: `https://${this.DOMAIN}/.well-known/jwks.json`,
         }),
-
-        audience: 'http://localhost:3000',
+        // documented as audience but only works as "aud"
+        aud: process.env.AUDIENCE || 'http://localhost:3000/',
         issuer: `https://${this.DOMAIN}/`,
         algorithm: 'RS256',
       })(req, res, err => {
