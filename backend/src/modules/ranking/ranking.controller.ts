@@ -1,15 +1,15 @@
 import { Controller, Get, Param, Body, UseGuards, Put } from '@nestjs/common';
-import { PreparationType } from '../../common/preparation.type';
-import { PreparationTypePipe } from '../../common/pipes/preparation-type.pipe';
 import { RankingService } from './ranking.service';
-import { User } from '../../common/decorators/user.decorator';
-import { UserDto } from '../../common/dtos/user.dto';
-import { UserService } from '../../modules/user/user.service';
-import { AdminGuard } from '../auth/guards/admin.guard';
-import { DateUnitPipe } from '../../common/pipes/date-unit.pipe';
-import { DateUnit } from '../../common/date-unit.type';
-import { HospitalIdPipe } from 'src/common/pipes/hospital-id.pipe';
 import { Types } from 'mongoose';
+import { UserService } from '../user/user.service';
+import { AdminGuard } from '../auth/guards/admin.guard';
+import { PreparationType } from 'src/common/preparation.type';
+import { DateUnit } from 'src/common/date-unit.type';
+import { DateUnitPipe } from 'src/common/pipes/date-unit.pipe';
+import { PreparationTypePipe } from 'src/common/pipes/preparation-type.pipe';
+import { UserDto } from 'src/common/dtos/user.dto';
+import { User } from 'src/common/decorators/user.decorator';
+import { HospitalIdPipe } from 'src/common/pipes/hospital-id.pipe';
 
 @Controller('ranking')
 export class RankingController {

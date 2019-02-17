@@ -2,9 +2,9 @@ import { Module } from '@nestjs/common';
 import { PreparationsService } from './preparations.service';
 import { PreparationsController } from './preparations.controller';
 import { MongooseModule } from '@nestjs/mongoose';
-import { PreparationSchema } from '../../common/schemas/preparation.schema';
 import { UserModule } from '../user/user.module';
-import { HospitalSchema } from '../../common/schemas/hospital.schema';
+import { PreparationSchema } from 'src/common/schemas/preparation.schema';
+import { HospitalSchema } from 'src/common/schemas/hospital.schema';
 
 @Module({
   imports: [

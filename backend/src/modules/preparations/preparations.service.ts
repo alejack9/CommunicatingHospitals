@@ -1,11 +1,11 @@
 import { Model, Types } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Hospital } from '../../common/interfaces/hospital.interface';
 import * as moment from 'moment';
-import { PreparationType } from '../../common/preparation.type';
-import { Preparation } from '../../common/interfaces/preparation.interface';
-import { CreatePreparationDto } from '../../common/dtos/create-preparation.dto';
+import { Hospital } from 'src/common/interfaces/hospital.interface';
+import { Preparation } from 'src/common/interfaces/preparation.interface';
+import { CreatePreparationDto } from 'src/common/dtos/create-preparation.dto';
+import { PreparationType } from 'src/common/preparation.type';
 
 @Injectable()
 export class PreparationsService {
@@ -17,7 +17,7 @@ export class PreparationsService {
     private readonly preparationModel: Model<Preparation>,
   ) {}
 
-  async push(
+  async addPreparation(
     preparationID: Types.ObjectId,
     hospitalID: Types.ObjectId,
   ): Promise<Hospital> {

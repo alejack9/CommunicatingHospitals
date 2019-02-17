@@ -1,11 +1,11 @@
 import { Model, Types } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Hospital } from '../../common/interfaces/hospital.interface';
-import { GeoJSONDto } from '../../common/dtos/geojson-point.dto';
-import { PreparationType } from '../../common/preparation.type';
-import { CreateHospitalDto } from '../../common/dtos/create-hospital.dto';
-import { Preparation } from '../../common/interfaces/preparation.interface';
+import { Hospital } from 'src/common/interfaces/hospital.interface';
+import { Preparation } from 'src/common/interfaces/preparation.interface';
+import { CreateHospitalDto } from 'src/common/dtos/create-hospital.dto';
+import { GeoJSONDto } from 'src/common/dtos/geojson-point.dto';
+import { PreparationType } from 'src/common/preparation.type';
 
 @Injectable()
 export class HospitalsService {
