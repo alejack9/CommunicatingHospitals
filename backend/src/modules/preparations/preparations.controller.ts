@@ -1,15 +1,15 @@
 import { Controller, Get, Param, Post, UseGuards, Body } from '@nestjs/common';
+import { Types } from 'mongoose';
 import { PreparationsService } from './preparations.service';
-import { Preparation } from '../../common/interfaces/preparation.interface';
 import { UserService } from '../user/user.service';
-import { User } from '../../common/decorators/user.decorator';
-import { UserDto } from '../../common/dtos/user.dto';
-import { PreparationType } from '../../common/preparation.type';
-import { PreparationTypePipe } from '../../common/pipes/preparation-type.pipe';
 import { AdminGuard } from '../auth/guards/admin.guard';
-import { CreatePreparationDto } from '../../common/dtos/create-preparation.dto';
-import { ObjectID } from 'bson';
-import { DateRangeDto } from '../../common/dtos/date-range.dto';
+import { CreatePreparationDto } from 'src/common/dtos/create-preparation.dto';
+import { User } from 'src/common/decorators/user.decorator';
+import { UserDto } from 'src/common/dtos/user.dto';
+import { PreparationTypePipe } from 'src/common/pipes/preparation-type.pipe';
+import { PreparationType } from 'src/common/preparation.type';
+import { DateRangeDto } from 'src/common/dtos/date-range.dto';
+import { Preparation } from 'src/common/interfaces/preparation.interface';
 
 @Controller('preparations')
 export class PreparationsController {
@@ -26,8 +26,8 @@ export class PreparationsController {
   @UseGuards(new AdminGuard())
   async createPreparation(@Body() prep: CreatePreparationDto) {
     const newPrep = await this.preparationsService.create(prep);
-    await this.preparationsService.push(
-      newPrep.hospital as ObjectID,
+    await this.preparationsService.addPreparation(
+      newPrep.hospital as Types.ObjectId,
       newPrep._id,
     );
   }

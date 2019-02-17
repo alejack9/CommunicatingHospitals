@@ -1,13 +1,13 @@
 import { Controller, Body, Get, UseGuards, Post } from '@nestjs/common';
 import { HospitalsService } from './hospitals.service';
-import { Hospital } from '../../common/interfaces/hospital.interface';
-import { GeoJSONDto } from '../../common/dtos/geojson-point.dto';
-import { User } from '../../common/decorators/user.decorator';
-import { UserDto } from '../../common/dtos/user.dto';
-import { UserService } from '../user/user.service';
-import { PreparationType } from '../../common/preparation.type';
-import { CreateHospitalDto } from '../../common/dtos/create-hospital.dto';
+import { UserService } from 'src/modules/user/user.service';
 import { AdminGuard } from '../auth/guards/admin.guard';
+import { CreateHospitalDto } from 'src/common/dtos/create-hospital.dto';
+import { GeoJSONDto } from 'src/common/dtos/geojson-point.dto';
+import { Hospital } from 'src/common/interfaces/hospital.interface';
+import { UserDto } from 'src/common/dtos/user.dto';
+import { User } from 'src/common/decorators/user.decorator';
+import { PreparationType } from 'src/common/preparation.type';
 
 @Controller('hospitals')
 export class HospitalsController {

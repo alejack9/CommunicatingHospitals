@@ -1,6 +1,5 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
-import { UserService } from '../../../modules/user/user.service';
-
+import { UserService } from 'src/modules/user/user.service';
 /**
  * @classdesc It checks if the logged user exists in the users's collection
  */
