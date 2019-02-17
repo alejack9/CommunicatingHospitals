@@ -1,9 +1,5 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { UserService } from '../../../modules/user/user.service';
-// import { InjectModel } from '@nestjs/mongoose';
-// import { Model } from 'mongoose';
-// import { User } from '../../../common/interfaces/user.interface';
-// import { AuthService } from '../auth.service';
 
 /**
  * @classdesc It checks if the logged user exists in the users's collection

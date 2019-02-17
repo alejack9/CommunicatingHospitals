@@ -1,7 +1,4 @@
 import { Module } from '@nestjs/common';
-// import { AuthService } from './auth.service';
-// import { MongooseModule } from '@nestjs/mongoose';
-// import { UserSchema } from '../../common/schemas/user.schema';
 import { APP_GUARD } from '@nestjs/core';
 import { UserGuard } from './guards/user.guard';
 import { UserModule } from '../user/user.module';

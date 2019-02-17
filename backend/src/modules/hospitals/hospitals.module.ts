@@ -3,7 +3,6 @@ import { HospitalsController } from './hospitals.controller';
 import { HospitalsService } from './hospitals.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { HospitalSchema } from '../../common/schemas/hospital.schema';
-import { LoggerService } from '../../utils/tools/logger.service';
 import { UserModule } from '../user/user.module';
 import { PreparationSchema } from '../../common/schemas/preparation.schema';
 
@@ -19,6 +18,6 @@ import { PreparationSchema } from '../../common/schemas/preparation.schema';
     UserModule,
   ],
   controllers: [HospitalsController],
-  providers: [HospitalsService, LoggerService],
+  providers: [HospitalsService],
 })
 export class HospitalsModule {}

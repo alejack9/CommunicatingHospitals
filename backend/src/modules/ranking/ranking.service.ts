@@ -20,7 +20,6 @@ export class RankingService {
     private readonly hospitalModel: Model<Hospital>,
     @InjectModel('Rank')
     private readonly rankModel: Model<Rank>,
-    private readonly hospitalService: HospitalsService,
   ) {}
 
   /**
@@ -29,7 +28,7 @@ export class RankingService {
    *  A better way could be to write the ranking table in a collection and retrive it from a simpler query, updating it every day or,
    *  in an even better way scheduling a trigger that reacts to the 'hospitals' and 'preparations' collections.
    */
-  async rank(
+  async getTypeRank(
     pType: PreparationType,
     dateUnit: DateUnit,
     hospitalID?: Types.ObjectId,
@@ -66,16 +65,22 @@ export class RankingService {
     return await this.preparationModel.aggregate(query).exec();
   }
 
+  async getAverageRank(dateUnit: DateUnit, hospitalId: Types.ObjectId) {
+    return (await this.hospitalModel
+      .findById(hospitalId, 'averageRanks')
+      .exec()).averageRanks.find(r => r.period === dateUnit);
+  }
+
   /**
    * @description It sets the average hospitals' ranks
    * @param dateUnit the date unit to calculate
    */
-  async setRanks() {
+  async setAverageRanks() {
     const hospitalsMap: Map<string, Map<DateUnit, number[]>> = new Map();
     // const start = Date.now();
     for (const type of PreparationTypesArray) {
       for (const dateUnit of DateUnitsArray) {
-        for (const rankingEntry of await this.rank(type, dateUnit)) {
+        for (const rankingEntry of await this.getTypeRank(type, dateUnit)) {
           if (hospitalsMap.has(rankingEntry._id.toHexString())) {
             if (
               hospitalsMap.get(rankingEntry._id.toHexString()).has(dateUnit)

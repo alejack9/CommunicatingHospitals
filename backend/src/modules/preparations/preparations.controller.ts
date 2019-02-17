@@ -18,6 +18,10 @@ export class PreparationsController {
     private readonly userService: UserService,
   ) {}
 
+  /**
+   * Creates a new preparation and associates it with the hospital
+   * @param prep The preparation object. It must accord with CreatePreparationDto
+   */
   @Post()
   @UseGuards(new AdminGuard())
   async createPreparation(@Body() prep: CreatePreparationDto) {
@@ -27,14 +31,17 @@ export class PreparationsController {
       newPrep._id,
     );
   }
+
   /**
+   * Returns all preparation types of the hospital associated to the user
    * @param user user object inserted by express-jwt in AuthenicationMiddleware (for this reason, it is unchangable by the client)
+   * @param type the preparation type
+   * @param range the dates range (to decrease the query size)
    */
   @Get('/:type')
   async getPrepration(
     @User() user: UserDto,
     @Param('type', new PreparationTypePipe()) type: PreparationType,
-    // @Body('dateUnit', new DateUnitPipe()) dateUnit: DateUnit,
     @Body() range: DateRangeDto,
   ): Promise<Preparation[]> {
     // Uses the userService to get the hosptial of the user, than uses the hospitalId to retrive the preparations
