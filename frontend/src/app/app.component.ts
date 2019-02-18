@@ -20,7 +20,7 @@ export class AppComponent {
     private authService: AuthService
   ) {
     this.initializeApp();
-    this.authService.handleAuthentication();
+    this.authService.checkSession();
   }
 
   initializeApp() {

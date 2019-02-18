@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   AUTH0_CLIENTID: 'Uyxb6svhhh5Ve65gwmV6a5dGds61myOL',
   AUTH0_DOMAIN: 'communicating-hospitals.eu.auth0.com',
-  AUTH0_AUDIENCE: 'https://communicating-hospitals.herokuapp.com/',
+  AUTH0_AUDIENCE: 'http://localhost:3000',
   AUTH0_REDIRECTURL: 'http://localhost:8100/callback'
 };
 
