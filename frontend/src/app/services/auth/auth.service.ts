@@ -42,7 +42,7 @@ export class AuthService {
         this.isLoggedIn$.next(loggedIn);
         this.router.navigate(['/home']);
       }
-      console.log(this.isLoggedIn);
+      console.log('LOGGED IN ' + this.isLoggedIn);
     });
   }
 

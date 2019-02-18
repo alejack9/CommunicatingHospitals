@@ -1,4 +1,4 @@
-export interface GeoJSONMultiPoint extends Document {
+export interface GeoJSONMultiPoint {
   readonly type: 'MultiPoint';
-  readonly coordinates: [[number]];
+  readonly coordinates: number[][];
 }
