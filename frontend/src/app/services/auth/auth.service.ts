@@ -18,49 +18,75 @@ export class AuthService {
       domain: environment.AUTH0_DOMAIN,
       responseType: 'token id_token',
       audience: 'http://localhost:3000',
-      redirectUrl: 'http://localhost:8100/callback',
+      redirectUri: 'http://localhost:8100/callback',
       scope: 'openid profile'
     };
     this._auth0Client = new WebAuth({ ...this._properties });
   }
 
   public login(): void {
+    // triggers auth0 authentication page
     this._auth0Client.authorize();
   }
 
   public checkSession(): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
-      this._auth0Client.checkSession(this._properties, async (err, res) => {
-        if (err && err.error !== 'login_required') {
-          return reject(err);
-        } else if (err) {
-          this.handleAuthentication();
-          return resolve(false);
+      // checks in Auth0's server if the browser has a session
+      this._auth0Client.checkSession(
+        this._properties,
+        async (error, authResult) => {
+          if (error && error.error !== 'login_required') {
+            // some other error
+            return reject(error);
+          } else if (error) {
+            // explicit authentication
+            this.handleAuthentication();
+            return resolve(false);
+          }
+          if (!this.isAuthenticated()) {
+            this._setSession(authResult);
+            return resolve(true);
+          }
         }
-        if (!this.isAuthenticated()) {
-          this._setSession(res);
-          return resolve(true);
-        }
-      });
+      );
     });
-  }
-  private _setSession(res): void {
-    this._accessToken = res.accessToken;
-    this._idToken = res.idToken;
   }
 
   public isAuthenticated(): boolean {
+    // Check whether the current time is past the
+    // Access Token's expiry time
     return this._accessToken != null;
   }
+
   private handleAuthentication(): void {
-    this._auth0Client.parseHash((err, res) => {
-      if (res && res.accessToken && res.idToken) {
+    this._auth0Client.parseHash((err, authResult) => {
+      if (authResult && authResult.accessToken && authResult.idToken) {
         window.location.hash = '';
-        this._setSession(res);
+        this._setSession(authResult);
       } else if (err) {
         console.log(err);
       }
     });
+  }
+
+  private _setSession(authResult): void {
+    this._accessToken = authResult.accessToken;
+    this._idToken = authResult.idToken;
+  }
+
+  // check if there is a property Admin in the access token
+  public isAdmin(): boolean {
+    if (this._accessToken) {
+      const helper = new JwtHelperService();
+      const decodedToken = helper.decodeToken(this._accessToken);
+      if (decodedToken['http://localhost:3000/roles'].indexOf('admin') > -1) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
   }
 
   public getProfile(): Object {
@@ -70,11 +96,12 @@ export class AuthService {
     }
   }
 
-  public getAccessToken(): string {
+  public getAccessToken(): String {
     return this._accessToken;
   }
 
   public logout(): void {
+    // Remove tokens
     delete this._accessToken;
     delete this._idToken;
   }

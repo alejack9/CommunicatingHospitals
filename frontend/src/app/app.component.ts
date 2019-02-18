@@ -28,10 +28,10 @@ export class AppComponent {
       this.rootPage = Tab1Page;
       Environment.setEnv({
         // api key for server
-        API_KEY_FOR_BROWSER_RELEASE: 'xxxx',
+        API_KEY_FOR_BROWSER_RELEASE: 'AIzaSyDe4nQAX-jZ11waVuhK2LgTi_ECnOrhB4o',
 
         // api key for local development
-        API_KEY_FOR_BROWSER_DEBUG: 'xxxxs'
+        API_KEY_FOR_BROWSER_DEBUG: 'AIzaSyDe4nQAX-jZ11waVuhK2LgTi_ECnOrhB4o'
       });
       this.statusBar.styleDefault();
       this.splashScreen.hide();

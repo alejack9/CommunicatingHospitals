@@ -3,10 +3,6 @@
     <ion-title>
       {{ title }}
     </ion-title>
-    <span *ngIf="isAuthenticated()">
-      Logged is as: <img [src]="getProfile().picture" width="40" />
-      {{ getProfile().name }}
-    </span>
     <ion-buttons slot="end">
       <ion-button
         shape="round"
@@ -16,14 +12,20 @@
         *ngIf="!isAuthenticated()"
         >Login</ion-button
       >
-      <ion-button
-        shape="round"
-        fill="outline"
-        color="light"
-        (click)="logout()"
-        *ngIf="isAuthenticated()"
-        >Logout</ion-button
-      >
+      <span *ngIf="isAuthenticated()">
+        <span>
+          Logged in as:
+          <img [src]="getProfile().picture" width="40" />
+          {{ getProfile().name }}
+        </span>
+        <ion-button
+          shape="round"
+          fill="outline"
+          color="light"
+          (click)="logout()"
+          >Logout</ion-button
+        >
+      </span>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
