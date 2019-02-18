@@ -10,19 +10,21 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { UserService } from './services/user/user.service';
-// import { CapitalizePipe } from './pipes/capitalize.pipe';
-// import { environment } from 'src/environments/environment';
+
 import { AuthService } from './services/auth/auth.service';
 import { HeaderComponent } from './components/header/header.component';
-//
-
-// console.log(environment.AUTH0_CLIENTID);
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent],
   entryComponents: [],
 
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
+  imports: [
+    BrowserModule,
+    IonicModule.forRoot(),
+    AppRoutingModule,
+    ChartsModule
+  ],
   providers: [
     StatusBar,
     SplashScreen,
