@@ -11,6 +11,7 @@ export class AuthService {
   private _accessToken: string;
   private _idToken: string;
   private _properties: AuthOptions;
+  private ready: boolean;
 
   constructor() {
     this._properties = {
@@ -25,6 +26,7 @@ export class AuthService {
   }
 
   public login(): void {
+    this.ready = false;
     // triggers auth0 authentication page
     this._auth0Client.authorize();
   }
@@ -36,20 +38,27 @@ export class AuthService {
         this._properties,
         async (error, authResult) => {
           if (error && error.error !== 'login_required') {
+            this.ready = true;
             // some other error
             return reject(error);
           } else if (error) {
+            this.ready = true;
             // explicit authentication
             this.handleAuthentication();
             return resolve(false);
           }
           if (!this.isAuthenticated()) {
             this._setSession(authResult);
+            this.ready = true;
             return resolve(true);
           }
         }
       );
     });
+  }
+
+  public isReady() {
+    return this.ready;
   }
 
   public isAuthenticated(): boolean {
