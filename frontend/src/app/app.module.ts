@@ -13,7 +13,8 @@ import { UserService } from './services/user/user.service';
 // import { CapitalizePipe } from './pipes/capitalize.pipe';
 // import { environment } from 'src/environments/environment';
 import { AuthService } from './services/auth/auth.service';
-import { HeaderComponent } from './header/header.component';
+import { HeaderComponent } from './components/header/header.component';
+//
 
 // console.log(environment.AUTH0_CLIENTID);
 

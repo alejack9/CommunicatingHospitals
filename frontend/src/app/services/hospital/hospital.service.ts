@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Hospital } from '../../interfaces/hospital';
+import { Hospital } from '../../common/interfaces/hospital.interface';
 import { LatLng } from '@ionic-native/google-maps';
 @Injectable({
   providedIn: 'root'
@@ -10,23 +10,27 @@ export class HospitalService {
   hospitals: Hospital[] = [
     {
       name: 'Torrette',
-      coordinate: new LatLng(13.555, 45.766),
-      description: ' CIAOOO'
+      coordinate: { type: 'MultiPoint', coordinates: [[13.555, 45.766]] },
+      averageRanks: undefined,
+      preparations: undefined
     },
     {
       name: 'Mazzoni',
-      coordinate: new LatLng(65.555, 23.766),
-      description: ' CIAOOO'
+      coordinate: { type: 'MultiPoint', coordinates: [[65.555, 23.766]] },
+      averageRanks: undefined,
+      preparations: undefined
     },
     {
       name: 'Sant\'Omero',
-      coordinate: new LatLng(34.555, 13.766),
-      description: ' CIAOOO'
+      coordinate: { type: 'MultiPoint', coordinates: [[34.555, 13.766]] },
+      averageRanks: undefined,
+      preparations: undefined
     },
     {
       name: 'Giulianova',
-      coordinate: new LatLng(18.555, 30.766),
-      description: ' CIAOOO'
+      coordinate: { type: 'MultiPoint', coordinates: [[18.555, 30.766]] },
+      averageRanks: undefined,
+      preparations: undefined
     }
   ];
 }
