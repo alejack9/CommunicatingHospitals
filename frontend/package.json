@@ -9,7 +9,8 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "cordova:browser": "ionic cordova build browser && ionic cordova run browser -l"
   },
   "private": true,
   "dependencies": {
