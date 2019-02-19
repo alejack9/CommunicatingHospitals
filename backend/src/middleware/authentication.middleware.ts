@@ -17,6 +17,7 @@ export class AuthenticationMiddleware implements NestMiddleware {
   // NestMiddleware's interface function that return a middleware function
   resolve(): MiddlewareFunction {
     return (req, res, next) => {
+      console.log(req);
       // here it validates JsonWebTokens (JWT)
       jwt({
         // here it retrives the secret (RSA signing keys) from auth0 endpoint.
