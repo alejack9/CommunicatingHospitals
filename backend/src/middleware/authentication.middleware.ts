@@ -24,12 +24,11 @@ export class AuthenticationMiddleware implements NestMiddleware {
           cache: true,
           rateLimit: true,
           jwksRequestsPerMinute: 5,
-          jwksUri: `https://${this.DOMAIN}/.well-known/jwks.json`,
+          jwksUri: 'https://${this.DOMAIN}/.well-known/jwks.json',
         }),
-        // documented as audience but only works as "aud"
-        // https://github.com/auth0-blog/nodejs-jwt-authentication-sample/issues/30
-        aud: process.env.AUDIENCE || 'http://localhost:3000/',
-        issuer: `https://${this.DOMAIN}/`,
+
+        audience: process.env.AUDIENCE || 'http://localhost:3000',
+        issuer: 'https://${this.DOMAIN}/',
         algorithm: 'RS256',
       })(req, res, err => {
         // if there's an error checking the token, a message is sent
@@ -47,3 +46,33 @@ export class AuthenticationMiddleware implements NestMiddleware {
     };
   }
 }
+//       // here it validates JsonWebTokens (JWT)
+//       jwt({
+//         // here it retrives the secret (RSA signing keys) from auth0 endpoint.
+//         secret: expressJwtSecret({
+//           cache: true,
+//           rateLimit: true,
+//           jwksRequestsPerMinute: 5,
+//           jwksUri: `https://${this.DOMAIN}/.well-known/jwks.json`,
+//         }),
+//         // documented as audience but only works as "aud"
+//         // https://github.com/auth0-blog/nodejs-jwt-authentication-sample/issues/30
+//         aud: process.env.AUDIENCE || 'http://localhost:3000/',
+//         issuer: `https://${this.DOMAIN}/`,
+//         algorithm: 'RS256',
+//       })(req, res, err => {
+//         // if there's an error checking the token, a message is sent
+//         if (err) {
+//           const status = err.status || 500;
+//           const message =
+//             err.message || 'Sorry, we were unable to process your request.';
+//           return res.status(status).send({
+//             message,
+//           });
+//         }
+//         // if no errors occured, the pipeline goes on. Moreover 'Jwt' has setted the req.user
+//         next();
+//       });
+//     };
+//   }
+// }
