@@ -23,6 +23,7 @@ async function bootstrap() {
   const DETAILS = process.env.DETAILS.match('true');
 
   const app = await NestFactory.create(AppModule);
+  app.enableCors();
   app.useGlobalPipes(
     new ValidationPipe({
       disableErrorMessages: !detailedResponses,
