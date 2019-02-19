@@ -9,7 +9,6 @@ import { Types } from 'mongoose';
 /**
  * could be usefull even if it's unused
  */
-
 @Injectable()
 export class HospitalIdPipe implements PipeTransform {
   transform(value: any, metadata: ArgumentMetadata) {
