@@ -10,6 +10,7 @@ dotenv.config({
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import * as cors from 'cors';
 
 // import * as fs from 'fs';
 // // Make an environment object that is module-scoped to get environment variables
@@ -23,7 +24,7 @@ async function bootstrap() {
   const DETAILS = process.env.DETAILS.match('true');
 
   const app = await NestFactory.create(AppModule);
-  app.enableCors();
+  app.use(cors());
   app.useGlobalPipes(
     new ValidationPipe({
       disableErrorMessages: !detailedResponses,
