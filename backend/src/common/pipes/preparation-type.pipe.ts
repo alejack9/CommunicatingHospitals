@@ -10,7 +10,7 @@ import { PreparationType, PreparationTypesArray } from '../preparation.type';
 export class PreparationTypePipe
   implements PipeTransform<string, PreparationType> {
   transform(value: string, metadata: ArgumentMetadata): PreparationType {
-    if (PreparationTypesArray.indexOf(value) === -1) {
+    if (value && PreparationTypesArray.indexOf(value) === -1) {
       throw new BadRequestException(
         `'${value}' is not a known preparation type`,
       );

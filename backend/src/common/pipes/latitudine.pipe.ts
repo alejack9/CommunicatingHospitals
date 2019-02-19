@@ -8,7 +8,7 @@ import {
 @Injectable()
 export class LatitudinePipe implements PipeTransform {
   transform(value: any, metadata: ArgumentMetadata) {
-    if (Math.abs(value) <= 90) {
+    if (value && Math.abs(value) <= 90) {
       return value;
     }
     throw new BadRequestException();
