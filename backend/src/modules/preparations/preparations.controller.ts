@@ -1,4 +1,12 @@
-import { Controller, Get, Param, Post, UseGuards, Body } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  Post,
+  UseGuards,
+  Body,
+  Query,
+} from '@nestjs/common';
 import { Types } from 'mongoose';
 import { PreparationsService } from './preparations.service';
 import { UserService } from '../user/user.service';
@@ -10,6 +18,7 @@ import { PreparationTypePipe } from 'src/common/pipes/preparation-type.pipe';
 import { PreparationType } from 'src/common/preparation.type';
 import { DateRangeDto } from 'src/common/dtos/date-range.dto';
 import { Preparation } from 'src/common/interfaces/preparation.interface';
+import { DatePipe } from 'src/common/pipes/date.pipe';
 
 @Controller('preparations')
 export class PreparationsController {
@@ -42,13 +51,14 @@ export class PreparationsController {
   async getPrepration(
     @User() user: UserDto,
     @Param('type', new PreparationTypePipe()) type: PreparationType,
-    @Body() range: DateRangeDto,
+    @Query('start', new DatePipe()) start: Date,
+    @Query('end', new DatePipe()) end: Date,
   ): Promise<Preparation[]> {
     // Uses the userService to get the hosptial of the user, than uses the hospitalId to retrive the preparations
     return await this.preparationsService.getPreparations(
       await this.userService.getHospitalID(user.sub),
       type,
-      range.dates,
+      [start, end],
     );
   }
 }

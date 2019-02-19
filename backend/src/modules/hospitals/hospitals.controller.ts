@@ -1,13 +1,15 @@
-import { Controller, Body, Get, UseGuards, Post } from '@nestjs/common';
+import { Controller, Body, Get, UseGuards, Post, Query } from '@nestjs/common';
 import { HospitalsService } from './hospitals.service';
 import { UserService } from 'src/modules/user/user.service';
 import { AdminGuard } from '../auth/guards/admin.guard';
 import { CreateHospitalDto } from 'src/common/dtos/create-hospital.dto';
-import { GeoJSONDto } from 'src/common/dtos/geojson-point.dto';
 import { Hospital } from 'src/common/interfaces/hospital.interface';
 import { UserDto } from 'src/common/dtos/user.dto';
 import { User } from 'src/common/decorators/user.decorator';
 import { PreparationType } from 'src/common/preparation.type';
+import { LongitudinePipe } from 'src/common/pipes/longitudine.pipe';
+import { LatitudinePipe } from 'src/common/pipes/latitudine.pipe';
+import { DistancePipe } from 'src/common/pipes/distance.pipe';
 
 @Controller('hospitals')
 export class HospitalsController {
@@ -40,8 +42,13 @@ export class HospitalsController {
    * @param location The center of the circle area and the range. It must accord with GeoJSONDto object validator.
    */
   @Get('/location')
-  async find(@Body() location: GeoJSONDto): Promise<Hospital[]> {
-    return this.hospitalsService.find(location, location.distance);
+  // async find(@Body() location: GeoJSONDto): Promise<Hospital[]> {
+  async find(
+    @Query('longitude', new LongitudinePipe()) longitude: number,
+    @Query('latitude', new LatitudinePipe()) latitude: number,
+    @Query('distance', new DistancePipe()) distance: number,
+  ): Promise<Hospital[]> {
+    return this.hospitalsService.find(latitude, longitude, distance);
   }
 
   /**
