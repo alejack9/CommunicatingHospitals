@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-title>
+    Ionic Charts
+  </ion-title>
+</ion-header>
+
+<ion-content padding>
+  <section>
+    <div>
+      <div style="display: block">
+        <canvas
+          baseChart
+          [datasets]="barChartData"
+          [labels]="barChartLabels"
+          [options]="barChartOptions"
+          [legend]="barChartLegend"
+          [chartType]="barChartType"
+          (chartHover)="chartHovered($event)"
+          (chartClick)="chartClicked($event)"
+        ></canvas>
+      </div>
+      <button (click)="randomize()">Update</button>
+    </div>
+  </section>
+
+  <section>
+    <div>
+      <div style="display: block">
+        <canvas
+          baseChart
+          [datasets]="barChartData"
+          [labels]="barChartLabels"
+          [options]="barChartOptions"
+          [legend]="barChartLegend"
+          [chartType]="barChartType"
+          (chartHover)="chartHovered($event)"
+          (chartClick)="chartClicked($event)"
+        ></canvas>
+      </div>
+      <button (click)="randomize()">Update</button>
+    </div>
+  </section>
+</ion-content>
