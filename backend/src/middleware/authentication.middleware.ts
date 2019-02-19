@@ -25,11 +25,11 @@ export class AuthenticationMiddleware implements NestMiddleware {
           cache: true,
           rateLimit: true,
           jwksRequestsPerMinute: 5,
-          jwksUri: 'https://${this.DOMAIN}/.well-known/jwks.json',
+          jwksUri: `https://${this.DOMAIN}/.well-known/jwks.json`,
         }),
 
         audience: process.env.AUDIENCE || 'http://localhost:3000',
-        issuer: 'https://${this.DOMAIN}/',
+        issuer: `https://${this.DOMAIN}/`,
         algorithm: 'RS256',
       })(req, res, err => {
         // if there's an error checking the token, a message is sent
