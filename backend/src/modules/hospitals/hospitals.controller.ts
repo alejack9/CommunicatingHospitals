@@ -39,10 +39,11 @@ export class HospitalsController {
 
   /**
    * Returns all hospitals in the passed range
-   * @param location The center of the circle area and the range. It must accord with GeoJSONDto object validator.
+   * @param longitude the longitude of the starting point
+   * @param latitude the latitude of the starting point
+   * @param distance the radius of the circle
    */
   @Get('/location')
-  // async find(@Body() location: GeoJSONDto): Promise<Hospital[]> {
   async find(
     @Query('longitude', new LongitudinePipe()) longitude: number,
     @Query('latitude', new LatitudinePipe()) latitude: number,

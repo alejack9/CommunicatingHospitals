@@ -44,7 +44,8 @@ export class PreparationsController {
    * Returns all preparation types of the hospital associated to the user
    * @param user user object inserted by express-jwt in AuthenicationMiddleware (for this reason, it is unchangable by the client)
    * @param type the preparation type
-   * @param range the dates range (to decrease the query size)
+   * @param start the starting date
+   * @param end the ending date
    */
   @Get('/:type')
   async getPrepration(
