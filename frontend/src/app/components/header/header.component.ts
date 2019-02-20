@@ -7,7 +7,7 @@ import { AuthService } from '../../services/auth/auth.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  title = 'Food menu';
+  title = 'Communicating Hospitals';
 
   constructor(private authService: AuthService) {}
 
