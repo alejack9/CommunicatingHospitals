@@ -1,12 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="it.pawm.communicatinghospitals" version="0.0.1" 
-    xmlns="http://www.w3.org/ns/widgets" 
-    xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="it.pawm.communicatinghospitals" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Communicating Hospitals</name>
     <description>Let's start with Ionic...</description>
     <author email="manuel.cretone@studenti.unicam.it" href="https://github.com/manuel-cretone">Cretone M.</author>
     <author email="alessandro.giacche@studenti.unicam.it" href="https://github.com/alejack9">Giacchè A.</author>
-    <content original-src="index.html" src="http://10.0.15.214:8100" />
+    <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -90,7 +88,6 @@
         <variable name="API_KEY_FOR_ANDROID" value="AIzaSyDe4nQAX-jZ11waVuhK2LgTi_ECnOrhB4o" />
         <variable name="API_KEY_FOR_IOS" value="AIzaSyDe4nQAX-jZ11waVuhK2LgTi_ECnOrhB4o" />
     </plugin>
-    <plugin name="cordova-plugin-inappbrowser" spec="3.0.0" />
     <plugin name="ionic-plugin-deeplinks" spec="1.0.17">
         <variable name="URL_SCHEME" value="communicatinghospitals" />
         <variable name="DEEPLINK_SCHEME" value="https" />
@@ -110,6 +107,7 @@
         <variable name="DEEPLINK_5_HOST" value=" " />
     </plugin>
     <allow-navigation href="http://10.0.15.214:8100" sessionid="8dc4979c" />
+    <plugin name="cordova-plugin-inappbrowser" spec="^3.0.0" />
     <engine name="browser" spec="5.0.4" />
     <engine name="android" spec="7.1.4" />
 </widget>

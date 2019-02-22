@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/services/auth/auth.service';
+// import { AuthService } from 'src/app/services/auth/auth.service';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -8,22 +9,29 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.page.scss']
 })
 export class LoginPage implements OnInit {
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private router: Router, private authService: AuthService) {}
   redirected = false;
-
-  ngOnInit() {}
-
-  login() {
-    this.authService.login();
+  checked = false;
+  logged = false;
+  async ngOnInit() {
+    await this.isLogged();
+    this.redirectIfLogged();
   }
 
-  isReady() {
-    return this.authService.isReady();
-  }
-  redirectIfAuthenticated() {
-    if (!this.redirected && this.authService.isAuthenticated()) {
-      this.router.navigate(['']);
+  redirectIfLogged() {
+    if (this.logged && !this.redirected) {
       this.redirected = true;
+      this.router.navigate(['tabs']);
     }
+  }
+
+  async isLogged() {
+    this.logged = await this.authService.isLogged(); // .then(t => (this.logged = t));
+  }
+
+  async login() {
+    this.authService.login();
+    await this.isLogged();
+    this.redirectIfLogged();
   }
 }

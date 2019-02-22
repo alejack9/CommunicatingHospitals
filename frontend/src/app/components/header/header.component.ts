@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../services/auth/auth.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -9,12 +9,16 @@ import { AuthService } from '../../services/auth/auth.service';
 export class HeaderComponent implements OnInit {
   title = 'Communicating Hospitals';
 
-  constructor(private authService: AuthService) {}
+  constructor(private readonly authService: AuthService) {}
 
-  ngOnInit() {}
+  logged = false;
 
-  isAuthenticated() {
-    return this.authService.isAuthenticated();
+  async ngOnInit() {
+    await this.isAuthenticated();
+  }
+
+  async isAuthenticated() {
+    this.logged = await this.authService.isLogged();
   }
 
   login() {
@@ -26,6 +30,6 @@ export class HeaderComponent implements OnInit {
   }
 
   getProfile() {
-    return this.authService.getProfile();
+    return this.authService.profile;
   }
 }

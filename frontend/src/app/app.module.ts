@@ -10,24 +10,19 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { UserService } from './services/user/user.service';
-// import { CapitalizePipe } from './pipes/capitalize.pipe';
-// import { environment } from 'src/environments/environment';
 import { AuthService } from './services/auth/auth.service';
-import { HeaderComponent } from './components/header/header.component';
-//
-
-// console.log(environment.AUTH0_CLIENTID);
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent],
+  declarations: [AppComponent],
   entryComponents: [],
-
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
   providers: [
     StatusBar,
     SplashScreen,
     AuthService,
     UserService,
+    InAppBrowser,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

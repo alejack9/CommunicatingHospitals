@@ -6,7 +6,6 @@ import {
   MarkerCluster
 } from '@ionic-native/google-maps';
 import { Platform } from '@ionic/angular';
-import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-tab1',
@@ -18,8 +17,7 @@ export class Tab1Page implements OnInit {
 
   constructor(
     private platform: Platform,
-    private hospitalService: HospitalService,
-    private authService: AuthService
+    private hospitalService: HospitalService
   ) {}
 
   async ngOnInit() {

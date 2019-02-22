@@ -5,7 +5,6 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Environment } from '@ionic-native/google-maps/ngx';
 import { Tab1Page } from '../app/pages/tab1/tab1.page';
-import { AuthService } from './services/auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -16,11 +15,9 @@ export class AppComponent {
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
-    private statusBar: StatusBar,
-    private authService: AuthService
+    private statusBar: StatusBar
   ) {
     this.initializeApp();
-    this.authService.checkSession();
   }
 
   initializeApp() {
