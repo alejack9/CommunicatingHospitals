@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { LoggedGuard } from './guards/logged.guard';
+import { NotLoggedGuard } from './guards/not-logged.guard';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'tabs',
     pathMatch: 'full'
   },
   {
@@ -18,7 +19,11 @@ const routes: Routes = [
     redirectTo: '',
     pathMatch: 'full'
   },
-  { path: 'login', loadChildren: './pages/login/login.module#LoginPageModule' }
+  {
+    path: 'login',
+    loadChildren: './pages/login/login.module#LoginPageModule',
+    canActivate: [NotLoggedGuard]
+  }
 ];
 @NgModule({
   imports: [

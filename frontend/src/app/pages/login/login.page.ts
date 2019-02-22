@@ -9,14 +9,16 @@ import { AuthService } from 'src/app/services/auth/auth.service';
   styleUrls: ['./login.page.scss']
 })
 export class LoginPage implements OnInit {
-  constructor(private router: Router, private authService: AuthService) {}
   redirected = false;
   checked = false;
   logged = false;
-  async ngOnInit() {
-    await this.isLogged();
-    this.redirectIfLogged();
-  }
+  constructor(private router: Router, private authService: AuthService) {}
+  ngOnInit() {}
+
+  // async ionViewCanEnter() {
+  //   await this.isLogged();
+  //   this.redirectIfLogged();
+  // }
 
   redirectIfLogged() {
     if (this.logged && !this.redirected) {

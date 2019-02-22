@@ -5,13 +5,12 @@ import {
   RouterStateSnapshot,
   Router
 } from '@angular/router';
-import { Observable } from 'rxjs';
 import { AuthService } from '../services/auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class LoggedGuard implements CanActivate {
+export class NotLoggedGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(
@@ -19,10 +18,10 @@ export class LoggedGuard implements CanActivate {
     state: RouterStateSnapshot
   ): Promise<boolean> {
     return this.authService.isLogged().then(logged => {
-      if (!logged) {
-        this.router.navigate(['login']);
+      if (logged) {
+        this.router.navigate(['tabs']);
       }
-      return logged;
+      return !logged;
     });
   }
 }

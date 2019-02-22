@@ -65,7 +65,6 @@ export class AuthService {
     if (this.logging) {
       await this.loggingStream.toPromise();
     }
-    console.log(localStorage.getItem('access_token'));
     return !!localStorage.getItem('access_token');
   }
 
