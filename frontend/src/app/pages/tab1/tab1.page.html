@@ -8,6 +8,10 @@
 
 <ion-content>
   <p>Click on markers!</p>
-
+  <!-- <ion-list inset *ngIf="hospitalService.status === 200">
+    <ion-item *ngFor="let h of getHospitals()">
+      <h2>{{ h.name }}</h2>
+    </ion-item>
+  </ion-list> -->
   <div id="map_canvas"></div>
 </ion-content>

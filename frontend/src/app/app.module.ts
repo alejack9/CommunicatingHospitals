@@ -9,27 +9,22 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { UserService } from './services/user/user.service';
-
 import { AuthService } from './services/auth/auth.service';
 import { HeaderComponent } from './components/header/header.component';
-import { ChartsModule } from 'ng2-charts';
+import { HospitalService } from './services/hospital/hospital.service';
+import { HTTP } from '@ionic-native/http/ngx';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent],
   entryComponents: [],
 
-  imports: [
-    BrowserModule,
-    IonicModule.forRoot(),
-    AppRoutingModule,
-    ChartsModule
-  ],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
   providers: [
     StatusBar,
     SplashScreen,
     AuthService,
-    UserService,
+    HospitalService,
+    HTTP,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

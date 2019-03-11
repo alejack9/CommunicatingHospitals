@@ -32,28 +32,24 @@ export class AuthService {
   }
 
   public checkSession(): Promise<boolean> {
-    return new Promise<boolean>((resolve, reject) => {
-      // checks in Auth0's server if the browser has a session
-      this._auth0Client.checkSession(
-        this._properties,
-        async (error, authResult) => {
-          if (error && error.error !== 'login_required') {
-            this.ready = true;
-            // some other error
-            return reject(error);
-          } else if (error) {
-            this.ready = true;
-            // explicit authentication
-            this.handleAuthentication();
-            return resolve(false);
-          }
-          if (!this.isAuthenticated()) {
-            this._setSession(authResult);
-            this.ready = true;
-            return resolve(true);
-          }
+    return new Promise<boolean>((res, rej) => {
+      this._auth0Client.checkSession(this._properties, (error, authResult) => {
+        if (error && error.error !== 'login_required') {
+          this.ready = true;
+          // some other error
+          return rej(error);
+        } else if (error) {
+          this.ready = true;
+          // explicit authentication
+          this.handleAuthentication();
+          return res(false);
         }
-      );
+        if (!this.isAuthenticated()) {
+          this._setSession(authResult);
+          this.ready = true;
+          return res(true);
+        }
+      });
     });
   }
 
@@ -83,21 +79,6 @@ export class AuthService {
     this._idToken = authResult.idToken;
   }
 
-  // check if there is a property Admin in the access token
-  public isAdmin(): boolean {
-    if (this._accessToken) {
-      const helper = new JwtHelperService();
-      const decodedToken = helper.decodeToken(this._accessToken);
-      if (decodedToken['http://localhost:3000/roles'].indexOf('admin') > -1) {
-        return true;
-      } else {
-        return false;
-      }
-    } else {
-      return false;
-    }
-  }
-
   public getProfile(): Object {
     if (this._idToken) {
       const helper = new JwtHelperService();
@@ -105,7 +86,7 @@ export class AuthService {
     }
   }
 
-  public getAccessToken(): String {
+  public getAccessToken(): string {
     return this._accessToken;
   }
 

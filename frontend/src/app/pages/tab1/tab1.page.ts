@@ -7,6 +7,9 @@ import {
 } from '@ionic-native/google-maps';
 import { Platform } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { LoadingController } from '@ionic/angular';
+import { Hospital } from 'src/app/common/interfaces/hospital.interface';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-tab1',
@@ -14,19 +17,30 @@ import { AuthService } from 'src/app/services/auth/auth.service';
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page implements OnInit {
-  map: GoogleMap;
-
   constructor(
     private platform: Platform,
     private hospitalService: HospitalService,
-    private authService: AuthService
+    private authService: AuthService,
+    public loadingController: LoadingController
   ) {}
-
+  map: GoogleMap;
+  hospitals;
+  done = false;
+  errorMessage: string;
+  aaaa = false;
   async ngOnInit() {
     // Since ngOnInit() is executed before `deviceready` event,
     // you have to wait the event.
+    //    this.getHospitals();
+    console.log('GETTING HOSPITALS');
+    await this.getHospitals();
+    console.log('GOTTEN HOSPITALS');
+    console.log('PREPARING MAP');
     await this.platform.ready();
+    console.log('MAP READY');
+    console.log('LOADING MAP');
     await this.loadMap();
+    console.log('MAP LOADED');
   }
 
   loadMap() {
@@ -57,40 +71,47 @@ export class Tab1Page implements OnInit {
   }
 
   dummyData() {
-    return [
-      {
+    const toReturn = Array();
+    this.hospitalService.data.forEach(e => {
+      toReturn.push({
         position: {
-          lat: this.hospitalService.hospitals[0].coordinate[0],
-          lng: this.hospitalService.hospitals[0].coordinate[1]
+          lat: e.coordinates.coordinates[0][1],
+          lng: e.coordinates.coordinates[0][0]
         },
-        name: this.hospitalService.hospitals[0].name,
-
-        icon: 'red'
-      },
-      {
-        position: {
-          lat: this.hospitalService.hospitals[1].coordinate[0],
-          lng: this.hospitalService.hospitals[1].coordinate[1]
-        },
-        name: this.hospitalService.hospitals[1].name,
-        icon: 'red'
-      },
-      {
-        position: {
-          lat: this.hospitalService.hospitals[2].coordinate[0],
-          lng: this.hospitalService.hospitals[2].coordinate[1]
-        },
-        name: this.hospitalService.hospitals[2].name,
-        icon: 'red'
-      },
-      {
-        position: {
-          lat: this.hospitalService.hospitals[3].coordinate[0],
-          lng: this.hospitalService.hospitals[3].coordinate[1]
-        },
-        name: this.hospitalService.hospitals[3].name,
-        icon: 'red'
-      }
-    ];
+        name: e.name,
+        icon: 'red',
+        title: 'title'
+      });
+    });
+    return toReturn;
+    // return [
+    //   {
+    //     position: {
+    //       lat: this.hospitalService.data[0].coordinates.coordinates[0][1],
+    //       lng: this.hospitalService.data[0].coordinates.coordinates[0][0]
+    //     },
+    //     name: this.hospitalService.data[0].name,
+    //     icon: 'red'
+    //   },
+    //   {
+    //     position: {
+    //       lat: this.hospitalService.data[1].coordinates.coordinates[0][1],
+    //       lng: this.hospitalService.data[1].coordinates.coordinates[0][0]
+    //     },
+    //     name: this.hospitalService.data[1].name,
+    //     icon: 'red'
+    //   }
+    // ];
+  }
+  async getHospitals() {
+    if (
+      !this.done &&
+      this.authService.isAuthenticated() &&
+      this.authService.isReady()
+    ) {
+      await this.hospitalService.getHospitalsNearBy();
+      this.done = true;
+      console.log(this.hospitalService.convert());
+    }
   }
 }

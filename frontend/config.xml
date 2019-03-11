@@ -87,5 +87,6 @@
         <variable name="API_KEY_FOR_IOS" value="AIzaSyDe4nQAX-jZ11waVuhK2LgTi_ECnOrhB4o" />
     </plugin>
     <allow-navigation href="http://192.168.43.74:8101" sessionid="6747fea8" />
+    <plugin name="cordova-plugin-advanced-http" spec="2.0.4" />
     <engine name="browser" spec="5.0.4" />
 </widget>
