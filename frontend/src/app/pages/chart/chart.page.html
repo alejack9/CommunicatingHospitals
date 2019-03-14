@@ -4,6 +4,7 @@
   </ion-title>
 </ion-header>
 <ion-content>
+  <h3>Graphis</h3>
   <section>
     <div>
       <div style="display: block">
@@ -23,20 +24,6 @@
   </section>
 
   <section>
-    <div>
-      <div style="display: block">
-        <canvas
-          baseChart
-          [datasets]="barChartData"
-          [labels]="barChartLabels"
-          [options]="barChartOptions"
-          [legend]="barChartLegend"
-          [chartType]="barChartType"
-          (chartHover)="chartHovered($event)"
-          (chartClick)="chartClicked($event)"
-        ></canvas>
-      </div>
-      <button (click)="randomize()">Update</button>
-    </div>
+    <app-table></app-table>
   </section>
 </ion-content>

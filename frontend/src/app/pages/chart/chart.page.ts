@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./chart.page.scss']
 })
 export class ChartPage implements OnInit {
+  qualcosa = [];
   constructor() {}
   public barChartOptions: any = {
     scaleShowVerticalLines: false,
@@ -38,6 +39,9 @@ export class ChartPage implements OnInit {
     console.log(e);
   }
 
+  public data(): any[] {
+    return;
+  }
   public randomize(): void {
     // Only Change 3 values
     const data = [

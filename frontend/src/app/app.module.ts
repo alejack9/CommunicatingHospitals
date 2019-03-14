@@ -13,17 +13,25 @@ import { AuthService } from './services/auth/auth.service';
 import { HeaderComponent } from './components/header/header.component';
 import { HospitalService } from './services/hospital/hospital.service';
 import { HTTP } from '@ionic-native/http/ngx';
-
+import { HttpClientModule, HttpHeaders } from '@angular/common/http';
+import { HttpModule } from '@angular/http';
+import { TableComponent } from './components/table/table.component';
 @NgModule({
   declarations: [AppComponent, HeaderComponent],
   entryComponents: [],
 
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
+  imports: [
+    BrowserModule,
+    IonicModule.forRoot(),
+    AppRoutingModule,
+    HttpClientModule
+  ],
   providers: [
     StatusBar,
     SplashScreen,
     AuthService,
     HospitalService,
+
     HTTP,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],

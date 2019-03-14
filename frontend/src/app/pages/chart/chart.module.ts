@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { ChartPage } from './chart.page';
 import { ChartsModule } from 'ng2-charts';
+import { TableComponent } from 'src/app/components/table/table.component';
 
 const routes: Routes = [
   {
@@ -23,6 +24,6 @@ const routes: Routes = [
     ChartsModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [ChartPage]
+  declarations: [ChartPage, TableComponent]
 })
 export class ChartPageModule {}

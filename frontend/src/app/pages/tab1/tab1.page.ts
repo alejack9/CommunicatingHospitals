@@ -28,6 +28,7 @@ export class Tab1Page implements OnInit {
   done = false;
   errorMessage: string;
   aaaa = false;
+  array = [];
   async ngOnInit() {
     // Since ngOnInit() is executed before `deviceready` event,
     // you have to wait the event.
@@ -71,8 +72,10 @@ export class Tab1Page implements OnInit {
   }
 
   dummyData() {
+    console.log('DATAAAA');
+    console.log(this.hospitalService.data);
     const toReturn = Array();
-    this.hospitalService.data.forEach(e => {
+    this.array.forEach(e => {
       toReturn.push({
         position: {
           lat: e.coordinates.coordinates[0][1],
@@ -84,34 +87,17 @@ export class Tab1Page implements OnInit {
       });
     });
     return toReturn;
-    // return [
-    //   {
-    //     position: {
-    //       lat: this.hospitalService.data[0].coordinates.coordinates[0][1],
-    //       lng: this.hospitalService.data[0].coordinates.coordinates[0][0]
-    //     },
-    //     name: this.hospitalService.data[0].name,
-    //     icon: 'red'
-    //   },
-    //   {
-    //     position: {
-    //       lat: this.hospitalService.data[1].coordinates.coordinates[0][1],
-    //       lng: this.hospitalService.data[1].coordinates.coordinates[0][0]
-    //     },
-    //     name: this.hospitalService.data[1].name,
-    //     icon: 'red'
-    //   }
-    // ];
   }
+
   async getHospitals() {
-    if (
-      !this.done &&
-      this.authService.isAuthenticated() &&
-      this.authService.isReady()
-    ) {
-      await this.hospitalService.getHospitalsNearBy();
-      this.done = true;
-      console.log(this.hospitalService.convert());
-    }
+    // if (
+    //   !this.done &&
+    //   this.authService.isAuthenticated() &&
+    //   this.authService.isReady()
+    // ) {
+    const array = await this.hospitalService.getHospitalsNearBy();
+    this.done = true;
+    console.log(this.hospitalService.data);
+    // }
   }
 }
