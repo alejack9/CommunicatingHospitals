@@ -3,7 +3,9 @@ import { HospitalService } from '../../services/hospital/hospital.service';
 import {
   GoogleMaps,
   GoogleMap,
-  MarkerCluster
+  MarkerCluster,
+  GoogleMapsEvent,
+  Marker
 } from '@ionic-native/google-maps';
 import { Platform } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth/auth.service';
@@ -27,7 +29,7 @@ export class Tab1Page implements OnInit {
   hospitals;
   done = false;
   errorMessage: string;
-  aaaa = false;
+
   array = [];
   async ngOnInit() {
     // Since ngOnInit() is executed before `deviceready` event,
@@ -46,8 +48,13 @@ export class Tab1Page implements OnInit {
 
   loadMap() {
     this.map = GoogleMaps.create('map_canvas');
+    this.map.moveCamera({
+      target: { lat: 21.382314, lng: -157.933097 },
+      zoom: 10
+    });
     this.addCluster(this.dummyData());
   }
+
   addCluster(data) {
     const markerCluster: MarkerCluster = this.map.addMarkerClusterSync({
       markers: data,
@@ -55,49 +62,92 @@ export class Tab1Page implements OnInit {
         {
           min: 3,
           max: 9,
-          url: './assets/markercluster/small.png',
+          url: './assets/small.png',
           label: {
             color: 'white'
           }
         },
         {
           min: 10,
-          url: './assets/markercluster/large.png',
+          url: './assets/large.png',
           label: {
             color: 'white'
           }
         }
       ]
     });
-  }
 
-  dummyData() {
-    console.log('DATAAAA');
-    console.log(this.hospitalService.data);
-    const toReturn = Array();
-    this.array.forEach(e => {
-      toReturn.push({
-        position: {
-          lat: e.coordinates.coordinates[0][1],
-          lng: e.coordinates.coordinates[0][0]
-        },
-        name: e.name,
-        icon: 'red',
-        title: 'title'
-      });
+    markerCluster.on(GoogleMapsEvent.MARKER_CLICK).subscribe(params => {
+      const marker: Marker = params[1];
+      marker.setTitle(marker.get('name'));
+      marker.setSnippet(marker.get('address'));
+      marker.showInfoWindow();
     });
-    return toReturn;
   }
 
-  async getHospitals() {
+  // dummyData() {
+  //   console.log('DATAAAA');
+  //   console.log(this.hospitalService.data);
+  //   const toReturn = Array();
+  //   this.hospitalService.data.forEach(e => {
+  //     toReturn.push({
+  //       position: {
+  //         lat: e.coordinates.coordinates[0][1],
+  //         lng: e.coordinates.coordinates[0][0]
+  //       },
+  //       name: e.name,
+  //       icon: 'red',
+  //       title: 'title'
+  //     });
+  //   });
+  //   return toReturn;
+  // }
+  dummyData() {
+    return [
+      {
+        position: {
+          lat: 21.382314,
+          lng: -157.933097
+        },
+
+        snippet: 'aiutooo',
+        name: 'Starbucks - HI - Aiea  03641',
+        address:
+          'Aiea Shopping Center_99-115\nAiea Heights Drive #125_Aiea, Hawaii 96701',
+        icon: 'blue'
+      },
+      {
+        position: {
+          lat: 21.78,
+          lng: -157.9482
+        },
+        name: 'Starbucks - HI - Aiea  03642',
+        address: 'Pearlridge Center_98-125\nKaonohi Street_Aiea, Hawaii 96701',
+        icon: 'red'
+      },
+      {
+        position: {
+          lat: 21.57,
+          lng: -157.928275
+        },
+        name: 'Starbucks - HI - Aiea  03643',
+        address:
+          'Stadium Marketplace_4561\nSalt Lake Boulevard_Aiea, Hawaii 96818',
+        icon: 'red'
+      }
+    ];
+  }
+
+  getHospitals() {
     // if (
     //   !this.done &&
     //   this.authService.isAuthenticated() &&
     //   this.authService.isReady()
     // ) {
-    const array = await this.hospitalService.getHospitalsNearBy();
+    this.hospitalService.getHospitalsNearBy();
     this.done = true;
-    console.log(this.hospitalService.data);
+
+    // console.log(JSON.stringify(this.hospitalService.hospital));
     // }
   }
 }

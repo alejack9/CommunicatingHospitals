@@ -16,6 +16,7 @@ import { HTTP } from '@ionic-native/http/ngx';
 import { HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
 import { TableComponent } from './components/table/table.component';
+import { LinkedInSdkModule } from 'angular-linkedin-sdk';
 @NgModule({
   declarations: [AppComponent, HeaderComponent],
   entryComponents: [],
@@ -24,7 +25,8 @@ import { TableComponent } from './components/table/table.component';
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    LinkedInSdkModule
   ],
   providers: [
     StatusBar,

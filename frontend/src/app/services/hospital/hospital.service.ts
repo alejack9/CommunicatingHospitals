@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { AuthService } from '../auth/auth.service';
 import { HTTP } from '@ionic-native/http/ngx';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Hospital } from 'src/app/common/interfaces/hospital.interface';
 import { Observable } from 'rxjs';
 
@@ -14,6 +14,7 @@ export class HospitalService {
   data;
   result: Object[];
   loading: boolean;
+  // hospital: Observable<any>;
 
   constructor(private http: HttpClient, private authService: AuthService) {
     this.result = [];
@@ -24,24 +25,25 @@ export class HospitalService {
     return this.data;
   }
 
-  getHospitalsNearBy(): Promise<any> {
+  getHospitalsNearBy() {
     console.log('TOKEN');
     console.log(this.authService.getAccessToken());
-    // const headers = {
-    //   Authorization: 'Bearer ' + this.authService.getAccessToken(),
-    //   'Access-Control-Allow-Origin': 'http://localhost:8100',
-    //   'Content-Type': 'application/json'
-    // };
-    const headers = new HttpHeaders()
-      .set('token', this.authService.getAccessToken())
-      .set('Access-Control-Allow-Origin', 'http://localhost:8100')
-      .set('Content-Type', 'application/json');
-    return this.http
-      .get<Hospital>(environment.BACKEND + 'hospitals/location', {
-        headers: headers,
-        params: { longitude: '12.272', latitude: '43.088', distance: '300' }
-      })
-      .toPromise();
+    const params = new HttpParams()
+      .set('longitude', '12.272')
+      .set('latitude', '43.088')
+      .set('distance', '300');
+    const headers = new HttpHeaders().set(
+      'token',
+      this.authService.getAccessToken()
+    );
+    // .set('Access-Control-Allow-Origin', 'http://localhost:8100')
+    // .set('Content-Type', 'application/json');
+
+    this.data = this.http.get(environment.BACKEND + 'hospitals/location', {
+      headers,
+      params
+    });
+
     // .subscribe(data => {
     //   this.data = data;
     //   console.log('qwerty' + data);
