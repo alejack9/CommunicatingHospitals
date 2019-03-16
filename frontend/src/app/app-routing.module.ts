@@ -1,11 +1,18 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { Tab2Page } from './pages/tab2/tab2.page';
+import { LoggedGuard } from './guards/logged.guard';
+import { NotLoggedGuard } from './guards/not-logged.guard';
 
 const routes: Routes = [
   {
     path: '',
-    loadChildren: './pages/tabs/tabs.module#TabsPageModule'
+    redirectTo: 'tabs',
+    pathMatch: 'full'
+  },
+  {
+    path: 'tabs',
+    loadChildren: './pages/tabs/tabs.module#TabsPageModule',
+    canActivate: [LoggedGuard]
   },
   {
     path: 'callback',
@@ -13,18 +20,9 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'tab2/:id',
-    redirectTo: 'chart',
-    pathMatch: 'full'
-  },
-  { path: 'login', loadChildren: './pages/login/login.module#LoginPageModule' },
-  {
-    path: 'tab2/:id',
-    loadChildren: './pages/tab2/tab2.module#Tab2PageModule'
-  },
-  {
-    path: 'chart',
-    loadChildren: './pages/chart/chart.module#ChartPageModule'
+    path: 'login',
+    loadChildren: './pages/login/login.module#LoginPageModule',
+    canActivate: [NotLoggedGuard]
   }
 ];
 @NgModule({

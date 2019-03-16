@@ -1,31 +1,30 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-title>
-      {{ title }}
-    </ion-title>
-    <ion-buttons slot="end">
-      <ion-button
-        shape="round"
-        fill="outline"
-        color="light"
-        (click)="login()"
-        *ngIf="!isAuthenticated()"
-        >Login</ion-button
-      >
-      <span *ngIf="isAuthenticated()">
-        <span>
-          Logged in as:
-          <img [src]="getProfile().picture" width="40" />
+    <ion-row>
+      <ion-col>
+        <ion-title>
+          {{ title }}
+        </ion-title>
+      </ion-col>
+      <ion-col>
+        <ion-buttons slot="end">
+          <ion-button
+            shape="round"
+            fill="outline"
+            color="light"
+            (click)="login()"
+            *ngIf="!logged"
+            >Login</ion-button
+          >
+        </ion-buttons>
+        <span *ngIf="logged">
           {{ getProfile().name }}
-        </span>
-        <ion-button
-          shape="round"
-          fill="outline"
-          color="light"
-          (click)="logout()"
-          >Logout</ion-button
-        >
-      </span>
-    </ion-buttons>
+          <img [src]="getProfile().picture" width="40" />
+          <!-- <ion-button shape="round" fill="outline" color="light" (click)="logout()"
+              >Logout</ion-button
+            > -->
+        </span></ion-col
+      >
+    </ion-row>
   </ion-toolbar>
 </ion-header>

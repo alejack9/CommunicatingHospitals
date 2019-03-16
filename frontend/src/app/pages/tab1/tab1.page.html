@@ -1,17 +1,9 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>
-      Tab One
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-header title="Hospitals Around You"></app-header>
 
 <ion-content>
-  <p>Click on markers!</p>
-  <!-- <ion-list inset *ngIf="hospitalService.status === 200">
-    <ion-item *ngFor="let h of getHospitals()">
-      <h2>{{ h.name }}</h2>
-    </ion-item>
-  </ion-list> -->
+  <ion-range min="1" max="500" color="primary" pin="true" step="10">
+    <ion-label slot="start">1</ion-label>
+    <ion-label slot="end">500</ion-label>
+  </ion-range>
   <div id="map_canvas"></div>
 </ion-content>

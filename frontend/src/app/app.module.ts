@@ -9,32 +9,28 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { AuthService } from './services/auth/auth.service';
-import { HeaderComponent } from './components/header/header.component';
 import { HospitalService } from './services/hospital/hospital.service';
-import { HTTP } from '@ionic-native/http/ngx';
 import { HttpClientModule, HttpHeaders } from '@angular/common/http';
-import { HttpModule } from '@angular/http';
-import { TableComponent } from './components/table/table.component';
-// import { LinkedInSdkModule } from 'angular-linkedin-sdk';
-@NgModule({
-  declarations: [AppComponent, HeaderComponent],
-  entryComponents: [],
+import { UserService } from './services/user/user.service';
+import { AuthService } from './services/auth/auth.service';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
+@NgModule({
+  declarations: [AppComponent],
+  entryComponents: [],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule
-    // LinkedInSdkModule
   ],
   providers: [
     StatusBar,
     SplashScreen,
     AuthService,
     HospitalService,
-
-    HTTP,
+    UserService,
+    InAppBrowser,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

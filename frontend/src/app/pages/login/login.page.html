@@ -1,13 +1,14 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>login</ion-title>
+    <ion-title>Login</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="center" padding>
-  <p>Please Login</p>
-  <ion-button shape="round" (click)="login()">Login</ion-button>
-  <span style="display: none" *ngIf="isReady()">{{
-    redirectIfAuthenticated()
-  }}</span>
+<ion-content padding>
+  <h1 style="text-align: center; font-weight: bolder">
+    Please Login
+  </h1>
+  <ion-button expand="full" size="large" shape="round" (click)="login()">
+    Login
+  </ion-button>
 </ion-content>

@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../services/auth/auth.service';
+import { Component, OnInit, Input } from '@angular/core';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -7,14 +7,19 @@ import { AuthService } from '../../services/auth/auth.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  title = 'Communicating Hospitals';
+  // tslint:disable-next-line: no-input-rename
+  @Input('title') title = 'Communicating Hospitals';
 
-  constructor(private authService: AuthService) {}
+  constructor(private readonly authService: AuthService) {}
 
-  ngOnInit() {}
+  logged = false;
 
-  isAuthenticated() {
-    return this.authService.isAuthenticated();
+  async ngOnInit() {
+    await this.isAuthenticated();
+  }
+
+  async isAuthenticated() {
+    this.logged = await this.authService.isLogged();
   }
 
   login() {
@@ -26,6 +31,6 @@ export class HeaderComponent implements OnInit {
   }
 
   getProfile() {
-    return this.authService.getProfile();
+    return this.authService.profile;
   }
 }

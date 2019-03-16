@@ -8,8 +8,6 @@ import {
   Marker
 } from '@ionic-native/google-maps';
 import { Platform } from '@ionic/angular';
-import { AuthService } from 'src/app/services/auth/auth.service';
-import { LoadingController } from '@ionic/angular';
 import { Hospital } from 'src/app/common/interfaces/hospital.interface';
 import { Observable } from 'rxjs';
 
@@ -21,9 +19,7 @@ import { Observable } from 'rxjs';
 export class Tab1Page implements OnInit {
   constructor(
     private platform: Platform,
-    private hospitalService: HospitalService,
-    private authService: AuthService,
-    public loadingController: LoadingController
+    private hospitalService: HospitalService
   ) {}
   map: GoogleMap;
   hospitals;
