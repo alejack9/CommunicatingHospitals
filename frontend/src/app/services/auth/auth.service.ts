@@ -61,6 +61,7 @@ export class AuthService {
     localStorage.removeItem('id_token');
   }
 
+
   async isLogged() {
     if (this.logging) {
       await this.loggingStream.toPromise();

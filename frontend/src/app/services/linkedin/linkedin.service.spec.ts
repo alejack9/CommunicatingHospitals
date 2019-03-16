@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { UserService } from './user.service';
+import { LinkedinService } from './linkedin.service';
 
-describe('UserService', () => {
+describe('LinkedinService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: UserService = TestBed.get(UserService);
+    const service: LinkedinService = TestBed.get(LinkedinService);
     expect(service).toBeTruthy();
   });
 });

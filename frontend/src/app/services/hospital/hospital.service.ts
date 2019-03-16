@@ -1,36 +1,63 @@
 import { Injectable } from '@angular/core';
-import { Hospital } from '../../common/interfaces/hospital.interface';
-import { LatLng } from '@ionic-native/google-maps';
+import { environment } from 'src/environments/environment';
+import { AuthService } from '../auth/auth.service';
+import { HTTP } from '@ionic-native/http/ngx';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Hospital } from 'src/app/common/interfaces/hospital.interface';
+import { Observable } from 'rxjs';
+
 @Injectable({
   providedIn: 'root'
 })
 export class HospitalService {
-  constructor() {}
+  status;
+  data;
+  result: Object[];
+  loading: boolean;
+  // hospital: Observable<any>;
 
-  hospitals: Hospital[] = [
-    {
-      name: 'Torrette',
-      coordinate: { type: 'MultiPoint', coordinates: [[13.555, 45.766]] },
-      averageRanks: undefined,
-      preparations: undefined
-    },
-    {
-      name: 'Mazzoni',
-      coordinate: { type: 'MultiPoint', coordinates: [[65.555, 23.766]] },
-      averageRanks: undefined,
-      preparations: undefined
-    },
-    {
-      name: 'Sant\'Omero',
-      coordinate: { type: 'MultiPoint', coordinates: [[34.555, 13.766]] },
-      averageRanks: undefined,
-      preparations: undefined
-    },
-    {
-      name: 'Giulianova',
-      coordinate: { type: 'MultiPoint', coordinates: [[18.555, 30.766]] },
-      averageRanks: undefined,
-      preparations: undefined
-    }
-  ];
+  constructor(private http: HttpClient, private authService: AuthService) {
+    this.result = [];
+    this.loading = false;
+  }
+
+  convert() {
+    return this.data;
+  }
+
+  getHospitalsNearBy() {
+    console.log('TOKEN');
+    console.log(this.authService.getAccessToken());
+    const params = new HttpParams()
+      .set('longitude', '12.272')
+      .set('latitude', '43.088')
+      .set('distance', '300');
+    const headers = new HttpHeaders().set(
+      'token',
+      this.authService.getAccessToken()
+    );
+    // .set('Access-Control-Allow-Origin', 'http://localhost:8100')
+    // .set('Content-Type', 'application/json');
+
+    this.data = this.http.get(environment.BACKEND + 'hospitals/location', {
+      headers,
+      params
+    });
+
+    // .subscribe(data => {
+    //   this.data = data;
+    //   console.log('qwerty' + data);
+    // });
+    // this.data = JSON.parse(data.toPromise());
+    // return this.data;
+    // return this.data;
+    // const data = await this.http.get(
+    //   environment.BACKEND + 'hospitals/location',
+    //   { longitude: '12.272', latitude: '43.088', distance: '300' },
+    //   headers
+    // );
+    // return this.httpClient.get(url, { params }).toPromise();
+    // this.data = JSON.parse(data.data);
+    // return this.data;
+  }
 }

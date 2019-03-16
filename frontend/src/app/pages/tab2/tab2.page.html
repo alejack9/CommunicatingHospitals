@@ -1,39 +1,14 @@
 <app-header></app-header>
 
-<ion-content padding>
-  <section>
-    <div>
-      <div style="display: block">
-        <canvas
-          baseChart
-          [datasets]="barChartData"
-          [labels]="barChartLabels"
-          [options]="barChartOptions"
-          [legend]="barChartLegend"
-          [chartType]="barChartType"
-          (chartHover)="chartHovered($event)"
-          (chartClick)="chartClicked($event)"
-        ></canvas>
-      </div>
-      <button (click)="randomize()">Update</button>
-    </div>
-  </section>
-
-  <section>
-    <div>
-      <div style="display: block">
-        <canvas
-          baseChart
-          [datasets]="barChartData"
-          [labels]="barChartLabels"
-          [options]="barChartOptions"
-          [legend]="barChartLegend"
-          [chartType]="barChartType"
-          (chartHover)="chartHovered($event)"
-          (chartClick)="chartClicked($event)"
-        ></canvas>
-      </div>
-      <button (click)="randomize()">Update</button>
-    </div>
-  </section>
+<ion-content>
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Page</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-list>
+    <ion-item button *ngFor="let item of items" (click)="onSelect(item)">
+      {{ item }}
+    </ion-item>
+  </ion-list>
 </ion-content>

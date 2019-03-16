@@ -2,7 +2,7 @@ export class GeoJSONDto {
   type = 'Point';
 
   // long, lat
-  coordinates: [number];
+  coordinates: number[];
 
   distance = 100;
 }
