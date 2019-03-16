@@ -4,8 +4,8 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-  Please Login
+<ion-content class="center" padding>
+  <p>Please Login</p>
   <ion-button shape="round" (click)="login()">Login</ion-button>
   <span style="display: none" *ngIf="isReady()">{{
     redirectIfAuthenticated()
