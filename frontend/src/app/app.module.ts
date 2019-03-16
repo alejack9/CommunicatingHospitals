@@ -11,7 +11,6 @@ import { AppComponent } from './app.component';
 
 import { HospitalService } from './services/hospital/hospital.service';
 import { HttpClientModule, HttpHeaders } from '@angular/common/http';
-import { UserService } from './services/user/user.service';
 import { AuthService } from './services/auth/auth.service';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
@@ -29,7 +28,6 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
     SplashScreen,
     AuthService,
     HospitalService,
-    UserService,
     InAppBrowser,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],

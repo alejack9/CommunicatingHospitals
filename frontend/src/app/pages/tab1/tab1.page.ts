@@ -5,11 +5,12 @@ import {
   GoogleMap,
   MarkerCluster,
   GoogleMapsEvent,
-  Marker
+  Marker,
+  Spherical
 } from '@ionic-native/google-maps';
 import { Platform } from '@ionic/angular';
-import { Hospital } from 'src/app/common/interfaces/hospital.interface';
-import { Observable } from 'rxjs';
+import { Circle } from '@ionic-native/google-maps';
+import { ILatLng } from '@ionic-native/google-maps/ngx';
 
 @Component({
   selector: 'app-tab1',
@@ -23,54 +24,84 @@ export class Tab1Page implements OnInit {
   ) {}
   map: GoogleMap;
   hospitals;
-  done = false;
-  errorMessage: string;
+  myHospital;
 
-  array = [];
   async ngOnInit() {
-    // Since ngOnInit() is executed before `deviceready` event,
-    // you have to wait the event.
-    //    this.getHospitals();
-    console.log('GETTING HOSPITALS');
-    await this.getHospitals();
-    console.log('GOTTEN HOSPITALS');
-    console.log('PREPARING MAP');
+    await this.getMyHospital();
+    await this.getNearbyHospitals();
     await this.platform.ready();
-    console.log('MAP READY');
-    console.log('LOADING MAP');
     await this.loadMap();
-    console.log('MAP LOADED');
+  }
+
+  async getMyHospital() {
+    this.myHospital = await this.hospitalService.getMyHospital();
+    this.myHospital = this.elaborateData(this.myHospital, 'blue');
+  }
+  async getNearbyHospitals() {
+    this.hospitals = await this.hospitalService.getHospitalsNearby(
+      this.myHospital.position.lat, this.myHospital.position.lng, 100);
+    this.hospitals = this.hospitals.filter(e => e.coordinates.coordinates[0][0] !== this.myHospital.position.lng &&
+      e.coordinates.coordinates[0][1] !== this.myHospital.position.lat);
+    this.hospitals = this.elaborateData(this.hospitals);
   }
 
   loadMap() {
     this.map = GoogleMaps.create('map_canvas');
     this.map.moveCamera({
-      target: { lat: 21.382314, lng: -157.933097 },
-      zoom: 10
+      target: { lat:  this.myHospital.position.lat, lng: this.myHospital.position.lng },
+      zoom: 8
     });
-    this.addCluster(this.dummyData());
+    this.hospitals.push(this.myHospital);
+    this.addCluster(this.hospitals);
+    const circle: Circle = this.map.addCircleSync({
+      center: {lat: this.myHospital.position.lat, lng: this.myHospital.position.lng},
+      radius: 100 * 1000,
+      fillColor: 'rgba(0,0,0,0.2)',
+      'strokeColor' : 'rgba(150,15,15,1)',
+      'strokeWidth': 3,
+    });
+     // Calculate the positions
+     let positions: ILatLng[] = [0, 90, 180, 270].map((degree: number) => {
+      return Spherical.computeOffset(circle.getCenter(), 100 * 1000, degree);
+    });
+
+    const marker: Marker = this.map.addMarkerSync({
+      position: positions[0],
+      draggable: true,
+      title: 'Drag me!'
+    });
+    // marker.trigger(GoogleMapsEvent.MARKER_CLICK);
+    marker.trigger(GoogleMapsEvent.MARKER_DRAG_END);
+    this.drawCircle(circle, marker);
+
+    marker.on('position_changed').subscribe((params) => {
+      this.drawCircle(circle, marker);
+    });
+    marker.on(GoogleMapsEvent.MARKER_DRAG_END).subscribe((params) => {
+      console.log(circle.getRadius());
+    });
+
+  }
+
+  drawCircle(circle: Circle, marker) {
+    const newValue: ILatLng = marker.getPosition();
+    const newRadius: number = Spherical.computeDistanceBetween(circle.getCenter(), newValue);
+    circle.setRadius(newRadius);
   }
 
   addCluster(data) {
     const markerCluster: MarkerCluster = this.map.addMarkerClusterSync({
       markers: data,
-      icons: [
-        {
+      icons: [{
           min: 3,
           max: 9,
           url: './assets/small.png',
-          label: {
-            color: 'white'
-          }
-        },
-        {
+          label: { color: 'white' }
+        }, {
           min: 10,
           url: './assets/large.png',
-          label: {
-            color: 'white'
-          }
-        }
-      ]
+          label: { color: 'white' }
+      }]
     });
 
     markerCluster.on(GoogleMapsEvent.MARKER_CLICK).subscribe(params => {
@@ -81,69 +112,30 @@ export class Tab1Page implements OnInit {
     });
   }
 
-  // dummyData() {
-  //   console.log('DATAAAA');
-  //   console.log(this.hospitalService.data);
-  //   const toReturn = Array();
-  //   this.hospitalService.data.forEach(e => {
-  //     toReturn.push({
-  //       position: {
-  //         lat: e.coordinates.coordinates[0][1],
-  //         lng: e.coordinates.coordinates[0][0]
-  //       },
-  //       name: e.name,
-  //       icon: 'red',
-  //       title: 'title'
-  //     });
-  //   });
-  //   return toReturn;
-  // }
-  dummyData() {
-    return [
-      {
+  elaborateData(data, color?) {
+    if (Array.isArray(data)) {
+      const toReturn = Array();
+      data.forEach(e => {
+      toReturn.push({
         position: {
-          lat: 21.382314,
-          lng: -157.933097
+          lat: e.coordinates.coordinates[0][1],
+          lng: e.coordinates.coordinates[0][0]
         },
-
-        snippet: 'aiutooo',
-        name: 'Starbucks - HI - Aiea  03641',
-        address:
-          'Aiea Shopping Center_99-115\nAiea Heights Drive #125_Aiea, Hawaii 96701',
-        icon: 'blue'
-      },
-      {
-        position: {
-          lat: 21.78,
-          lng: -157.9482
-        },
-        name: 'Starbucks - HI - Aiea  03642',
-        address: 'Pearlridge Center_98-125\nKaonohi Street_Aiea, Hawaii 96701',
-        icon: 'red'
-      },
-      {
-        position: {
-          lat: 21.57,
-          lng: -157.928275
-        },
-        name: 'Starbucks - HI - Aiea  03643',
-        address:
-          'Stadium Marketplace_4561\nSalt Lake Boulevard_Aiea, Hawaii 96818',
-        icon: 'red'
-      }
-    ];
+        name: e.name,
+        icon: color || 'red',
+        title: 'title'
+      });
+    });
+    return toReturn;
   }
-
-  getHospitals() {
-    // if (
-    //   !this.done &&
-    //   this.authService.isAuthenticated() &&
-    //   this.authService.isReady()
-    // ) {
-    this.hospitalService.getHospitalsNearBy();
-    this.done = true;
-
-    // console.log(JSON.stringify(this.hospitalService.hospital));
-    // }
+    return {
+      position: {
+        lat: data.coordinates.coordinates[0][1],
+        lng: data.coordinates.coordinates[0][0]
+      },
+      name: data.name,
+      icon: color || 'red',
+      title: 'title'
+    };
   }
 }

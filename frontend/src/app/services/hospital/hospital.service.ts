@@ -1,63 +1,34 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { AuthService } from '../auth/auth.service';
-import { HTTP } from '@ionic-native/http/ngx';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Hospital } from 'src/app/common/interfaces/hospital.interface';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HospitalService {
-  status;
-  data;
-  result: Object[];
-  loading: boolean;
-  // hospital: Observable<any>;
+  headers = new HttpHeaders().set(
+    'Authorization',
+    `Bearer ${this.authService.access_token}`
+  ).append('Access-Control-Allow-Origin', 'http://localhost:8100')
+  .append('Content-Type', 'application/json');
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
-  constructor(private http: HttpClient, private authService: AuthService) {
-    this.result = [];
-    this.loading = false;
-  }
-
-  convert() {
-    return this.data;
-  }
-
-  getHospitalsNearBy() {
-    console.log('TOKEN');
-    console.log(this.authService.getAccessToken());
+  async getHospitalsNearby(lat: Number, lng: Number, distance: Number) {
     const params = new HttpParams()
-      .set('longitude', '12.272')
-      .set('latitude', '43.088')
-      .set('distance', '300');
-    const headers = new HttpHeaders().set(
-      'token',
-      this.authService.getAccessToken()
-    );
-    // .set('Access-Control-Allow-Origin', 'http://localhost:8100')
-    // .set('Content-Type', 'application/json');
+      .set('longitude', lng.toString())
+      .set('latitude', lat.toString())
+      .set('distance', distance.toString());
 
-    this.data = this.http.get(environment.BACKEND + 'hospitals/location', {
-      headers,
+    return await this.http.get(environment.BACKEND + 'hospitals/location', {
+      headers: this.headers,
       params
-    });
+    }).toPromise();
+  }
 
-    // .subscribe(data => {
-    //   this.data = data;
-    //   console.log('qwerty' + data);
-    // });
-    // this.data = JSON.parse(data.toPromise());
-    // return this.data;
-    // return this.data;
-    // const data = await this.http.get(
-    //   environment.BACKEND + 'hospitals/location',
-    //   { longitude: '12.272', latitude: '43.088', distance: '300' },
-    //   headers
-    // );
-    // return this.httpClient.get(url, { params }).toPromise();
-    // this.data = JSON.parse(data.data);
-    // return this.data;
+  async getMyHospital() {
+    return await this.http.get(environment.BACKEND + 'hospitals/myHospital', {
+      headers: this.headers
+    }).toPromise();
   }
 }

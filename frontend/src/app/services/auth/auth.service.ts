@@ -19,7 +19,8 @@ export class AuthService {
     environment.AUTH0_CLIENTID +
     '&redirect_uri=' +
     environment.AUTH0_REDIRECTURL +
-    '&scope=openid profile&nonce=pawm';
+    '&scope=openid profile&nonce=pawm&audience=' +
+    environment.AUTH0_AUDIENCE;
   private browser: InAppBrowserObject;
 
   constructor(private iab: InAppBrowser, private router: Router) {}
