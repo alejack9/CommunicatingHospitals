@@ -6,6 +6,7 @@ import {
   MarkerCluster
 } from '@ionic-native/google-maps';
 import { Platform } from '@ionic/angular';
+
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
@@ -57,38 +58,35 @@ export class Tab1Page implements OnInit {
     return [
       {
         position: {
-          lat: this.hospitalService.hospitals[0].coordinate.lat,
-          lng: this.hospitalService.hospitals[0].coordinate.lng
+          lat: this.hospitalService.hospitals[0].coordinate[0],
+          lng: this.hospitalService.hospitals[0].coordinate[1]
         },
         name: this.hospitalService.hospitals[0].name,
-        address: this.hospitalService.hospitals[0].description,
+
         icon: 'red'
       },
       {
         position: {
-          lat: this.hospitalService.hospitals[1].coordinate.lat,
-          lng: this.hospitalService.hospitals[1].coordinate.lng
+          lat: this.hospitalService.hospitals[1].coordinate[0],
+          lng: this.hospitalService.hospitals[1].coordinate[1]
         },
         name: this.hospitalService.hospitals[1].name,
-        address: this.hospitalService.hospitals[1].description,
         icon: 'red'
       },
       {
         position: {
-          lat: this.hospitalService.hospitals[2].coordinate.lat,
-          lng: this.hospitalService.hospitals[2].coordinate.lng
+          lat: this.hospitalService.hospitals[2].coordinate[0],
+          lng: this.hospitalService.hospitals[2].coordinate[1]
         },
         name: this.hospitalService.hospitals[2].name,
-        address: this.hospitalService.hospitals[2].description,
         icon: 'red'
       },
       {
         position: {
-          lat: this.hospitalService.hospitals[3].coordinate.lat,
-          lng: this.hospitalService.hospitals[3].coordinate.lng
+          lat: this.hospitalService.hospitals[3].coordinate[0],
+          lng: this.hospitalService.hospitals[3].coordinate[1]
         },
         name: this.hospitalService.hospitals[3].name,
-        address: this.hospitalService.hospitals[3].description,
         icon: 'red'
       }
     ];

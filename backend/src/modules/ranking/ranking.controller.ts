@@ -1,4 +1,12 @@
-import { Controller, Get, Param, Body, UseGuards, Put } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  Body,
+  UseGuards,
+  Put,
+  Query,
+} from '@nestjs/common';
 import { RankingService } from './ranking.service';
 import { Types } from 'mongoose';
 import { UserService } from '../user/user.service';
@@ -35,7 +43,7 @@ export class RankingController {
   @Get('/:type')
   async getTypeRank(
     @Param('type', new PreparationTypePipe()) type: PreparationType,
-    @Body('dateUnit', new DateUnitPipe()) dateUnit: DateUnit,
+    @Query('dateUnit', new DateUnitPipe()) dateUnit: DateUnit,
   ) {
     return await this.rankingService.getTypeRank(type, dateUnit);
   }
@@ -43,13 +51,13 @@ export class RankingController {
   /**
    * Returns the rank of the hospital associated to the user in a specific preparation type and date unit.
    * @param type The preparation type
-   * @param dateUnit The period
+   * @param dateUnit The period ('day', 'month' or 'year')
    * @param user The user gotten by the token
    */
   @Get('/:type/me')
   async getTypeRankHospital(
     @Param('type', new PreparationTypePipe()) type: PreparationType,
-    @Body('dateUnit', new DateUnitPipe()) dateUnit: DateUnit,
+    @Query('dateUnit', new DateUnitPipe()) dateUnit: DateUnit,
     @User() user: UserDto,
   ) {
     return await this.rankingService.getTypeRank(
@@ -67,7 +75,7 @@ export class RankingController {
   @Get('position/:hospitalId')
   async getRank(
     @Param('hospitalId', new HospitalIdPipe()) hospitalId: Types.ObjectId,
-    @Body('dateUnit', new DateUnitPipe()) dateUnit: DateUnit,
+    @Query('dateUnit', new DateUnitPipe()) dateUnit: DateUnit,
   ) {
     return await this.rankingService.getAverageRank(dateUnit, hospitalId);
   }
@@ -76,7 +84,7 @@ export class RankingController {
   // async getTypeRankHospital(
   //   @Param('type', new PreparationTypePipe()) type: PreparationType,
   //   @Param('hospitalId', new HospitalIdPipe()) hospitalId: Types.ObjectId,
-  //   @Body('dateUnit', new DateUnitPipe()) dateUnit: DateUnit,
+  //   @Query('dateUnit', new DateUnitPipe()) dateUnit: DateUnit,
   // ) {
   //   return await this.rankingService.getRank(type, dateUnit, hospitalId);
   // }
