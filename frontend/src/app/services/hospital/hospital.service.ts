@@ -7,28 +7,30 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
   providedIn: 'root'
 })
 export class HospitalService {
-  headers = new HttpHeaders().set(
-    'Authorization',
-    `Bearer ${this.authService.access_token}`
-  ).append('Access-Control-Allow-Origin', 'http://localhost:8100')
-  .append('Content-Type', 'application/json');
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  headers = new HttpHeaders()
+    .set('Authorization', `Bearer ${this.authService.access_token}`)
+    .append('Access-Control-Allow-Origin', 'http://localhost:8100')
+    .append('Content-Type', 'application/json');
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
   async getHospitalsNearby(lat: Number, lng: Number, distance: Number) {
     const params = new HttpParams()
       .set('longitude', lng.toString())
       .set('latitude', lat.toString())
       .set('distance', distance.toString());
-
-    return await this.http.get(environment.BACKEND + 'hospitals/location', {
-      headers: this.headers,
-      params
-    }).toPromise();
+    return (await this.http
+      .get(environment.BACKEND + 'hospitals/location', {
+        headers: this.headers,
+        params
+      })
+      .toPromise()) as Array<any>;
   }
 
   async getMyHospital() {
-    return await this.http.get(environment.BACKEND + 'hospitals/myHospital', {
-      headers: this.headers
-    }).toPromise();
+    return await this.http
+      .get(environment.BACKEND + 'hospitals/myHospital', {
+        headers: this.headers
+      })
+      .toPromise();
   }
 }
