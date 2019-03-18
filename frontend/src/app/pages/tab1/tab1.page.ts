@@ -9,6 +9,7 @@ import { MapService } from './map.service';
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page implements OnInit {
+  public pepperoni = true;
   constructor(
     private platform: Platform,
     private hospitalService: HospitalService,
@@ -35,6 +36,11 @@ export class Tab1Page implements OnInit {
         this.mapService.fillCluster();
       });
     });
+  }
+
+  // ION CHANGE TOOGLE
+  change() {
+    console.log(this.pepperoni);
   }
 
   async getMyHospital() {

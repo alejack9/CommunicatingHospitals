@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-import { ILatLng, Spherical } from '@ionic-native/google-maps/ngx';
+import {
+  ILatLng,
+  Spherical,
+  HtmlInfoWindow
+} from '@ionic-native/google-maps/ngx';
 import {
   GoogleMap,
   Marker,
@@ -11,11 +15,15 @@ import {
 } from '@ionic-native/google-maps';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Hospital } from 'src/app/common/interfaces/hospital.interface';
+
+export type Period = 'month' | 'year';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MapService {
+  private htmlInfoWindow: HtmlInfoWindow;
   private map: GoogleMap;
   private hospitalsMarkers: Array<MarkerOptions>;
   private myHospitalMarker: MarkerOptions;
@@ -39,16 +47,44 @@ export class MapService {
     return this.hospitalsMarkers;
   }
 
-  private objectToMarker(data: any, color: string = 'red'): MarkerOptions {
+  private objectToMarker(
+    data: Hospital,
+    color: string = 'red',
+    period: Period = 'month'
+  ): MarkerOptions {
     return {
       position: {
         lat: data.coordinates.coordinates[0][1],
         lng: data.coordinates.coordinates[0][0]
       },
-      name: data.name,
+      // name: this.infoWindowMarker(data, period),
+      name: '<h1>ciai</h1><br/><br/>ciao',
+      snippet: '',
       icon: color,
-      title: 'title'
+      title: ''
     };
+  }
+
+  infoWindowMarker(data: Hospital, period: Period = 'month') {
+    const rank = data.averageRanks.find(e => e.period === period);
+
+    this.htmlInfoWindow = new HtmlInfoWindow();
+    rank.lastUpdate = new Date(rank.lastUpdate);
+
+    const frame: HTMLElement = document.createElement('table');
+    frame.style.width = '100%';
+    frame.innerHTML = `
+      <tr><td style="font-size:110%">Name: ${data.name}</td></tr>
+      <tr><td style="font-size:90%">Rank: ${rank.rank.toString()}</td></tr>
+      <tr>
+        <td style="font-size:80%">
+          last update:${rank.lastUpdate.getDate()}/${rank.lastUpdate.getMonth()}/${rank.lastUpdate.getFullYear()}
+        </td>
+      </tr>
+    `;
+    this.htmlInfoWindow.setContent(frame, {
+      width: '170px'
+    });
   }
 
   fillCluster() {
@@ -72,12 +108,10 @@ export class MapService {
       ]
     });
 
-    this.markerCluster.on(GoogleMapsEvent.MARKER_CLICK).subscribe(params => {
-      const marker: Marker = params[1];
-      marker.setTitle(marker.get('name'));
-      marker.setSnippet(marker.get('address'));
-      marker.showInfoWindow();
-    });
+    // this.markerCluster.on(GoogleMapsEvent.MARKER_CLICK).subscribe(params => {
+    //   const marker: Marker = params[1];
+    //   this.htmlInfoWindow.open(marker);
+    // });
   }
 
   loadMap(): Observable<any> {
@@ -89,7 +123,6 @@ export class MapService {
       },
       zoom: 8
     });
-    // this.hospitals.push(this.myHospitalMarker);
     this.fillCluster();
     const circle: Circle = this.map.addCircleSync({
       center: {

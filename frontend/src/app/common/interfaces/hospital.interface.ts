@@ -2,9 +2,9 @@ import { Preparation } from './preparation.interface';
 import { GeoJSONMultiPoint } from './geoJSONMultiPoint.interface';
 import { Rank } from './rank.interface';
 
-export interface Hospital {
+export interface Hospital extends Document {
   readonly name: string;
-  readonly coordinate: GeoJSONMultiPoint;
-  readonly preparations: [Preparation] | undefined;
-  readonly averageRanks: [Rank] | undefined;
+  readonly coordinates: GeoJSONMultiPoint;
+  readonly preparations: [Preparation];
+  readonly averageRanks: [Rank];
 }

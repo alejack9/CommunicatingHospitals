@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { AuthService } from '../auth/auth.service';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Hospital } from 'src/app/common/interfaces/hospital.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,7 @@ export class HospitalService {
         headers: this.headers,
         params
       })
-      .toPromise()) as Array<any>;
+      .toPromise()) as Array<Hospital>;
   }
 
   async getMyHospital() {
