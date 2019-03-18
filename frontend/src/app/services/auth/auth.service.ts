@@ -5,8 +5,8 @@ import {
   InAppBrowser,
   InAppBrowserObject
 } from '@ionic-native/in-app-browser/ngx';
-import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
+import { Platform } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,7 @@ import { Subject } from 'rxjs';
 export class AuthService {
   // tslint:disable-next-line: max-line-length
   // https://communicating-hospitals.eu.auth0.com/authorize?response_type=id_token token&client_id=hafjbtKs0JXZQYr7ctxt8SO4cF20SVf3&redirect_uri=http://localhost:8100/callback&scope=openid profile&nonce=pawm&audience=http://localhost:3000
-  private request =
+  private readonly url =
     'https://' +
     environment.AUTH0_DOMAIN +
     '/authorize?response_type=id_token token&client_id=' +
@@ -25,29 +25,45 @@ export class AuthService {
     environment.AUTH0_AUDIENCE;
   private browser: InAppBrowserObject;
 
-  private loggingStream = new Subject<boolean>();
-  logging = false;
+  readonly authenticationState = new BehaviorSubject(false);
 
-  // TODO
-  private expiredIn: Date;
+  private user = null;
+  private readonly helper: JwtHelperService;
+  constructor(
+    private readonly iab: InAppBrowser,
+    private readonly plt: Platform
+  ) {
+    this.helper = new JwtHelperService();
+    this.plt.ready().then(() => this.checkToken());
+  }
 
-  constructor(private iab: InAppBrowser, private router: Router) {
-    this.loggingStream.subscribe({
-      complete: () => {
-        this.logging = false;
+  checkToken() {
+    if (localStorage.getItem('id_token')) {
+      const decodedUser = this.helper.decodeToken(
+        localStorage.getItem('id_token')
+      );
+      const isExpired = this.helper.isTokenExpired(
+        localStorage.getItem('acess_token')
+      );
+      if (!isExpired) {
+        this.user = decodedUser;
+        this.authenticationState.next(true);
+      } else {
+        this.logout();
       }
-    });
+    }
   }
 
   login() {
-    this.logging = true;
-    this.browser = this.iab.create(this.request, '_blank');
+    // this.authenticationState.next(true);
+    console.log('logging in ' + this.url);
+    this.browser = this.iab.create(this.url, '_blank');
     this.browser.on('loadstart').subscribe(e => {
       if (e.url.indexOf(environment.AUTH0_REDIRECTURL) === 0) {
         localStorage.setItem('access_token', this.extractAccessToken(e.url));
         localStorage.setItem('id_token', this.extractIdToken(e.url));
         this.browser.close();
-        this.loggingStream.complete();
+        this.authenticationState.next(true);
       }
     });
     this.browser.show();
@@ -56,6 +72,7 @@ export class AuthService {
   logout() {
     localStorage.removeItem('access_token');
     localStorage.removeItem('id_token');
+    this.authenticationState.next(false);
   }
 
   extractAccessToken(url: string): string {
@@ -70,32 +87,25 @@ export class AuthService {
   extractIdToken(url: string): string {
     return url.substring(
       url.indexOf('id_token=') + 9,
-      url.indexOf('&', url.indexOf('access_token=')) === -1
+      url.indexOf('&', url.indexOf('id_token=')) === -1
         ? url.length
         : url.indexOf('&')
     );
   }
 
-  async isLogged() {
-    if (this.logging) {
-      await this.loggingStream.toPromise();
-    }
-    // TODO ADD 'EXPIRED?'
-    return !!localStorage.getItem('access_token');
+  isAuthenticated() {
+    return this.authenticationState.value;
   }
 
   get access_token() {
     return localStorage.getItem('access_token');
   }
 
-  get id_token() {
-    return localStorage.getItem('id_token');
-  }
+  // get id_token() {
+  //   return localStorage.getItem('id_token');
+  // }
 
   get profile() {
-    if (this.id_token) {
-      const helper = new JwtHelperService();
-      return helper.decodeToken(this.id_token);
-    }
+    return this.user;
   }
 }

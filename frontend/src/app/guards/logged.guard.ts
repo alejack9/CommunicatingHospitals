@@ -12,17 +12,12 @@ import { AuthService } from '../services/auth/auth.service';
   providedIn: 'root'
 })
 export class LoggedGuard implements CanActivate {
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService) {}
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Promise<boolean> {
-    return this.authService.isLogged().then(logged => {
-      if (!logged) {
-        this.router.navigate(['login']);
-      }
-      return logged;
-    });
+  ): boolean {
+    return this.authService.isAuthenticated();
   }
 }

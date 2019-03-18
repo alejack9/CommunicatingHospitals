@@ -12,19 +12,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(private readonly authService: AuthService) {}
 
-  logged = false;
-
-  async ngOnInit() {
-    await this.isAuthenticated();
-  }
-
-  async isAuthenticated() {
-    this.logged = await this.authService.isLogged();
-  }
-
-  login() {
-    return this.authService.login();
-  }
+  async ngOnInit() {}
 
   logout() {
     return this.authService.logout();

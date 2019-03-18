@@ -51,7 +51,6 @@
     "flag-icon-css": "^3.2.1",
     "http-module": "0.0.5",
     "https": "^1.0.0",
-    "ionic-plugin-deeplinks": "^1.0.17",
     "ng2-charts": "^1.6.0",
     "rxjs": "~6.3.3",
     "zone.js": "~0.8.29"
@@ -97,25 +96,7 @@
       "cordova-plugin-ionic-webview": {},
       "cordova-plugin-ionic-keyboard": {},
       "cordova-plugin-inappbrowser": {},
-      "cordova-plugin-safariviewcontroller": {},
-      "ionic-plugin-deeplinks": {
-        "URL_SCHEME": "communicatinghospitals",
-        "DEEPLINK_SCHEME": "https",
-        "DEEPLINK_HOST": "it.pawm.communicatinghospitals",
-        "ANDROID_PATH_PREFIX": "/callback",
-        "ANDROID_2_PATH_PREFIX": "/",
-        "ANDROID_3_PATH_PREFIX": "/",
-        "ANDROID_4_PATH_PREFIX": "/",
-        "ANDROID_5_PATH_PREFIX": "/",
-        "DEEPLINK_2_SCHEME": " ",
-        "DEEPLINK_2_HOST": " ",
-        "DEEPLINK_3_SCHEME": " ",
-        "DEEPLINK_3_HOST": " ",
-        "DEEPLINK_4_SCHEME": " ",
-        "DEEPLINK_4_HOST": " ",
-        "DEEPLINK_5_SCHEME": " ",
-        "DEEPLINK_5_HOST": " "
-      }
+      "cordova-plugin-safariviewcontroller": {}
     },
     "platforms": [
       "browser",

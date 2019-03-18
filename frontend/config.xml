@@ -92,24 +92,6 @@
         <variable name="API_KEY_FOR_IOS" value="AIzaSyDe4nQAX-jZ11waVuhK2LgTi_ECnOrhB4o" />
     </plugin>
     <plugin name="cordova-plugin-inappbrowser" spec="^3.0.0" />
-    <plugin name="ionic-plugin-deeplinks" spec="~1.0.17">
-        <variable name="URL_SCHEME" value="communicatinghospitals" />
-        <variable name="DEEPLINK_SCHEME" value="https" />
-        <variable name="DEEPLINK_HOST" value="it.pawm.communicatinghospitals" />
-        <variable name="ANDROID_PATH_PREFIX" value="/callback" />
-        <variable name="ANDROID_2_PATH_PREFIX" value="/" />
-        <variable name="ANDROID_3_PATH_PREFIX" value="/" />
-        <variable name="ANDROID_4_PATH_PREFIX" value="/" />
-        <variable name="ANDROID_5_PATH_PREFIX" value="/" />
-        <variable name="DEEPLINK_2_SCHEME" value=" " />
-        <variable name="DEEPLINK_2_HOST" value=" " />
-        <variable name="DEEPLINK_3_SCHEME" value=" " />
-        <variable name="DEEPLINK_3_HOST" value=" " />
-        <variable name="DEEPLINK_4_SCHEME" value=" " />
-        <variable name="DEEPLINK_4_HOST" value=" " />
-        <variable name="DEEPLINK_5_SCHEME" value=" " />
-        <variable name="DEEPLINK_5_HOST" value=" " />
-    </plugin>
     <plugin name="cordova-plugin-safariviewcontroller" spec="~1.5.4" />
     <engine name="browser" spec="5.0.4" />
     <engine name="android" spec="7.1.4" />
