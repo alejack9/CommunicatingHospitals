@@ -107,14 +107,15 @@ export class MapService {
     });
 
     const marker: Marker = this.map.addMarkerSync({
-      icon: {
-        url: '../../assets/bound.png',
-        size: { height: 32, width: 32 }
-      },
+      icon: 'green',
+      // url: '../../assets/bound.png',
+      // size: { height: 32, width: 32 },
+
       position: positions[0],
       draggable: true,
       title: 'Drag me!'
     });
+    marker.trigger(GoogleMapsEvent.MARKER_CLICK);
     marker.trigger(GoogleMapsEvent.MARKER_DRAG_END);
     this.drawCircle(circle, marker);
 
