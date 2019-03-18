@@ -6,7 +6,7 @@
           {{ title }}
         </ion-title>
       </ion-col>
-      <!-- <ion-col>
+      <ion-col>
         <ion-buttons slot="end">
           <ion-button
             shape="round"
@@ -16,15 +16,19 @@
             *ngIf="!logged"
             >Login</ion-button
           >
-        </ion-buttons>-->
-        <!--<span *ngIf="logged">
+        </ion-buttons>
+        <span *ngIf="logged">
           {{ getProfile().name }}
-          <img [src]="getProfile().picture" width="40" /> -->
-          <!-- <ion-button shape="round" fill="outline" color="light" (click)="logout()"
-              >Logout</ion-button
-            > -->
-        <!-- </span></ion-col
-      > -->
+          <img [src]="getProfile().picture" width="40" />
+          <ion-button
+            shape="round"
+            fill="outline"
+            color="light"
+            (click)="logout()"
+            >Logout</ion-button
+          >
+        </span></ion-col
+      >
     </ion-row>
   </ion-toolbar>
 </ion-header>

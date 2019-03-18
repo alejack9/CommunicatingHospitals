@@ -24,6 +24,7 @@ export class Tab1Page implements OnInit {
       this.myHospital.coordinates.coordinates[0][1],
       100
     );
+
     await this.platform.ready();
     await this.mapService.loadMap().subscribe(params => {
       this.getNearbyHospitals(
