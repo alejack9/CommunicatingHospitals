@@ -12,6 +12,8 @@ import { Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
+  // tslint:disable-next-line: max-line-length
+  // https://communicating-hospitals.eu.auth0.com/authorize?response_type=id_token token&client_id=hafjbtKs0JXZQYr7ctxt8SO4cF20SVf3&redirect_uri=http://localhost:8100/callback&scope=openid profile&nonce=pawm&audience=http://localhost:3000
   private request =
     'https://' +
     environment.AUTH0_DOMAIN +
@@ -23,33 +25,27 @@ export class AuthService {
     environment.AUTH0_AUDIENCE;
   private browser: InAppBrowserObject;
 
-  constructor(private iab: InAppBrowser, private router: Router) {}
-
   private loggingStream = new Subject<boolean>();
   logging = false;
-  private subscription = this.loggingStream.subscribe({
-    complete: () => {
-      this.logging = false;
-    }
-  });
+
+  // TODO
+  private expiredIn: Date;
+
+  constructor(private iab: InAppBrowser, private router: Router) {
+    this.loggingStream.subscribe({
+      complete: () => {
+        this.logging = false;
+      }
+    });
+  }
 
   login() {
     this.logging = true;
     this.browser = this.iab.create(this.request, '_blank');
     this.browser.on('loadstart').subscribe(e => {
       if (e.url.indexOf(environment.AUTH0_REDIRECTURL) === 0) {
-        // this.browser.removeEventListener("exit", (event) => {});
-        localStorage.setItem(
-          'access_token',
-          e.url.substring(
-            e.url.indexOf('access_token=') + 13,
-            e.url.indexOf('&scope')
-          )
-        );
-        localStorage.setItem(
-          'id_token',
-          e.url.substring(e.url.indexOf('id_token=') + 9, e.url.length)
-        );
+        localStorage.setItem('access_token', this.extractAccessToken(e.url));
+        localStorage.setItem('id_token', this.extractIdToken(e.url));
         this.browser.close();
         this.loggingStream.complete();
       }
@@ -62,11 +58,29 @@ export class AuthService {
     localStorage.removeItem('id_token');
   }
 
+  extractAccessToken(url: string): string {
+    return url.substring(
+      url.indexOf('access_token=') + 13,
+      url.indexOf('&', url.indexOf('access_token=')) === -1
+        ? url.length
+        : url.indexOf('&')
+    );
+  }
+
+  extractIdToken(url: string): string {
+    return url.substring(
+      url.indexOf('id_token=') + 9,
+      url.indexOf('&', url.indexOf('access_token=')) === -1
+        ? url.length
+        : url.indexOf('&')
+    );
+  }
 
   async isLogged() {
     if (this.logging) {
       await this.loggingStream.toPromise();
     }
+    // TODO ADD 'EXPIRED?'
     return !!localStorage.getItem('access_token');
   }
 
