@@ -5,6 +5,8 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Environment } from '@ionic-native/google-maps/ngx';
 import { Tab1Page } from '../app/pages/tab1/tab1.page';
+import { AuthService } from './services/auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -15,14 +17,16 @@ export class AppComponent {
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
-    private statusBar: StatusBar
+    private statusBar: StatusBar,
+    private authService: AuthService,
+    private router: Router
   ) {
     this.initializeApp();
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
-      this.rootPage = Tab1Page;
+      // this.rootPage = Tab1Page;
       Environment.setEnv({
         // api key for server
         API_KEY_FOR_BROWSER_RELEASE: 'AIzaSyDe4nQAX-jZ11waVuhK2LgTi_ECnOrhB4o',
@@ -32,6 +36,11 @@ export class AppComponent {
       });
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+
+      this.authService.authenticationState.subscribe(s => {
+        console.log('changed ' + s);
+        this.router.navigate([s ? 'tabs' : 'login']);
+      });
     });
   }
 }

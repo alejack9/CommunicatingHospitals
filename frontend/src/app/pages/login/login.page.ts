@@ -9,10 +9,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
   styleUrls: ['./login.page.scss']
 })
 export class LoginPage implements OnInit {
-  redirected = false;
-  checked = false;
-  logged = false;
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(private authService: AuthService) {}
   ngOnInit() {}
 
   // async ionViewCanEnter() {
@@ -20,20 +17,20 @@ export class LoginPage implements OnInit {
   //   this.redirectIfLogged();
   // }
 
-  redirectIfLogged() {
-    if (this.logged && !this.redirected) {
-      this.redirected = true;
-      this.router.navigate(['tabs']);
-    }
-  }
+  // redirectIfLogged() {
+  //   if (this.logged && !this.redirected) {
+  //     this.redirected = true;
+  //     this.router.navigate(['tabs']);
+  //   }
+  // }
 
-  async isLogged() {
-    this.logged = await this.authService.isLogged(); // .then(t => (this.logged = t));
-  }
+  // async isLogged() {
+  //   this.logged = await this.authService.isLogged(); // .then(t => (this.logged = t));
+  // }
 
   async login() {
     this.authService.login();
-    await this.isLogged();
-    this.redirectIfLogged();
+    // await this.isLogged();
+    // this.redirectIfLogged();
   }
 }
