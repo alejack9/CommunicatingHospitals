@@ -38,7 +38,6 @@ export class AppComponent {
       this.splashScreen.hide();
 
       this.authService.authenticationState.subscribe(s => {
-        console.log('changed ' + s);
         this.router.navigate([s ? 'tabs' : 'login']);
       });
     });

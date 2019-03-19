@@ -28,7 +28,5 @@ export class Tab2Page implements OnInit {
 
   onSelect(item: string): void {
     this.route.navigate(['tab2/' + item]);
-    // .id = item;
-    console.log(item);
   }
 }

@@ -1,4 +1,4 @@
-import { PreparationType } from '../preparation.type';
+import { PreparationType } from './preparationType.interface';
 import { Hospital } from './hospital.interface';
 
 export interface Preparation {

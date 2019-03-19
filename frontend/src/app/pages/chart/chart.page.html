@@ -1,29 +1,7 @@
-<ion-header>
-  <ion-title>
-    Ionic Charts
-  </ion-title>
-</ion-header>
+<app-header title="Graphics"> </app-header>
 <ion-content>
-  <h3>Graphis</h3>
   <section>
-    <div>
-      <div style="display: block">
-        <canvas
-          baseChart
-          [datasets]="barChartData"
-          [labels]="barChartLabels"
-          [options]="barChartOptions"
-          [legend]="barChartLegend"
-          [chartType]="barChartType"
-          (chartHover)="chartHovered($event)"
-          (chartClick)="chartClicked($event)"
-        ></canvas>
-      </div>
-      <button (click)="randomize()">Update</button>
-    </div>
-  </section>
-
-  <section>
+    <app-chart></app-chart>
     <app-table></app-table>
   </section>
 </ion-content>

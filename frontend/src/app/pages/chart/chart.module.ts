@@ -8,6 +8,8 @@ import { IonicModule } from '@ionic/angular';
 import { ChartPage } from './chart.page';
 import { ChartsModule } from 'ng2-charts';
 import { TableComponent } from 'src/app/components/table/table.component';
+import { ComponentsModule } from 'src/app/components/components.module';
+import { ChartComponent } from 'src/app/components/chart/chart.component';
 
 const routes: Routes = [
   {
@@ -18,12 +20,13 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
+    IonicModule,
     CommonModule,
     FormsModule,
-    IonicModule,
+    ComponentsModule,
     ChartsModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [ChartPage, TableComponent]
+  declarations: [ChartPage, TableComponent, ChartComponent]
 })
 export class ChartPageModule {}
