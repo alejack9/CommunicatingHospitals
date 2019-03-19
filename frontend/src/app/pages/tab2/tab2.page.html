@@ -1,11 +1,6 @@
-<app-header></app-header>
+<app-header title="List of Preparations"></app-header>
 
 <ion-content>
-  <ion-header>
-    <ion-toolbar>
-      <ion-title>Page</ion-title>
-    </ion-toolbar>
-  </ion-header>
   <ion-list>
     <ion-item button *ngFor="let item of items" (click)="onSelect(item)">
       {{ item }}

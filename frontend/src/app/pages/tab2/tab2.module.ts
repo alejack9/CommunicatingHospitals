@@ -14,7 +14,13 @@ import { ComponentsModule } from 'src/app/components/components.module';
     ChartsModule,
     FormsModule,
     ComponentsModule,
-    RouterModule.forChild([{ path: '', component: Tab2Page }])
+    RouterModule.forChild([
+      { path: '', component: Tab2Page },
+      {
+        path: 'char',
+        loadChildren: '../chart/chart.module#ChartPageModule'
+      }
+    ])
   ],
   declarations: [Tab2Page]
 })
