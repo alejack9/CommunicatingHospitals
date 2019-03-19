@@ -33,14 +33,14 @@ export class MapService {
     return this.myHospitalMarker;
   }
 
-  setMyHospital(v: Hospital) {
-    this.myHospitalMarker = this.objectToMarker(v, 'blue');
+  setMyHospital(v: Hospital, period: Period) {
+    this.myHospitalMarker = this.objectToMarker(v, 'blue', period);
   }
 
-  setNearbyHospitals(v: Hospital[]) {
+  setNearbyHospitals(v: Hospital[], period: Period) {
     this.hospitalsMarkers = [];
     v.forEach(e => {
-      this.hospitalsMarkers.push(this.objectToMarker(e));
+      this.hospitalsMarkers.push(this.objectToMarker(e, undefined, period));
     });
   }
 
@@ -75,9 +75,6 @@ export class MapService {
 
     const marker: Marker = this.map.addMarkerSync({
       icon: 'green',
-      // url: '../../assets/bound.png',
-      // size: { height: 32, width: 32 },
-
       position: positions[0],
       draggable: true,
       title: 'Drag me!'
@@ -121,10 +118,6 @@ export class MapService {
       ]
     });
     this.markerCluster.trigger(GoogleMapsEvent.MARKER_CLICK);
-    // this.markerCluster.on(GoogleMapsEvent.MARKER_CLICK).subscribe(params => {
-    //   const marker: Marker = params[1];
-    //   this.htmlInfoWindow.open(marker);
-    // });
   }
 
   drawCircle(circle: Circle, marker: Marker) {
@@ -148,17 +141,15 @@ export class MapService {
         lat: data.coordinates.coordinates[0][1],
         lng: data.coordinates.coordinates[0][0]
       },
-      // name: this.infoWindowMarker(data, period),
-      title: `<tr><td style="font-size:110%">Name: ${data.name}</td></tr>
+      title: `<table><tr><td style="font-size:110%">Name: ${data.name}</td></tr>
       <tr><td style="font-size:90%">Rank: ${rank.rank.toString()}</td></tr>
       <tr>
         <td style="font-size:80%">
           last update:${rank.lastUpdate.getDate()}/${rank.lastUpdate.getMonth()}/${rank.lastUpdate.getFullYear()}
         </td>
-      </tr>`,
+      </tr></table>`,
       snippet: '',
       icon: color
-      // title: ''
     };
   }
 

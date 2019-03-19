@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HospitalService } from '../../services/hospital/hospital.service';
 import { Platform } from '@ionic/angular';
-import { MapService } from './map.service';
+import { MapService, Period } from './map.service';
 
 @Component({
   selector: 'app-tab1',
@@ -16,6 +16,7 @@ export class Tab1Page implements OnInit {
   ) {}
   hospitals: Array<any>;
   myHospital: any;
+  period: Period = 'month';
 
   async ngOnInit() {
     await this.getMyHospital();
@@ -39,7 +40,7 @@ export class Tab1Page implements OnInit {
 
   async getMyHospital() {
     this.myHospital = await this.hospitalService.getMyHospital();
-    this.mapService.setMyHospital(this.myHospital);
+    this.mapService.setMyHospital(this.myHospital, this.period);
   }
   async getNearbyHospitals(lat: number, lng: number, radius: number) {
     this.hospitals = await this.hospitalService.getHospitalsNearby(
@@ -58,11 +59,13 @@ export class Tab1Page implements OnInit {
       ),
       1
     );
-
-    this.mapService.setNearbyHospitals(this.hospitals);
+    this.mapService.setNearbyHospitals(this.hospitals, this.period);
   }
 
   segmentChanged(e) {
-    console.log(e.detail.value);
+    this.period = e.detail.value;
+    this.mapService.setMyHospital(this.myHospital, this.period);
+    this.mapService.setNearbyHospitals(this.hospitals, this.period);
+    this.mapService.fillCluster();
   }
 }
