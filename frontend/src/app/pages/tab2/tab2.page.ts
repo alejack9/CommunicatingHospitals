@@ -11,7 +11,7 @@ import { ChartPage } from '../chart/chart.page';
   styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page implements OnInit {
-  items;
+  types;
   value = 0;
 
   selectedString: string;
@@ -23,10 +23,10 @@ export class Tab2Page implements OnInit {
   ) {}
 
   async ngOnInit() {
-    // this.items = await this.preprationService.getPreparationTypes();
+    this.types = await this.preprationService.getPreparationTypes();
   }
 
-  onSelect(item: string): void {
-    this.route.navigate(['tab2/' + item]);
+  onSelect(type: string): void {
+    this.route.navigate(['chart/' + type]);
   }
 }

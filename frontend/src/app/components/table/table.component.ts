@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { PreparationService } from 'src/app/services/preparation/preparation.service';
 import { Preparation } from 'src/app/common/interfaces/preparation.interface';
 
@@ -9,33 +9,31 @@ import { Preparation } from 'src/app/common/interfaces/preparation.interface';
 })
 export class TableComponent implements OnInit {
   constructor(private preparationService: PreparationService) {}
-  private numberofPrepratarions = new Array<String>();
-  preparation: Preparation[];
+  preparations: Preparation[] | any;
   private date = Array<String>();
 
-  ngOnInit() {
-    this.getPrepration();
+  // tslint:disable-next-line:no-input-rename
+  @Input('type') type: string;
+
+  async ngOnInit() {
+    await this.getPreprations();
   }
 
-  // take numberofPrepration and date to object Preparation
-  charData(p: Preparation[]) {
-    p.forEach(e => {
-      this.numberofPrepratarions.push(e.numberOfPreparations.toString());
-      this.date.push(e.date.toString());
-    });
-  }
-
-  async getPrepration() {
-    // this.id = this.navParams.get('item');
-    // this.passedId = this.route.snapshot.paramMap.get('item');
-    // console.log(this.id);
-    this.preparation = await this.preparationService.getPrepration(
-      'Drops',
+  async getPreprations() {
+    this.preparations = await this.preparationService.getPrepration(
+      this.type,
       new Date(2019, 1, 1),
       new Date(2019, 12, 31)
     );
-    console.log(this.preparation);
-    this.charData(this.preparation);
-    console.log(this.preparation[0].numberOfPreparations);
+
+    console.log(this.preparations);
+
+    this.preparations = this.preparations.map(p => {
+      return {
+        date: `${new Date(p.date).getDate()}/${new Date(p.date).getMonth() +
+          1}/${new Date(p.date).getFullYear()}`,
+        numberOfPreparations: p.numberOfPreparations
+      };
+    });
   }
 }

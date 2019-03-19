@@ -3,7 +3,6 @@ import { AuthService } from '../auth/auth.service';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { PreparationType } from 'src/app/common/interfaces/preparationType.interface';
-import { DatePipe } from '@angular/common';
 import { Preparation } from 'src/app/common/interfaces/preparation.interface';
 
 @Injectable({
@@ -29,13 +28,12 @@ export class PreparationService {
       .set('start', start.toISOString())
       .set('end', end.toISOString());
 
-    const tor = (await this.http
+    return (await this.http
       .get(environment.BACKEND + 'preparations/' + type, {
         headers: this.headers,
         params
       })
       .toPromise()) as Array<Preparation>;
-    return tor;
   }
 
   extractData(p: Preparation[]) {

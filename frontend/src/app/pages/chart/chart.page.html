@@ -1,7 +1,7 @@
-<app-header title="Graphics"> </app-header>
+<app-header [title]="type"> </app-header>
 <ion-content>
   <section>
-    <app-chart></app-chart>
-    <app-table></app-table>
+    <app-chart [type]="type"></app-chart>
+    <app-table [type]="type"></app-table>
   </section>
 </ion-content>

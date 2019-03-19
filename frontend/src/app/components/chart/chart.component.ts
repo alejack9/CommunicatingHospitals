@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { PreparationService } from 'src/app/services/preparation/preparation.service';
-import { ActivatedRoute } from '@angular/router';
 
 import { Preparation } from 'src/app/common/interfaces/preparation.interface';
 
@@ -12,14 +11,14 @@ import { Preparation } from 'src/app/common/interfaces/preparation.interface';
 export class ChartComponent implements OnInit {
   private data = new Array<String>();
   preparation: Preparation[];
-  private barChartLabels = new Array<String>();
+  barChartLabels = new Array<String>();
 
-  constructor(
-    private preparationService: PreparationService,
-    private route: ActivatedRoute
-  ) {}
+  // tslint:disable-next-line:no-input-rename
+  @Input('type') type: string;
 
-  public barChartOptions = {
+  constructor(private preparationService: PreparationService) {}
+
+  barChartOptions = {
     scaleShowVerticalLines: false,
     responsive: true
   };
@@ -27,31 +26,29 @@ export class ChartComponent implements OnInit {
   public barChartType = 'bar';
   public barChartLegend = true;
 
-  public barChartData: any[] = [{ data: [], label: 'Serie A' }];
+  public barChartData: any[] = [{ data: [], label: 'Preparations' }];
 
   async ngOnInit() {
     await this.getPrepration();
   }
 
-  // take numberofPrepration and date to object Preparation
   fillData(p: Preparation[]) {
     const ex = this.preparationService.extractData(p);
     ex.forEach(e => {
       this.data.push(e.numberOfPreparations.toString());
-      this.barChartLabels.push(e.date.toString());
+      this.barChartLabels.push(
+        `${new Date(e.date).getDate()}/${new Date(e.date).getMonth() + 1}`
+      );
     });
   }
 
   async getPrepration() {
-    // this.id = this.navParams.get('item');
-    // this.passedId = this.route.snapshot.paramMap.get('item');
-    // console.log(this.id);
     this.preparation = await this.preparationService.getPrepration(
-      'Drops',
+      this.type,
       new Date(2019, 1, 1),
       new Date(2019, 12, 31)
     );
     this.fillData(this.preparation);
-    this.barChartData = [{ data: this.data, label: 'Serie A' }];
+    this.barChartData = [{ data: this.data, label: 'Preparations' }];
   }
 }

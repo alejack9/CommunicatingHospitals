@@ -19,14 +19,9 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'chart',
+    path: 'chart/:type',
     loadChildren: './pages/chart/chart.module#ChartPageModule',
     canActivate: [LoggedGuard]
-  },
-  {
-    path: 'tab2/:id',
-    redirectTo: 'chart',
-    pathMatch: 'full'
   },
   {
     path: 'login',
