@@ -120,7 +120,7 @@ export class MapService {
         }
       ]
     });
-
+    this.markerCluster.trigger(GoogleMapsEvent.MARKER_CLICK);
     // this.markerCluster.on(GoogleMapsEvent.MARKER_CLICK).subscribe(params => {
     //   const marker: Marker = params[1];
     //   this.htmlInfoWindow.open(marker);
@@ -141,38 +141,45 @@ export class MapService {
     color: string = 'red',
     period: Period = 'month'
   ): MarkerOptions {
+    const rank = data.averageRanks.find(e => e.period === period);
+    rank.lastUpdate = new Date(rank.lastUpdate);
     return {
       position: {
         lat: data.coordinates.coordinates[0][1],
         lng: data.coordinates.coordinates[0][0]
       },
       // name: this.infoWindowMarker(data, period),
-      name: '<h1>ciai</h1><br/><br/>ciao',
-      snippet: '',
-      icon: color,
-      title: ''
-    };
-  }
-
-  infoWindowMarker(data: Hospital, period: Period = 'month') {
-    const rank = data.averageRanks.find(e => e.period === period);
-
-    this.htmlInfoWindow = new HtmlInfoWindow();
-    rank.lastUpdate = new Date(rank.lastUpdate);
-
-    const frame: HTMLElement = document.createElement('table');
-    frame.style.width = '100%';
-    frame.innerHTML = `
-      <tr><td style="font-size:110%">Name: ${data.name}</td></tr>
+      title: `<tr><td style="font-size:110%">Name: ${data.name}</td></tr>
       <tr><td style="font-size:90%">Rank: ${rank.rank.toString()}</td></tr>
       <tr>
         <td style="font-size:80%">
           last update:${rank.lastUpdate.getDate()}/${rank.lastUpdate.getMonth()}/${rank.lastUpdate.getFullYear()}
         </td>
-      </tr>
-    `;
-    this.htmlInfoWindow.setContent(frame, {
-      width: '170px'
-    });
+      </tr>`,
+      snippet: '',
+      icon: color
+      // title: ''
+    };
   }
+
+  // infoWindowMarker(data: Hospital, period: Period = 'month') {
+  //   const rank = data.averageRanks.find(e => e.period === period);
+  //   rank.lastUpdate = new Date(rank.lastUpdate);
+  //   this.htmlInfoWindow = new HtmlInfoWindow();
+
+  //   const frame: HTMLElement = document.createElement('table');
+  //   frame.style.width = '100%';
+  //   frame.innerHTML = `
+  //     <tr><td style="font-size:110%">Name: ${data.name}</td></tr>
+  //     <tr><td style="font-size:90%">Rank: ${rank.rank.toString()}</td></tr>
+  //     <tr>
+  //       <td style="font-size:80%">
+  //         last update:${rank.lastUpdate.getDate()}/${rank.lastUpdate.getMonth()}/${rank.lastUpdate.getFullYear()}
+  //       </td>
+  //     </tr>
+  //   `;
+  //   this.htmlInfoWindow.setContent(frame, {
+  //     width: '170px'
+  //   });
+  // }
 }

@@ -41,6 +41,8 @@ export class AppComponent {
         console.log('changed ' + s);
         this.router.navigate([s ? 'tabs' : 'login']);
       });
+      // FOR DEP
+      this.authService.authenticationState.next(true);
     });
   }
 }

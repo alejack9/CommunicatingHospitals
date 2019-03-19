@@ -14,10 +14,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from './services/auth/auth.service';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { ChartsModule } from 'ng2-charts';
-import { ChartComponent } from './component/chart/chart.component';
+// import { ChartComponent } from './component/chart/chart.component';
 
 @NgModule({
-  declarations: [AppComponent, ChartComponent],
+  declarations: [
+    AppComponent
+    //  ChartComponent
+  ],
   entryComponents: [],
   imports: [
     BrowserModule,
