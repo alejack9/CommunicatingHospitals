@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { PreparationService } from 'src/app/services/preparation/preparation.service';
+import { NavController } from '@ionic/angular';
+import { ChartPage } from '../chart/chart.page';
 
 @Component({
   selector: 'app-tab2',
@@ -8,16 +11,24 @@ import { Router } from '@angular/router';
   styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page implements OnInit {
-  items = ['Drops', 'Liquid', 'Supposte', 'Siringhe'];
+  items;
+  value = 0;
 
   selectedString: string;
 
-  constructor(private route: Router) {}
+  constructor(
+    private route: Router,
+    private preprationService: PreparationService,
+    private navController: NavController
+  ) {}
 
-  ngOnInit() {}
+  async ngOnInit() {
+    this.items = await this.preprationService.getPreparationTypes();
+  }
 
   onSelect(item: string): void {
-    this.route.navigate(['/tab2/' + item]);
+    this.route.navigate(['tab2/' + item]);
+    // .id = item;
     console.log(item);
   }
 }
