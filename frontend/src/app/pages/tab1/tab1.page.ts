@@ -45,7 +45,7 @@ export class Tab1Page implements OnInit {
 
   async getMyHospital() {
     this.myHospital = await this.hospitalService.getMyHospital();
-    this.mapService.myHospital = this.myHospital;
+    this.mapService.setMyHospital(this.myHospital);
   }
   async getNearbyHospitals(lat: number, lng: number, radius: number) {
     this.hospitals = await this.hospitalService.getHospitalsNearby(
@@ -65,6 +65,6 @@ export class Tab1Page implements OnInit {
       1
     );
 
-    this.mapService.nearbyHospitals = this.hospitals;
+    this.mapService.setNearbyHospitals(this.hospitals);
   }
 }
