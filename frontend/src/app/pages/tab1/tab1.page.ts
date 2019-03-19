@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HospitalService } from '../../services/hospital/hospital.service';
 import { Platform } from '@ionic/angular';
-import { MapService } from './map.service';
+import { MapService, Period } from './map.service';
 
 @Component({
   selector: 'app-tab1',
@@ -9,7 +9,6 @@ import { MapService } from './map.service';
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page implements OnInit {
-  public pepperoni = true;
   constructor(
     private platform: Platform,
     private hospitalService: HospitalService,
@@ -17,6 +16,7 @@ export class Tab1Page implements OnInit {
   ) {}
   hospitals: Array<any>;
   myHospital: any;
+  period: Period = 'month';
 
   async ngOnInit() {
     await this.getMyHospital();
@@ -38,14 +38,9 @@ export class Tab1Page implements OnInit {
     });
   }
 
-  // ION CHANGE TOOGLE
-  change() {
-    console.log(this.pepperoni);
-  }
-
   async getMyHospital() {
     this.myHospital = await this.hospitalService.getMyHospital();
-    this.mapService.myHospital = this.myHospital;
+    this.mapService.setMyHospital(this.myHospital, this.period);
   }
   async getNearbyHospitals(lat: number, lng: number, radius: number) {
     this.hospitals = await this.hospitalService.getHospitalsNearby(
@@ -64,7 +59,13 @@ export class Tab1Page implements OnInit {
       ),
       1
     );
+    this.mapService.setNearbyHospitals(this.hospitals, this.period);
+  }
 
-    this.mapService.nearbyHospitals = this.hospitals;
+  segmentChanged(e) {
+    this.period = e.detail.value;
+    this.mapService.setMyHospital(this.myHospital, this.period);
+    this.mapService.setNearbyHospitals(this.hospitals, this.period);
+    this.mapService.fillCluster();
   }
 }

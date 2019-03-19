@@ -23,7 +23,7 @@ export class Tab2Page implements OnInit {
   ) {}
 
   async ngOnInit() {
-    this.items = await this.preprationService.getPreparationTypes();
+    // this.items = await this.preprationService.getPreparationTypes();
   }
 
   onSelect(item: string): void {

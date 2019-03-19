@@ -29,89 +29,23 @@ export class MapService {
   private myHospitalMarker: MarkerOptions;
   private markerCluster: MarkerCluster;
 
-  set myHospital(v: any) {
-    this.myHospitalMarker = this.objectToMarker(v, 'blue');
-  }
-
-  get myHospital() {
+  getMyHospital(): MarkerOptions {
     return this.myHospitalMarker;
   }
 
-  set nearbyHospitals(v: any[]) {
+  setMyHospital(v: Hospital, period: Period) {
+    this.myHospitalMarker = this.objectToMarker(v, 'blue', period);
+  }
+
+  setNearbyHospitals(v: Hospital[], period: Period) {
     this.hospitalsMarkers = [];
     v.forEach(e => {
-      this.hospitalsMarkers.push(this.objectToMarker(e));
+      this.hospitalsMarkers.push(this.objectToMarker(e, undefined, period));
     });
   }
-  get nearbyHospitals() {
+
+  getNearbyHospitals(): MarkerOptions[] {
     return this.hospitalsMarkers;
-  }
-
-  private objectToMarker(
-    data: Hospital,
-    color: string = 'red',
-    period: Period = 'month'
-  ): MarkerOptions {
-    return {
-      position: {
-        lat: data.coordinates.coordinates[0][1],
-        lng: data.coordinates.coordinates[0][0]
-      },
-      // name: this.infoWindowMarker(data, period),
-      name: '<h1>ciai</h1><br/><br/>ciao',
-      snippet: '',
-      icon: color,
-      title: ''
-    };
-  }
-
-  infoWindowMarker(data: Hospital, period: Period = 'month') {
-    const rank = data.averageRanks.find(e => e.period === period);
-
-    this.htmlInfoWindow = new HtmlInfoWindow();
-    rank.lastUpdate = new Date(rank.lastUpdate);
-
-    const frame: HTMLElement = document.createElement('table');
-    frame.style.width = '100%';
-    frame.innerHTML = `
-      <tr><td style="font-size:110%">Name: ${data.name}</td></tr>
-      <tr><td style="font-size:90%">Rank: ${rank.rank.toString()}</td></tr>
-      <tr>
-        <td style="font-size:80%">
-          last update:${rank.lastUpdate.getDate()}/${rank.lastUpdate.getMonth()}/${rank.lastUpdate.getFullYear()}
-        </td>
-      </tr>
-    `;
-    this.htmlInfoWindow.setContent(frame, {
-      width: '170px'
-    });
-  }
-
-  fillCluster() {
-    if (this.markerCluster) {
-      this.markerCluster.remove();
-    }
-    this.markerCluster = this.map.addMarkerClusterSync({
-      markers: [...this.hospitalsMarkers, this.myHospitalMarker],
-      icons: [
-        {
-          min: 3,
-          max: 9,
-          url: './assets/small.png',
-          label: { color: 'white' }
-        },
-        {
-          min: 10,
-          url: './assets/large.png',
-          label: { color: 'white' }
-        }
-      ]
-    });
-
-    // this.markerCluster.on(GoogleMapsEvent.MARKER_CLICK).subscribe(params => {
-    //   const marker: Marker = params[1];
-    //   this.htmlInfoWindow.open(marker);
-    // });
   }
 
   loadMap(): Observable<any> {
@@ -141,9 +75,6 @@ export class MapService {
 
     const marker: Marker = this.map.addMarkerSync({
       icon: 'green',
-      // url: '../../assets/bound.png',
-      // size: { height: 32, width: 32 },
-
       position: positions[0],
       draggable: true,
       title: 'Drag me!'
@@ -166,6 +97,29 @@ export class MapService {
     );
   }
 
+  fillCluster() {
+    if (this.markerCluster) {
+      this.markerCluster.remove();
+    }
+    this.markerCluster = this.map.addMarkerClusterSync({
+      markers: [...this.hospitalsMarkers, this.myHospitalMarker],
+      icons: [
+        {
+          min: 3,
+          max: 9,
+          url: './assets/small.png',
+          label: { color: 'white' }
+        },
+        {
+          min: 10,
+          url: './assets/large.png',
+          label: { color: 'white' }
+        }
+      ]
+    });
+    this.markerCluster.trigger(GoogleMapsEvent.MARKER_CLICK);
+  }
+
   drawCircle(circle: Circle, marker: Marker) {
     const newValue: ILatLng = marker.getPosition();
     const newRadius: number = Spherical.computeDistanceBetween(
@@ -174,4 +128,49 @@ export class MapService {
     );
     circle.setRadius(newRadius);
   }
+
+  private objectToMarker(
+    data: Hospital,
+    color: string = 'red',
+    period: Period = 'month'
+  ): MarkerOptions {
+    const rank = data.averageRanks.find(e => e.period === period);
+    rank.lastUpdate = new Date(rank.lastUpdate);
+    return {
+      position: {
+        lat: data.coordinates.coordinates[0][1],
+        lng: data.coordinates.coordinates[0][0]
+      },
+      title: `<table><tr><td style="font-size:110%">Name: ${data.name}</td></tr>
+      <tr><td style="font-size:90%">Rank: ${rank.rank.toString()}</td></tr>
+      <tr>
+        <td style="font-size:80%">
+          last update:${rank.lastUpdate.getDate()}/${rank.lastUpdate.getMonth()}/${rank.lastUpdate.getFullYear()}
+        </td>
+      </tr></table>`,
+      snippet: '',
+      icon: color
+    };
+  }
+
+  // infoWindowMarker(data: Hospital, period: Period = 'month') {
+  //   const rank = data.averageRanks.find(e => e.period === period);
+  //   rank.lastUpdate = new Date(rank.lastUpdate);
+  //   this.htmlInfoWindow = new HtmlInfoWindow();
+
+  //   const frame: HTMLElement = document.createElement('table');
+  //   frame.style.width = '100%';
+  //   frame.innerHTML = `
+  //     <tr><td style="font-size:110%">Name: ${data.name}</td></tr>
+  //     <tr><td style="font-size:90%">Rank: ${rank.rank.toString()}</td></tr>
+  //     <tr>
+  //       <td style="font-size:80%">
+  //         last update:${rank.lastUpdate.getDate()}/${rank.lastUpdate.getMonth()}/${rank.lastUpdate.getFullYear()}
+  //       </td>
+  //     </tr>
+  //   `;
+  //   this.htmlInfoWindow.setContent(frame, {
+  //     width: '170px'
+  //   });
+  // }
 }
