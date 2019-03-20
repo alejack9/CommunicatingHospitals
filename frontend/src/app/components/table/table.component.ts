@@ -20,7 +20,7 @@ export class TableComponent implements OnInit {
   }
 
   async getPreprations() {
-    this.preparations = await this.preparationService.getPrepration(
+    this.preparations = await this.preparationService.getPreprations(
       this.type,
       new Date(2019, 1, 1),
       new Date(2019, 12, 31)

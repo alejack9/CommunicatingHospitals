@@ -1,7 +1,32 @@
 <app-header [title]="type"> </app-header>
 <ion-content>
+  <ion-row>
+    <ion-col>
+      <ion-label> Start Date</ion-label>
+      <ion-datetime
+        displayFormat="MMMM DD YYYY"
+        placeholder="Select Date"
+        [(ngModel)]="startDate"
+        (ionChange)="dateChanged($event)"
+      ></ion-datetime>
+    </ion-col>
+    <ion-col>
+      <ion-label> End Date</ion-label>
+      <ion-datetime
+        displayFormat="MMMM DD YYYY"
+        placeholder="Select Date"
+        [(ngModel)]="endDate"
+        [min]="startDate"
+        (ionChange)="dateChanged($event)"
+      ></ion-datetime>
+    </ion-col>
+  </ion-row>
   <section>
-    <app-chart [type]="type"></app-chart>
+    <app-chart
+      [type]="type"
+      [startDate]="startDate"
+      [endDate]="endDate"
+    ></app-chart>
     <app-table [type]="type"></app-table>
   </section>
 </ion-content>

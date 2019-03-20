@@ -23,7 +23,7 @@ export class PreparationService {
       .toPromise();
   }
 
-  async getPrepration(type: PreparationType, start: Date, end: Date) {
+  async getPreprations(type: PreparationType, start: Date, end: Date) {
     const params = new HttpParams()
       .set('start', start.toISOString())
       .set('end', end.toISOString());

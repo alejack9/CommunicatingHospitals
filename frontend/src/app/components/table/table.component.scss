@@ -1,18 +1,30 @@
 .Firstrow {
-  background: grey;
+  background: #150578;
   border: 0.5px solid transparent;
   //padding-top: 0.5em;
   //padding-bottom: 0.5em;
   //margin: 1em 0;
   //padding-left: 1em;
+  color: white;
 }
-.row {
-  background: rgb(241, 213, 213);
-  border: 2px solid transparent;
-  // padding-top: 0.5em;
-  //padding-bottom: 0.5em;
-  //margin: 1em 0;
+// .row {
+//   background: rgb(126, 170, 221);
+//   border: 2px solid transparent;
+//   // padding-top: 0.5em;
+//   //padding-bottom: 0.5em;
+//   //margin: 1em 0;
+ion-grid {
+  background-color: rgba(0, 0, 0, 0);
 }
+.even {
+  background: #4547ef;
+  color: white;
+}
+.odd {
+  background: #87bfff;
+  // color: white;
+}
+// }
 .title {
   margin-left: 1px;
 }
