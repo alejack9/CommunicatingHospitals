@@ -56,6 +56,11 @@ export class PreparationsService {
               .toDate(),
           },
         },
+        {
+          sort: {
+            date: 1,
+          },
+        },
       )
       .exec()).preparations;
   }
