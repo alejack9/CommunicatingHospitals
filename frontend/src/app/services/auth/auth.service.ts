@@ -55,7 +55,7 @@ export class AuthService {
   }
 
   login() {
-    this.browser = this.iab.create(this.url, '_blank');
+    this.browser = this.iab.create(this.url, '_blank', 'location=no,clearsessioncache=yes');
     this.browser.on('loadstart').subscribe(e => {
       if (e.url.indexOf(environment.AUTH0_REDIRECTURL) === 0) {
         this.fillFields(
