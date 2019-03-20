@@ -1,4 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  OnChanges,
+  SimpleChanges
+} from '@angular/core';
 import { PreparationService } from 'src/app/services/preparation/preparation.service';
 import { Preparation } from 'src/app/common/interfaces/preparation.interface';
 
@@ -7,23 +13,29 @@ import { Preparation } from 'src/app/common/interfaces/preparation.interface';
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss']
 })
-export class TableComponent implements OnInit {
+export class TableComponent implements OnInit, OnChanges {
   constructor(private preparationService: PreparationService) {}
   preparations: Preparation[] | any;
   private date = Array<String>();
 
   // tslint:disable-next-line:no-input-rename
   @Input('type') type: string;
+  // tslint:disable-next-line:no-input-rename
+  @Input('startDate') startDate: Date;
+  // tslint:disable-next-line:no-input-rename
+  @Input('endDate') endDate: Date;
 
   async ngOnInit() {
     await this.getPreprations();
   }
-
+  async ngOnChanges(changes: SimpleChanges) {
+    await this.getPreprations();
+  }
   async getPreprations() {
     this.preparations = await this.preparationService.getPreprations(
       this.type,
-      new Date(2019, 1, 1),
-      new Date(2019, 12, 31)
+      new Date(this.startDate),
+      new Date(this.endDate)
     );
 
     console.log(this.preparations);

@@ -1,9 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  ILatLng,
-  Spherical,
-  HtmlInfoWindow
-} from '@ionic-native/google-maps/ngx';
+import { ILatLng, Spherical } from '@ionic-native/google-maps/ngx';
 import {
   GoogleMap,
   Marker,
@@ -51,16 +47,16 @@ export class MapService {
     this.map = GoogleMaps.create('map_canvas');
     this.map.moveCamera({
       target: {
-        lat: this.myHospitalMarker.getPosition().lat,
-        lng: this.myHospitalMarker.getPosition().lng
+        lat: this.myHospitalMarker.position.lat,
+        lng: this.myHospitalMarker.position.lng
       },
       zoom: 8
     });
     this.fillCluster();
     const circle: Circle = this.map.addCircleSync({
       center: {
-        lat: this.myHospitalMarker.getPosition().lat,
-        lng: this.myHospitalMarker.getPosition().lng
+        lat: this.myHospitalMarker.position.lat,
+        lng: this.myHospitalMarker.position.lng
       },
       radius: 100 * 1000,
       fillColor: 'rgba(0,0,0,0.2)',
@@ -88,8 +84,8 @@ export class MapService {
     return marker.on(GoogleMapsEvent.MARKER_DRAG_END).pipe(
       map(par => {
         return {
-          lat: this.myHospitalMarker.getPosition().lat,
-          lng: this.myHospitalMarker.getPosition().lng,
+          lat: this.myHospitalMarker.position.lat,
+          lng: this.myHospitalMarker.position.lng,
           radius: circle.getRadius()
         };
       })
@@ -117,7 +113,9 @@ export class MapService {
       ]
     });
     this.markerCluster.on(GoogleMapsEvent.MARKER_CLICK).subscribe(m => {
-      this.infoWindowMarker(m.titles).open(m);
+      if (m[1]) {
+        m[1].showInfoWindow();
+      }
     });
     this.markerCluster.trigger(GoogleMapsEvent.MARKER_CLICK);
   }
@@ -143,25 +141,21 @@ export class MapService {
         lat: data.coordinates.coordinates[0][1],
         lng: data.coordinates.coordinates[0][0]
       },
-      title: `<table><tr><td style="font-size:110%">Name: ${data.name}</td></tr>
-      <tr><td style="font-size:90%">Rank: ${rank.rank.toString()}</td></tr>
-      <tr>
-        <td style="font-size:80%">
-          last update:${rank.lastUpdate.getDate()}/${rank.lastUpdate.getMonth()}/${rank.lastUpdate.getFullYear()}
-        </td>
-      </tr></table>`,
+      styles: {
+        'text-align': 'center'
+      },
+      title:
+        'Name: ' +
+        data.name +
+        '\nRank: ' +
+        (rank.rank + 1).toString() +
+        '\nlast update: ' +
+        rank.lastUpdate.getDate() +
+        '/' +
+        rank.lastUpdate.getMonth() +
+        '/' +
+        rank.lastUpdate.getFullYear(),
       icon: color
     };
-  }
-
-  infoWindowMarker(html: string) {
-    const htmlInfoWindow = new HtmlInfoWindow();
-    const frame: HTMLElement = document.createElement('table');
-    frame.style.width = '100%';
-    frame.innerHTML = html;
-    htmlInfoWindow.setContent(frame, {
-      width: '170px'
-    });
-    return htmlInfoWindow;
   }
 }
