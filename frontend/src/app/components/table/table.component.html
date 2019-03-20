@@ -1,22 +1,22 @@
 <ion-grid>
   <ion-row justify-content-start class="Firstrow">
-    <ion-col>
+    <ion-col style="text-align: center">
       <ion-label>
         Date
       </ion-label>
     </ion-col>
-    <ion-col>
+    <ion-col style="text-align: center">
       <ion-label>Number of Preparations</ion-label>
     </ion-col>
   </ion-row>
   <ion-row
-    *ngFor="let prep of preparations; let odd = odd"
+    *ngFor="let prep of data; let odd = odd"
     [class]="odd ? 'odd' : 'even'"
   >
-    <ion-col>
+    <ion-col style="text-align: center">
       {{ prep.date }}
     </ion-col>
-    <ion-col>
+    <ion-col style="text-align: center">
       {{ prep.numberOfPreparations }}
     </ion-col>
   </ion-row>

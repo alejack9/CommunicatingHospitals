@@ -22,15 +22,7 @@
     </ion-col>
   </ion-row>
   <section>
-    <app-chart
-      [type]="type"
-      [startDate]="startDate"
-      [endDate]="endDate"
-    ></app-chart>
-    <app-table
-      [type]="type"
-      [startDate]="startDate"
-      [endDate]="endDate"
-    ></app-table>
+    <app-chart [preparations]="preparations"></app-chart>
+    <app-table [preparations]="preparations"></app-table>
   </section>
 </ion-content>

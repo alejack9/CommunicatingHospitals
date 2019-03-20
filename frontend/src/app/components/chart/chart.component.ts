@@ -16,15 +16,10 @@ import { Preparation } from 'src/app/common/interfaces/preparation.interface';
 })
 export class ChartComponent implements OnInit, OnChanges {
   private data = new Array<String>();
-  preparations: Preparation[];
-  barChartLabels = new Array<String>();
 
   // tslint:disable-next-line:no-input-rename
-  @Input('type') type: string;
-  // tslint:disable-next-line:no-input-rename
-  @Input('startDate') startDate: Date;
-  // tslint:disable-next-line:no-input-rename
-  @Input('endDate') endDate: Date;
+  @Input('preparations') preparations: Preparation[];
+  barChartLabels = new Array<String>();
 
   constructor(private preparationService: PreparationService) {}
 
@@ -41,11 +36,15 @@ export class ChartComponent implements OnInit, OnChanges {
   public barChartData: any[] = [{ data: [], label: 'Preparations' }];
 
   async ngOnInit() {
-    await this.getPreprations();
+    if (this.preparations) {
+      await this.getPreprations();
+    }
   }
 
   async ngOnChanges(changes: SimpleChanges) {
-    await this.getPreprations();
+    if (this.preparations) {
+      await this.getPreprations();
+    }
   }
 
   fillData(p: Preparation[]) {
@@ -61,11 +60,6 @@ export class ChartComponent implements OnInit, OnChanges {
   }
 
   async getPreprations() {
-    this.preparations = await this.preparationService.getPreprations(
-      this.type,
-      new Date(this.startDate),
-      new Date(this.endDate)
-    );
     this.fillData(this.preparations);
     this.barChartData = [{ data: this.data, label: 'Preparations' }];
   }
