@@ -7,11 +7,11 @@ import {
 import {
   GoogleMap,
   Marker,
-  MarkerOptions,
   MarkerCluster,
   GoogleMapsEvent,
   GoogleMaps,
-  Circle
+  Circle,
+  MarkerOptions
 } from '@ionic-native/google-maps';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -23,7 +23,6 @@ export type Period = 'month' | 'year';
   providedIn: 'root'
 })
 export class MapService {
-  private htmlInfoWindow: HtmlInfoWindow;
   private map: GoogleMap;
   private hospitalsMarkers: Array<MarkerOptions>;
   private myHospitalMarker: MarkerOptions;
@@ -52,16 +51,16 @@ export class MapService {
     this.map = GoogleMaps.create('map_canvas');
     this.map.moveCamera({
       target: {
-        lat: this.myHospitalMarker.position.lat,
-        lng: this.myHospitalMarker.position.lng
+        lat: this.myHospitalMarker.getPosition().lat,
+        lng: this.myHospitalMarker.getPosition().lng
       },
       zoom: 8
     });
     this.fillCluster();
     const circle: Circle = this.map.addCircleSync({
       center: {
-        lat: this.myHospitalMarker.position.lat,
-        lng: this.myHospitalMarker.position.lng
+        lat: this.myHospitalMarker.getPosition().lat,
+        lng: this.myHospitalMarker.getPosition().lng
       },
       radius: 100 * 1000,
       fillColor: 'rgba(0,0,0,0.2)',
@@ -89,8 +88,8 @@ export class MapService {
     return marker.on(GoogleMapsEvent.MARKER_DRAG_END).pipe(
       map(par => {
         return {
-          lat: this.myHospitalMarker.position.lat,
-          lng: this.myHospitalMarker.position.lng,
+          lat: this.myHospitalMarker.getPosition().lat,
+          lng: this.myHospitalMarker.getPosition().lng,
           radius: circle.getRadius()
         };
       })
@@ -116,6 +115,9 @@ export class MapService {
           label: { color: 'white' }
         }
       ]
+    });
+    this.markerCluster.on(GoogleMapsEvent.MARKER_CLICK).subscribe(m => {
+      this.infoWindowMarker(m.titles).open(m);
     });
     this.markerCluster.trigger(GoogleMapsEvent.MARKER_CLICK);
   }
@@ -148,29 +150,18 @@ export class MapService {
           last update:${rank.lastUpdate.getDate()}/${rank.lastUpdate.getMonth()}/${rank.lastUpdate.getFullYear()}
         </td>
       </tr></table>`,
-      snippet: '',
       icon: color
     };
   }
 
-  // infoWindowMarker(data: Hospital, period: Period = 'month') {
-  //   const rank = data.averageRanks.find(e => e.period === period);
-  //   rank.lastUpdate = new Date(rank.lastUpdate);
-  //   this.htmlInfoWindow = new HtmlInfoWindow();
-
-  //   const frame: HTMLElement = document.createElement('table');
-  //   frame.style.width = '100%';
-  //   frame.innerHTML = `
-  //     <tr><td style="font-size:110%">Name: ${data.name}</td></tr>
-  //     <tr><td style="font-size:90%">Rank: ${rank.rank.toString()}</td></tr>
-  //     <tr>
-  //       <td style="font-size:80%">
-  //         last update:${rank.lastUpdate.getDate()}/${rank.lastUpdate.getMonth()}/${rank.lastUpdate.getFullYear()}
-  //       </td>
-  //     </tr>
-  //   `;
-  //   this.htmlInfoWindow.setContent(frame, {
-  //     width: '170px'
-  //   });
-  // }
+  infoWindowMarker(html: string) {
+    const htmlInfoWindow = new HtmlInfoWindow();
+    const frame: HTMLElement = document.createElement('table');
+    frame.style.width = '100%';
+    frame.innerHTML = html;
+    htmlInfoWindow.setContent(frame, {
+      width: '170px'
+    });
+    return htmlInfoWindow;
+  }
 }
