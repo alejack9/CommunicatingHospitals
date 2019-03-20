@@ -43,7 +43,7 @@ export class AuthService {
         localStorage.getItem('id_token')
       );
       const isExpired = this.helper.isTokenExpired(
-        localStorage.getItem('acess_token')
+        localStorage.getItem('access_token')
       );
       if (!isExpired) {
         this.user = decodedUser;
@@ -58,13 +58,21 @@ export class AuthService {
     this.browser = this.iab.create(this.url, '_blank');
     this.browser.on('loadstart').subscribe(e => {
       if (e.url.indexOf(environment.AUTH0_REDIRECTURL) === 0) {
-        localStorage.setItem('access_token', this.extractAccessToken(e.url));
-        localStorage.setItem('id_token', this.extractIdToken(e.url));
+        this.fillFields(
+          this.extractAccessToken(e.url),
+          this.extractIdToken(e.url)
+        );
         this.browser.close();
         this.authenticationState.next(true);
       }
     });
     this.browser.show();
+  }
+
+  private fillFields(accessToken: string, idToken: string) {
+    localStorage.setItem('access_token', accessToken);
+    localStorage.setItem('id_token', idToken);
+    this.user = this.helper.decodeToken(idToken);
   }
 
   logout() {
@@ -98,10 +106,6 @@ export class AuthService {
   get access_token() {
     return localStorage.getItem('access_token');
   }
-
-  // get id_token() {
-  //   return localStorage.getItem('id_token');
-  // }
 
   get profile() {
     return this.user;
