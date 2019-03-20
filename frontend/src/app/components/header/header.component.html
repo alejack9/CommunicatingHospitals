@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-row>
+      <ion-col>
+        <ion-title>
+          {{ title }}
+        </ion-title>
+      </ion-col>
+      <ion-col>
+        {{ getProfile().name }}
+        <img [src]="getProfile().picture" width="40" />
+        <ion-button
+          shape="round"
+          fill="outline"
+          color="light"
+          (click)="logout()"
+          >Logout</ion-button
+        >
+        <!-- </span> -->
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-header>

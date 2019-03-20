@@ -1,0 +1,9 @@
+<app-header title="List of Preparations"></app-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item button *ngFor="let type of types" (click)="onSelect(type)">
+      {{ type }}
+    </ion-item>
+  </ion-list>
+</ion-content>

@@ -1,0 +1,19 @@
+<app-header title="Hospitals Around You"></app-header>
+
+<ion-content>
+  <ion-item>
+    <ion-segment (ionChange)="segmentChanged($event)" [value]="period">
+      <ion-segment-button value="label" disabled>
+        <ion-label>Rank mode</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="month">
+        <ion-label>Monthly</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="year">
+        <ion-label>Yearly</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-item>
+
+  <div id="map_canvas"></div>
+</ion-content>
