@@ -21,7 +21,7 @@ export class AuthService {
     environment.AUTH0_CLIENTID +
     '&redirect_uri=' +
     environment.AUTH0_REDIRECTURL +
-    '&scope=openid profile&nonce=pawm&audience=' +
+    '&scope=openid profile offline_access&nonce=pawm&audience=' +
     environment.AUTH0_AUDIENCE;
   private browser: InAppBrowserObject;
 
@@ -55,7 +55,15 @@ export class AuthService {
   }
 
   login() {
-    this.browser = this.iab.create(this.url, '_blank');
+    const options = [
+      'location=no',
+      'clearcache=yes',
+      'clearsessioncache=yes',
+      'hidenavigationbuttons=yes',
+      'hideurlbar=yes',
+      'zoom=no'
+    ].join(',');
+    this.browser = this.iab.create(this.url, '_blank', options);
     this.browser.on('loadstart').subscribe(e => {
       if (e.url.indexOf(environment.AUTH0_REDIRECTURL) === 0) {
         this.fillFields(
