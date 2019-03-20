@@ -55,8 +55,10 @@ export class PreparationsService {
               .endOf('day')
               .toDate(),
           },
+        },
+        {
           sort: {
-            date: -1,
+            date: 1,
           },
         },
       )
