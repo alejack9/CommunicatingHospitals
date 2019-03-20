@@ -19,11 +19,6 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'chart/:type',
-    loadChildren: './pages/chart/chart.module#ChartPageModule',
-    canActivate: [LoggedGuard]
-  },
-  {
     path: 'login',
     loadChildren: './pages/login/login.module#LoginPageModule'
   }

@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { PreparationService } from 'src/app/services/preparation/preparation.service';
-import { NavController } from '@ionic/angular';
 import { ChartPage } from '../chart/chart.page';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab2',
@@ -12,21 +11,23 @@ import { ChartPage } from '../chart/chart.page';
 })
 export class Tab2Page implements OnInit {
   types;
-  value = 0;
 
   selectedString: string;
 
   constructor(
-    private route: Router,
     private preprationService: PreparationService,
-    private navController: NavController
+    private modal: ModalController
   ) {}
 
   async ngOnInit() {
     this.types = await this.preprationService.getPreparationTypes();
   }
 
-  onSelect(type: string): void {
-    this.route.navigate(['chart/' + type]);
+  async onSelect(type: string) {
+    const modal = await this.modal.create({
+      component: ChartPage,
+      componentProps: { value: type }
+    });
+    return await modal.present();
   }
 }

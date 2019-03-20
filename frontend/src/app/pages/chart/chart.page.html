@@ -1,4 +1,17 @@
-<app-header [title]="type"> </app-header>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()" color="dark">Close</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button (click)="closeModal()"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header> -->
 <ion-content>
   <ion-row>
     <ion-col>

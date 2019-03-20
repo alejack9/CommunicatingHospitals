@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
+import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PreparationService } from 'src/app/services/preparation/preparation.service';
 
@@ -8,7 +9,7 @@ import { PreparationService } from 'src/app/services/preparation/preparation.ser
   styleUrls: ['./chart.page.scss']
 })
 export class ChartPage implements OnInit {
-  type: string;
+  // type: string;
   startDate = new Date(
     new Date().getFullYear(),
     new Date().getMonth() - 1,
@@ -17,18 +18,25 @@ export class ChartPage implements OnInit {
   endDate = new Date().toISOString();
   preparations;
 
+  // "value" passed in componentProps
+  @Input() value: string;
+
   constructor(
-    private readonly route: ActivatedRoute,
-    private readonly preparationService: PreparationService
+    // private readonly route: ActivatedRoute,
+    private readonly preparationService: PreparationService,
+    private modal: ModalController
   ) {}
   async ngOnInit() {
-    this.type = this.route.snapshot.paramMap.get('type');
+    // this.type = this.route.snapshot.paramMap.get('type');
     await this.getPreparations();
   }
 
+  closeModal() {
+    this.modal.dismiss();
+  }
   async getPreparations() {
     this.preparations = await this.preparationService.getPreprations(
-      this.type,
+      this.value,
       new Date(this.startDate),
       new Date(this.endDate)
     );
