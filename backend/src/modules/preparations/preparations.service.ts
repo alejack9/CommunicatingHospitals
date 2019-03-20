@@ -55,6 +55,9 @@ export class PreparationsService {
               .endOf('day')
               .toDate(),
           },
+          sort: {
+            date: -1,
+          },
         },
       )
       .exec()).preparations;
