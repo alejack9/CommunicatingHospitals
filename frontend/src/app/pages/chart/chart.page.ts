@@ -31,10 +31,15 @@ export class ChartPage implements OnInit {
     // this.type = this.route.snapshot.paramMap.get('type');
     await this.getPreparations();
   }
-
+  /**
+   *
+   */
   closeModal() {
     this.modal.dismiss();
   }
+  /**
+   *
+   */
   async getPreparations() {
     this.preparations = await this.preparationService.getPreprations(
       this.value,
@@ -42,7 +47,10 @@ export class ChartPage implements OnInit {
       new Date(this.endDate)
     );
   }
-
+  /**
+   *
+   * @param ev
+   */
   async dateChanged(ev) {
     if (this.startDate > this.endDate) {
       this.endDate = this.startDate;

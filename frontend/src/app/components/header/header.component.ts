@@ -15,7 +15,9 @@ export class HeaderComponent implements OnInit {
     private readonly authService: AuthService,
     private readonly alertController: AlertController
   ) {}
-
+  /**
+   *
+   */
   async presentAlert() {
     return await (await this.alertController.create({
       header: 'Logout',
@@ -37,11 +39,15 @@ export class HeaderComponent implements OnInit {
   }
 
   async ngOnInit() {}
-
+  /**
+   *
+   */
   logout() {
     return this.authService.logout();
   }
-
+  /**
+   *
+   */
   getProfile() {
     return this.authService.profile;
   }

@@ -22,7 +22,10 @@ export class Tab2Page implements OnInit {
   async ngOnInit() {
     this.types = await this.preprationService.getPreparationTypes();
   }
-
+  /**
+   *
+   * @param type
+   */
   async onSelect(type: string) {
     const modal = await this.modal.create({
       component: ChartPage,

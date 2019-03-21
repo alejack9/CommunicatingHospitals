@@ -36,15 +36,21 @@ export class AuthService {
 
   private user = null;
   private readonly helper: JwtHelperService;
-
+  /**
+   *
+   */
   get access_token() {
     return localStorage.getItem('access_token');
   }
-
+  /**
+   *
+   */
   get profile() {
     return this.user;
   }
-
+  /**
+   *
+   */
   private checkToken() {
     if (localStorage.getItem('id_token')) {
       if (!this.helper.isTokenExpired(localStorage.getItem('access_token'))) {
@@ -55,7 +61,9 @@ export class AuthService {
       }
     }
   }
-
+  /**
+   *
+   */
   login() {
     const options = [
       'location=no',
@@ -78,19 +86,29 @@ export class AuthService {
     });
     this.browser.show();
   }
-
+  /**
+   *
+   * @param accessToken
+   * @param idToken
+   */
   private setTokens(accessToken: string, idToken: string) {
     localStorage.setItem('access_token', accessToken);
     localStorage.setItem('id_token', idToken);
     this.user = this.helper.decodeToken(idToken);
   }
-
+  /**
+   *
+   */
   logout() {
     localStorage.removeItem('access_token');
     localStorage.removeItem('id_token');
     this.authenticationState.next(false);
   }
-
+  /**
+   *
+   * @param url
+   * @param param
+   */
   private getParam(url: string, param: string): string {
     param += '=';
     return url.substring(
@@ -100,7 +118,9 @@ export class AuthService {
         : url.indexOf('&')
     );
   }
-
+  /**
+   *
+   */
   isAuthenticated() {
     return this.authenticationState.value;
   }

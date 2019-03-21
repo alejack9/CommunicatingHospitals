@@ -11,26 +11,10 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 export class LoginPage implements OnInit {
   constructor(private authService: AuthService) {}
   ngOnInit() {}
-
-  // async ionViewCanEnter() {
-  //   await this.isLogged();
-  //   this.redirectIfLogged();
-  // }
-
-  // redirectIfLogged() {
-  //   if (this.logged && !this.redirected) {
-  //     this.redirected = true;
-  //     this.router.navigate(['tabs']);
-  //   }
-  // }
-
-  // async isLogged() {
-  //   this.logged = await this.authService.isLogged(); // .then(t => (this.logged = t));
-  // }
-
-  async login() {
+  /**
+   *
+   */
+  login() {
     this.authService.login();
-    // await this.isLogged();
-    // this.redirectIfLogged();
   }
 }

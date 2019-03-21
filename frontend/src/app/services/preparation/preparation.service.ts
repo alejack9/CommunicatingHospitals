@@ -15,7 +15,9 @@ export class PreparationService {
     .set('Authorization', `Bearer ${this.authService.access_token}`)
     .append('Access-Control-Allow-Origin', 'http://localhost:8100')
     .append('Content-Type', 'application/json');
-
+  /**
+   *
+   */
   async getPreparationTypes() {
     return await this.http
       .get(environment.BACKEND + 'hospitals/preparationsTypes', {
@@ -23,7 +25,9 @@ export class PreparationService {
       })
       .toPromise();
   }
-
+  /**
+   *
+   */
   async getPreprations(type: PreparationType, start: Date, end: Date) {
     const params = new HttpParams()
       .set('start', start.toISOString())
@@ -36,7 +40,10 @@ export class PreparationService {
       })
       .toPromise()) as Array<Preparation>;
   }
-
+  /**
+   *
+   * @param p
+   */
   extractData(p: Preparation[]) {
     return p.map(prep => {
       return {

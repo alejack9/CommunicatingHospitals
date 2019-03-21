@@ -23,26 +23,38 @@ export class MapService {
   private hospitalsMarkers: Array<MarkerOptions>;
   private myHospitalMarker: MarkerOptions;
   private markerCluster: MarkerCluster;
-
+  /**
+   *
+   */
   getMyHospital(): MarkerOptions {
     return this.myHospitalMarker;
   }
-
+  /**
+   *
+   */
   setMyHospital(v: Hospital, period: Period) {
     this.myHospitalMarker = this.objectToMarker(v, 'blue', period);
   }
-
+  /**
+   *
+   * @param v
+   * @param period
+   */
   setNearbyHospitals(v: Hospital[], period: Period) {
     this.hospitalsMarkers = [];
     v.forEach(e => {
       this.hospitalsMarkers.push(this.objectToMarker(e, undefined, period));
     });
   }
-
+  /**
+   *
+   */
   getNearbyHospitals(): MarkerOptions[] {
     return this.hospitalsMarkers;
   }
-
+  /**
+   *
+   */
   loadMap(): Observable<{ lat: number; lng: number; radius: number }> {
     this.map = GoogleMaps.create('map_canvas');
     this.map.moveCamera({
@@ -91,6 +103,9 @@ export class MapService {
       })
     );
   }
+  /**
+   *
+   */
 
   fillCluster() {
     if (this.markerCluster) {
@@ -119,7 +134,11 @@ export class MapService {
     });
     this.markerCluster.trigger(GoogleMapsEvent.MARKER_CLICK);
   }
-
+  /**
+   *
+   * @param circle
+   * @param marker
+   */
   drawCircle(circle: Circle, marker: Marker) {
     const newValue: ILatLng = marker.getPosition();
     const newRadius: number = Spherical.computeDistanceBetween(
@@ -128,7 +147,12 @@ export class MapService {
     );
     circle.setRadius(newRadius);
   }
-
+  /**
+   *
+   * @param data
+   * @param color
+   * @param period
+   */
   private objectToMarker(
     data: Hospital,
     color: string = 'red',

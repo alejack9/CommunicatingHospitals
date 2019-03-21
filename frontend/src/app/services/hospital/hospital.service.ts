@@ -14,6 +14,12 @@ export class HospitalService {
     .append('Content-Type', 'application/json');
   constructor(private http: HttpClient, private authService: AuthService) {}
 
+  /**
+   *
+   * @param lat
+   * @param lng
+   * @param distance
+   */
   async getHospitalsNearby(lat: Number, lng: Number, distance: Number) {
     const params = new HttpParams()
       .set('longitude', lng.toString())
@@ -26,7 +32,9 @@ export class HospitalService {
       })
       .toPromise()) as Array<Hospital>;
   }
-
+  /**
+   *
+   */
   async getMyHospital() {
     return await this.http
       .get(environment.BACKEND + 'hospitals/myHospital', {

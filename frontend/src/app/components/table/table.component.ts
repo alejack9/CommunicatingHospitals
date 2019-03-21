@@ -25,11 +25,18 @@ export class TableComponent implements OnInit, OnChanges {
       await this.getPreprations();
     }
   }
+  /**
+   *
+   * @param changes
+   */
   async ngOnChanges(changes: SimpleChanges) {
     if (this.preparations) {
       await this.getPreprations();
     }
   }
+  /**
+   *
+   */
   async getPreprations() {
     this.data = this.preparations.map(p => {
       return {

@@ -40,13 +40,19 @@ export class ChartComponent implements OnInit, OnChanges {
       await this.getPreprations();
     }
   }
-
+  /**
+   *
+   * @param changes
+   */
   async ngOnChanges(changes: SimpleChanges) {
     if (this.preparations) {
       await this.getPreprations();
     }
   }
-
+  /**
+   *
+   * @param p
+   */
   fillData(p: Preparation[]) {
     this.data.splice(0, this.data.length);
     this.barChartLabels.splice(0, this.barChartLabels.length);
@@ -58,7 +64,9 @@ export class ChartComponent implements OnInit, OnChanges {
       );
     });
   }
-
+  /**
+   *
+   */
   async getPreprations() {
     this.fillData(this.preparations);
     this.barChartData = [{ data: this.data, label: 'Preparations' }];

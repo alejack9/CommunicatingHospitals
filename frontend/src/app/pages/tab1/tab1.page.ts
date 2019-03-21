@@ -47,10 +47,19 @@ export class Tab1Page implements OnInit {
     this.mapService.fillCluster();
   }
 
+  /**
+   *
+   */
   async getMyHospital() {
     this.myHospital = await this.hospitalService.getMyHospital();
     this.mapService.setMyHospital(this.myHospital, this.period);
   }
+  /**
+   *
+   * @param lat
+   * @param lng
+   * @param radius
+   */
   async getNearbyHospitals(lat: number, lng: number, radius: number) {
     this.hospitals = await this.hospitalService.getHospitalsNearby(
       lat,
@@ -69,7 +78,10 @@ export class Tab1Page implements OnInit {
     );
     this.mapService.setNearbyHospitals(this.hospitals, this.period);
   }
-
+  /**
+   *
+   * @param e
+   */
   segmentChanged(e) {
     this.period = e.detail.value;
     this.mapService.setMyHospital(this.myHospital, this.period);
