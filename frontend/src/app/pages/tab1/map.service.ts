@@ -43,7 +43,7 @@ export class MapService {
     return this.hospitalsMarkers;
   }
 
-  loadMap(): Observable<any> {
+  loadMap(): Observable<{ lat: number; lng: number; radius: number }> {
     this.map = GoogleMaps.create('map_canvas');
     this.map.moveCamera({
       target: {

@@ -29,8 +29,8 @@ export class Tab1Page implements OnInit {
       }
     }
     await this.getNearbyHospitals(
-      this.myHospital.coordinates.coordinates[0][0],
       this.myHospital.coordinates.coordinates[0][1],
+      this.myHospital.coordinates.coordinates[0][0],
       100
     );
 
@@ -44,6 +44,7 @@ export class Tab1Page implements OnInit {
         this.mapService.fillCluster();
       });
     });
+    this.mapService.fillCluster();
   }
 
   async getMyHospital() {
@@ -56,7 +57,6 @@ export class Tab1Page implements OnInit {
       lng,
       radius
     );
-
     this.hospitals.splice(
       this.hospitals.findIndex(
         e =>
