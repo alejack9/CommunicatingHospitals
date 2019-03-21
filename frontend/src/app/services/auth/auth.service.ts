@@ -14,6 +14,13 @@ import { Platform } from '@ionic/angular';
 export class AuthService {
   // tslint:disable-next-line: max-line-length
   // https://communicating-hospitals.eu.auth0.com/authorize?response_type=id_token token&client_id=hafjbtKs0JXZQYr7ctxt8SO4cF20SVf3&redirect_uri=http://localhost:8100/callback&scope=openid profile&nonce=pawm&audience=http://localhost:3000
+  constructor(
+    private readonly iab: InAppBrowser,
+    private readonly plt: Platform
+  ) {
+    this.helper = new JwtHelperService();
+    this.plt.ready().then(() => this.checkToken());
+  }
   private readonly url =
     'https://' +
     environment.AUTH0_DOMAIN +
@@ -29,24 +36,19 @@ export class AuthService {
 
   private user = null;
   private readonly helper: JwtHelperService;
-  constructor(
-    private readonly iab: InAppBrowser,
-    private readonly plt: Platform
-  ) {
-    this.helper = new JwtHelperService();
-    this.plt.ready().then(() => this.checkToken());
+
+  get access_token() {
+    return localStorage.getItem('access_token');
   }
 
-  checkToken() {
+  get profile() {
+    return this.user;
+  }
+
+  private checkToken() {
     if (localStorage.getItem('id_token')) {
-      const decodedUser = this.helper.decodeToken(
-        localStorage.getItem('id_token')
-      );
-      const isExpired = this.helper.isTokenExpired(
-        localStorage.getItem('access_token')
-      );
-      if (!isExpired) {
-        this.user = decodedUser;
+      if (!this.helper.isTokenExpired(localStorage.getItem('access_token'))) {
+        this.user = this.helper.decodeToken(localStorage.getItem('id_token'));
         this.authenticationState.next(true);
       } else {
         this.logout();
@@ -57,27 +59,27 @@ export class AuthService {
   login() {
     const options = [
       'location=no',
-      'clearcache=yes',
-      'clearsessioncache=yes',
       'hidenavigationbuttons=yes',
       'hideurlbar=yes',
-      'zoom=no'
+      'zoom=no',
+      'clearcache=yes',
+      'clearsessioncache=yes'
     ].join(',');
     this.browser = this.iab.create(this.url, '_blank', options);
     this.browser.on('loadstart').subscribe(e => {
       if (e.url.indexOf(environment.AUTH0_REDIRECTURL) === 0) {
-        this.fillFields(
-          this.extractAccessToken(e.url),
-          this.extractIdToken(e.url)
-        );
         this.browser.close();
+        this.setTokens(
+          this.getParam(e.url, 'access_token'),
+          this.getParam(e.url, 'id_token')
+        );
         this.authenticationState.next(true);
       }
     });
     this.browser.show();
   }
 
-  private fillFields(accessToken: string, idToken: string) {
+  private setTokens(accessToken: string, idToken: string) {
     localStorage.setItem('access_token', accessToken);
     localStorage.setItem('id_token', idToken);
     this.user = this.helper.decodeToken(idToken);
@@ -89,19 +91,11 @@ export class AuthService {
     this.authenticationState.next(false);
   }
 
-  extractAccessToken(url: string): string {
+  private getParam(url: string, param: string): string {
+    param += '=';
     return url.substring(
-      url.indexOf('access_token=') + 13,
-      url.indexOf('&', url.indexOf('access_token=')) === -1
-        ? url.length
-        : url.indexOf('&')
-    );
-  }
-
-  extractIdToken(url: string): string {
-    return url.substring(
-      url.indexOf('id_token=') + 9,
-      url.indexOf('&', url.indexOf('id_token=')) === -1
+      url.indexOf(param) + param.length,
+      url.indexOf('&', url.indexOf(param)) === -1
         ? url.length
         : url.indexOf('&')
     );
@@ -109,13 +103,5 @@ export class AuthService {
 
   isAuthenticated() {
     return this.authenticationState.value;
-  }
-
-  get access_token() {
-    return localStorage.getItem('access_token');
-  }
-
-  get profile() {
-    return this.user;
   }
 }

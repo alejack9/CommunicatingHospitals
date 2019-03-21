@@ -19,7 +19,11 @@ export class Tab1Page implements OnInit {
   period: Period = 'month';
 
   async ngOnInit() {
-    await this.getMyHospital();
+    try {
+      await this.getMyHospital();
+    } catch (e) {
+      console.log(e);
+    }
     await this.getNearbyHospitals(
       this.myHospital.coordinates.coordinates[0][0],
       this.myHospital.coordinates.coordinates[0][1],
