@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HospitalService } from '../../services/hospital/hospital.service';
 import { Platform } from '@ionic/angular';
 import { MapService, Period } from './map.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tab1',
@@ -12,7 +13,8 @@ export class Tab1Page implements OnInit {
   constructor(
     private platform: Platform,
     private hospitalService: HospitalService,
-    private mapService: MapService
+    private mapService: MapService,
+    private router: Router
   ) {}
   hospitals: Array<any>;
   myHospital: any;
@@ -22,7 +24,9 @@ export class Tab1Page implements OnInit {
     try {
       await this.getMyHospital();
     } catch (e) {
-      console.log(e);
+      if (e.status === 401) {
+        this.router.navigate(['/unauthorized']);
+      }
     }
     await this.getNearbyHospitals(
       this.myHospital.coordinates.coordinates[0][0],
