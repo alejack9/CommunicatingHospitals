@@ -1,16 +1,18 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpService } from '@nestjs/common';
 import { Model, Types } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
+import * as jwtDecode from 'jwt-decode';
 import { User } from 'src/common/interfaces/user.interface';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel('User') private readonly user: Model<User>) {}
+  constructor(
+    @InjectModel('User') private readonly user: Model<User>,
+    private readonly httpService: HttpService,
+  ) {}
 
-  /**
-   *
-   * @param pAuthId authId
-   */
+  private managementToken: string;
+
   async getHospitalID(pAuthId: string): Promise<Types.ObjectId> {
     // retrive the hospital's id from the passed userId
     return (await this.user
@@ -23,37 +25,41 @@ export class UserService {
     return await this.user.findOne({ authId: pAuthId }).exec();
   }
 
-  async getUserHospital(authId) {
+  async getUserHospital(authId: string) {
     return await this.user
       .findById((await this.getUser(authId))._id)
       .populate('hospital')
       .exec();
   }
 
-  /**
-   * @description We thought to 'map' the authId into the mongoDB ObjectID to keep only 1 id and decode the authId from the object's one.
-   *  Although, we choose to keep 2 IDs: the mongodb' and the auth' in order to respect mongoDB best pratices (ObjectID has an own format)
-   */
-  // async getUser(pAuthId: string) {
-  // const objectId = mongoose.Types.ObjectId(
-  //   this.encode('linkedin|xJTR2xVet3') +
-  //     Math.floor(Math.random() * 9).toString() +
-  //     Math.floor(Math.random() * 9).toString() +
-  //     Math.floor(Math.random() * 9).toString() +
-  //     Math.floor(Math.random() * 9).toString(),
-  // );
-  // return await this.user.findById(objectId);
-  // }
-  // private encode(authID: string) {
-  //   return this.hexEncode(authID.split('|')[1]);
-  // }
-  // private hexEncode(s: string) {
-  //   return Buffer.from(s, 'utf8').toString('hex');
-  // }
-  // private decode(objectId: string) {
-  //   return `linkedin|${this.hexDecode(objectId.substr(0, 20))}`;
-  // }
-  // private hexDecode(s: string) {
-  //   return Buffer.from(s, 'hex').toString('utf8');
-  // }
+  private async getManagementToken() {
+    return (await this.httpService
+      .post(
+        `https://${process.env.AUTH0_DOMAIN}/oauth/token`,
+        {
+          client_id: process.env.AUTH0_MANAGEMENT_CLIENTID,
+          client_secret: process.env.AUTH0_MANAGEMENT_SECRET,
+          audience: process.env.AUTH0_MANAGEMENT_AUD,
+          grant_type: 'client_credentials',
+        },
+        {
+          headers: { 'content-type': 'application/json' },
+        },
+      )
+      .toPromise()).data.access_token;
+  }
+
+  async getLinkedinToken(authId: string) {
+    if (
+      !this.managementToken ||
+      jwtDecode(this.managementToken).exp < new Date()
+    ) {
+      this.managementToken = await this.getManagementToken();
+    }
+    return (await this.httpService
+      .get(`https://${process.env.AUTH0_DOMAIN}/api/v2/users/${authId}`, {
+        headers: { authorization: `Bearer ${this.managementToken}` },
+      })
+      .toPromise()).data.identities[0].access_token;
+  }
 }
