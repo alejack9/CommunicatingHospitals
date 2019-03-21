@@ -24,7 +24,7 @@ export class Tab1Page implements OnInit {
     try {
       await this.getMyHospital();
     } catch (e) {
-      if (e.status === 401) {
+      if (e.status === 401 || e.status === 403) {
         this.router.navigate(['/unauthorized']);
       }
     }
