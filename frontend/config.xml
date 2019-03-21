@@ -94,6 +94,7 @@
     <plugin name="cordova-plugin-inappbrowser" spec="^3.0.0" />
     <plugin name="cordova-plugin-safariviewcontroller" spec="~1.5.4" />
     <allow-navigation href="http://10.0.10.176:8100" sessionid="299b3a4f" />
+    <allow-navigation href="http://10.0.9.143:8100" sessionid="4a5e4c87" />
     <engine name="browser" spec="5.0.4" />
     <engine name="android" spec="7.1.4" />
 </widget>

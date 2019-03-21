@@ -2,6 +2,7 @@ import { ModalController } from '@ionic/angular';
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PreparationService } from 'src/app/services/preparation/preparation.service';
+import { __await } from 'tslib';
 
 @Component({
   selector: 'app-chart-page',
