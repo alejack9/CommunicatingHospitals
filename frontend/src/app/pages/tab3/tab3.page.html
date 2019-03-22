@@ -1,18 +1,30 @@
 <app-header></app-header>
 
 <ion-content>
-  <ion-list>
-    <ion-card *ngFor="let hospital of HospitalsMock">
-      <ion-card-header>
-        <ion-chip color="light" slot="end">
-          <ion-label>{{ getProfile().name }}</ion-label>
+  <ion-card *ngFor="let post of posts">
+    <ion-card-header>
+      <ion-card-title class="setting"
+        ><ion-item>
           <ion-avatar>
-            <img [src]="getProfile().picture" />
+            <img [src]="post.photo" />
           </ion-avatar>
-        </ion-chip>
-        <ion-card-title> {{ hospital.name }}</ion-card-title>
-        <ion-card-subtitle>Activity Subtitle</ion-card-subtitle>
-      </ion-card-header>
-    </ion-card>
-  </ion-list>
+          <ion-label> {{ post.name }}</ion-label>
+        </ion-item>
+      </ion-card-title>
+
+      <ion-card-subtitle>
+        {{ post.date.getDate() }}/{{ post.date.getMonth() }}/{{
+          post.date.getFullYear()
+        }}
+        {{ post.date.getHours() }}:{{
+          post.date.getMinutes()
+        }}</ion-card-subtitle
+      >
+    </ion-card-header>
+    <ion-card-content
+      ><ion-text color="dark">
+        {{ post.content }}
+      </ion-text>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
