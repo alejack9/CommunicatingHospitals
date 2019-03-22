@@ -1,27 +1,18 @@
 <app-header></app-header>
 
 <ion-content>
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title class="setting"> Titolo POST</ion-card-title>
-      <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-    </ion-card-header>
-    <ion-card-content>
-      Keep close to Nature's heart... and break clear away, once in awhile, and
-      climb a mountain or spend a week in the woods. Wash your spirit clean.
-    </ion-card-content>
-  </ion-card>
-
-  <ion-card>
-    <ion-item>
-      <ion-icon name="pin" slot="start"></ion-icon>
-      <ion-label>ion-item in a card, icon left, button right</ion-label>
-      <ion-button fill="outline" slot="end">View</ion-button>
-    </ion-item>
-
-    <ion-card-content>
-      This is content, without any paragraph or header tags, within an
-      ion-card-content element.
-    </ion-card-content>
-  </ion-card>
+  <ion-list>
+    <ion-card *ngFor="let hospital of HospitalsMock">
+      <ion-card-header>
+        <ion-chip color="light" slot="end">
+          <ion-label>{{ getProfile().name }}</ion-label>
+          <ion-avatar>
+            <img [src]="getProfile().picture" />
+          </ion-avatar>
+        </ion-chip>
+        <ion-card-title> {{ hospital.name }}</ion-card-title>
+        <ion-card-subtitle>Activity Subtitle</ion-card-subtitle>
+      </ion-card-header>
+    </ion-card>
+  </ion-list>
 </ion-content>
