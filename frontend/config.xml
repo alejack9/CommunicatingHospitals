@@ -4,7 +4,7 @@
     <description>Let's start with Ionic...</description>
     <author email="manuel.cretone@studenti.unicam.it" href="https://github.com/manuel-cretone">Cretone M.</author>
     <author email="alessandro.giacche@studenti.unicam.it" href="https://github.com/alejack9">Giacchè A.</author>
-    <content original-src="index.html" src="http://10.0.9.143:8101" />
+    <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
