@@ -11,7 +11,8 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "cordova:browser": "ionic cordova build browser && ionic cordova run browser -l",
-    "build:android": "ionic cordova run android -- --buildConfig=build.json ; cordova build android --prod --release"
+    "build:android": "ionic cordova run android -- --buildConfig=build.json ; cordova build android --prod --release",
+    "compodoc": "npx compodoc --theme vagrant --hideGenerator -p src/tsconfig.app.json -r 8090 -s -o"
   },
   "private": true,
   "dependencies": {
