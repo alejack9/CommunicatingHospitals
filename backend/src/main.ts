@@ -12,6 +12,7 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import * as cors from 'cors';
 import * as compression from 'compression';
+import * as helmet from 'helmet';
 
 import { join } from 'path';
 
@@ -27,9 +28,10 @@ async function bootstrap() {
   const DETAILS = process.env.DETAILS.match('true');
 
   const app = await NestFactory.create(AppModule);
-  app.useStaticAssets(join(__dirname, '..', 'public'));
+  app.use(helmet());
   app.use(cors());
   app.use(compression());
+  app.useStaticAssets(join(__dirname, '..', 'public'));
   app.useGlobalPipes(
     new ValidationPipe({
       disableErrorMessages: !detailedResponses,
