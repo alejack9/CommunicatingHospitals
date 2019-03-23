@@ -8,9 +8,8 @@ import { UserModule } from '../user/user.module';
  */
 @Module({
   imports: [UserModule],
-  controllers: [],
   providers: [
-    // the "core" of the validation: UserGuard contains the policy that makes an user able to get the informations
+    // the "core" of the validation: UserGuard contains the policy that makes an user able to get the information
     // putting the UserGuard here instead of in any single method of controllers makes UserGuard global and, more important,
     // enables the UserGuard to use imported modules (such as UserService in UserModule)
     {

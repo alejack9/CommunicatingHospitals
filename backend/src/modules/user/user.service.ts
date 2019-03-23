@@ -21,8 +21,8 @@ export class UserService {
       .exec()).hospital as Types.ObjectId;
   }
 
-  async getUser(pAuthId: string) {
-    return await this.user.findOne({ authId: pAuthId }).exec();
+  async getUser(authId: string) {
+    return await this.user.findOne({ authId }).exec();
   }
 
   async getUserHospital(authId: string) {

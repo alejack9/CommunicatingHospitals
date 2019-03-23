@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Get,
-  Param,
-  Body,
-  UseGuards,
-  Put,
-  Query,
-} from '@nestjs/common';
+import { Controller, Get, Param, UseGuards, Put, Query } from '@nestjs/common';
 import { RankingService } from './ranking.service';
 import { Types } from 'mongoose';
 import { UserService } from '../user/user.service';
