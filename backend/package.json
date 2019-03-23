@@ -1,8 +1,8 @@
 {
   "name": "communicating-hospitals",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Communicating Hospitals Backend",
-  "author": "A. G. , M. C.",
+  "author": "A.G.",
   "license": "MIT",
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
