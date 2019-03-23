@@ -32,13 +32,13 @@ export class ChartPage implements OnInit {
     await this.getPreparations();
   }
   /**
-   *
+   * allows closing the window with the preparation statistics
    */
   closeModal() {
     this.modal.dismiss();
   }
   /**
-   *
+   * retireve of the preparations according to the parameters entered by the user
    */
   async getPreparations() {
     this.preparations = await this.preparationService.getPreprations(
@@ -48,8 +48,8 @@ export class ChartPage implements OnInit {
     );
   }
   /**
-   *
-   * @param ev
+   * check dates with possible changes based on the event
+   * @param ev  identifies the change of date
    */
   async dateChanged(ev) {
     if (this.startDate > this.endDate) {

@@ -23,8 +23,8 @@ export class Tab2Page implements OnInit {
     this.types = await this.preprationService.getPreparationTypes();
   }
   /**
-   *
-   * @param type
+   * when you select an item with the preparation it creates a page that allows you to see the various statistics
+   * @param type type of prepration selected
    */
   async onSelect(type: string) {
     const modal = await this.modal.create({

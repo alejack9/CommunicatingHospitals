@@ -30,13 +30,15 @@ export class MapService {
     return this.myHospitalMarker;
   }
   /**
-   *
+   * set the parameters of your own marker
+   * @param v
+   * @param period
    */
   setMyHospital(v: Hospital, period: Period) {
     this.myHospitalMarker = this.objectToMarker(v, 'blue', period);
   }
   /**
-   *
+   * set the parameters of the hospital markers
    * @param v
    * @param period
    */
@@ -47,13 +49,14 @@ export class MapService {
     });
   }
   /**
-   *
+   * returns hospital markers
    */
   getNearbyHospitals(): MarkerOptions[] {
     return this.hospitalsMarkers;
   }
+
   /**
-   *
+   * load the map with related options
    */
   loadMap(): Observable<{ lat: number; lng: number; radius: number }> {
     this.map = GoogleMaps.create('map_canvas');
@@ -104,7 +107,7 @@ export class MapService {
     );
   }
   /**
-   *
+   * fill the Cluster marker with all the hospitals found to add to the map
    */
 
   fillCluster() {
@@ -135,7 +138,7 @@ export class MapService {
     this.markerCluster.trigger(GoogleMapsEvent.MARKER_CLICK);
   }
   /**
-   *
+   * draw the circle that allows the dynamic search of the neighboring osepdals
    * @param circle
    * @param marker
    */
@@ -148,7 +151,7 @@ export class MapService {
     circle.setRadius(newRadius);
   }
   /**
-   *
+   * set the options to be displayed at the click of the marker
    * @param data
    * @param color
    * @param period

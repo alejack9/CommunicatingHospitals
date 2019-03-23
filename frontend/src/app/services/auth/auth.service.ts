@@ -37,19 +37,21 @@ export class AuthService {
   private user = null;
   private readonly helper: JwtHelperService;
   /**
-   *
+   * allows to read the access token
    */
   get access_token() {
     return localStorage.getItem('access_token');
   }
   /**
-   *
+   * allow to read the user profile
    */
   get profile() {
     return this.user;
   }
   /**
-   *
+   *  it checks the existence of the token,
+   *  if it exists the authentication is continued
+   *  otherwise if the token does not exist the logout is made
    */
   private checkToken() {
     if (localStorage.getItem('id_token')) {
@@ -62,7 +64,7 @@ export class AuthService {
     }
   }
   /**
-   *
+   * allows you to log in to the application after making all the necessary checks
    */
   login() {
     const options = [
@@ -87,7 +89,7 @@ export class AuthService {
     this.browser.show();
   }
   /**
-   *
+   * function that sets the token based on the parameters entered
    * @param accessToken
    * @param idToken
    */
@@ -97,7 +99,7 @@ export class AuthService {
     this.user = this.helper.decodeToken(idToken);
   }
   /**
-   *
+   * allows to log out from the application
    */
   logout() {
     localStorage.removeItem('access_token');

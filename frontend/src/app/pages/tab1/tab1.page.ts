@@ -48,14 +48,14 @@ export class Tab1Page implements OnInit {
   }
 
   /**
-   *
+   * get your own hospital
    */
   async getMyHospital() {
     this.myHospital = await this.hospitalService.getMyHospital();
     this.mapService.setMyHospital(this.myHospital, this.period);
   }
   /**
-   *
+   * recover hospitals close to your found hospital
    * @param lat
    * @param lng
    * @param radius
@@ -79,7 +79,7 @@ export class Tab1Page implements OnInit {
     this.mapService.setNearbyHospitals(this.hospitals, this.period);
   }
   /**
-   *
+   * possibility to dynamically search hospitals and redraw the map
    * @param e
    */
   segmentChanged(e) {
