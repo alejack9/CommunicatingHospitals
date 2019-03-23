@@ -11,7 +11,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import * as cors from 'cors';
-
+import * as compression from 'compression';
 // import * as fs from 'fs';
 // // Make an environment object that is module-scoped to get environment variables
 // const environments = dotenv.parse(
@@ -25,6 +25,7 @@ async function bootstrap() {
 
   const app = await NestFactory.create(AppModule);
   app.use(cors());
+  app.use(compression());
   app.useGlobalPipes(
     new ValidationPipe({
       disableErrorMessages: !detailedResponses,
