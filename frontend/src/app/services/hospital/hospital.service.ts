@@ -8,6 +8,7 @@ import { Hospital } from 'src/app/common/interfaces/hospital.interface';
   providedIn: 'root'
 })
 export class HospitalService {
+  // header setting to make http requests
   headers = new HttpHeaders()
     .set('Authorization', `Bearer ${this.authService.access_token}`)
     .append('Access-Control-Allow-Origin', 'http://localhost:8100')
@@ -15,7 +16,7 @@ export class HospitalService {
   constructor(private http: HttpClient, private authService: AuthService) {}
 
   /**
-   *
+   * returns all hospitals after an http request based on the distance indicated by the point
    * @param lat
    * @param lng
    * @param distance
@@ -33,7 +34,7 @@ export class HospitalService {
       .toPromise()) as Array<Hospital>;
   }
   /**
-   *
+   * returns his hospital
    */
   async getMyHospital() {
     return await this.http

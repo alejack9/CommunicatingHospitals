@@ -12,6 +12,9 @@ export function getterFactory() {
 })
 export class LinkedinService {
   constructor() {}
+  /**
+   * read factory post
+   */
   getPosts(): Post[] {
     return getterFactory().source;
   }

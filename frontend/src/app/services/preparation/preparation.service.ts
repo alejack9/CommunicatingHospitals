@@ -16,7 +16,7 @@ export class PreparationService {
     .append('Access-Control-Allow-Origin', 'http://localhost:8100')
     .append('Content-Type', 'application/json');
   /**
-   *
+   * retrieve the list of preparations indicating the type
    */
   async getPreparationTypes() {
     return await this.http
@@ -26,7 +26,10 @@ export class PreparationService {
       .toPromise();
   }
   /**
-   *
+   * returns a preparation array based on the entered parameters
+   * @param type
+   * @param start
+   * @param end
    */
   async getPreprations(type: PreparationType, start: Date, end: Date) {
     const params = new HttpParams()
@@ -41,7 +44,7 @@ export class PreparationService {
       .toPromise()) as Array<Preparation>;
   }
   /**
-   *
+   *  extracts from a list of preparations your own number of prepos and the associated date
    * @param p
    */
   extractData(p: Preparation[]) {
