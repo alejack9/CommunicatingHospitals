@@ -1,0 +1,778 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>communicating-hospitals documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">communicating-hospitals documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Injectables</li>
+  <li>RankingService</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/modules/ranking/ranking.service.ts</code>
+        </p>
+
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#getAverageRank">getAverageRank</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getRanksQuery">getRanksQuery</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#getTypeRank">getTypeRank</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#setAverageRanks">setAverageRanks</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(preparationModel: <a href="../interfaces/Preparation.html">Model<Preparation></a>, hospitalModel: <a href="../interfaces/Hospital.html">Model<Hospital></a>, rankModel: <a href="../interfaces/Rank.html">Model<Rank></a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/modules/ranking/ranking.service.ts:16</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>preparationModel</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../interfaces/Preparation.html" target="_self" >Model&lt;Preparation&gt;</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>hospitalModel</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../interfaces/Hospital.html" target="_self" >Model&lt;Hospital&gt;</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>rankModel</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../interfaces/Rank.html" target="_self" >Model&lt;Rank&gt;</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getAverageRank"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Async</span>
+                            getAverageRank
+                        </b>
+                        <a href="#getAverageRank"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getAverageRank(dateUnit: <a href="../undefineds/DateUnit.html">DateUnit</a>, hospitalId: Types.ObjectId)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="69"
+                            class="link-to-prism">src/modules/ranking/ranking.service.ts:69</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>dateUnit</td>
+                                    <td>
+                                                <code><a href="../miscellaneous/typealiases.html#DateUnit" target="_self" >DateUnit</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>hospitalId</td>
+                                    <td>
+                                            <code>Types.ObjectId</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>{}</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getRanksQuery"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            getRanksQuery
+                        </b>
+                        <a href="#getRanksQuery"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getRanksQuery(start: moment.Moment, end: moment.Moment, pType)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="129"
+                            class="link-to-prism">src/modules/ranking/ranking.service.ts:129</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>start</td>
+                                    <td>
+                                            <code>moment.Moment</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>end</td>
+                                    <td>
+                                            <code>moment.Moment</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>pType</td>
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>any[]</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getTypeRank"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Async</span>
+                            getTypeRank
+                        </b>
+                        <a href="#getTypeRank"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getTypeRank(pType: <a href="../interfaces/Preparation.html">PreparationType</a>, dateUnit: <a href="../undefineds/DateUnit.html">DateUnit</a>, hospitalID?: Types.ObjectId)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="32"
+                            class="link-to-prism">src/modules/ranking/ranking.service.ts:32</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>pType</td>
+                                    <td>
+                                                <code><a href="../interfaces/Preparation.html" target="_self" >PreparationType</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>dateUnit</td>
+                                    <td>
+                                                <code><a href="../miscellaneous/typealiases.html#DateUnit" target="_self" >DateUnit</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>hospitalID</td>
+                                    <td>
+                                            <code>Types.ObjectId</code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setAverageRanks"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Async</span>
+                            setAverageRanks
+                        </b>
+                        <a href="#setAverageRanks"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setAverageRanks()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="79"
+                            class="link-to-prism">src/modules/ranking/ranking.service.ts:79</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>{}</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, Type } from &#x27;@nestjs/common&#x27;;
+import { InjectModel } from &#x27;@nestjs/mongoose&#x27;;
+import { Model, Types } from &#x27;mongoose&#x27;;
+import * as moment from &#x27;moment&#x27;;
+import { Preparation } from &#x27;src/common/interfaces/preparation.interface&#x27;;
+import { Hospital } from &#x27;src/common/interfaces/hospital.interface&#x27;;
+import { Rank } from &#x27;src/common/interfaces/rank.interface&#x27;;
+import {
+  PreparationType,
+  PreparationTypesArray,
+} from &#x27;src/common/preparation.type&#x27;;
+import { DateUnit, DateUnitsArray } from &#x27;src/common/date-unit.type&#x27;;
+import { TypeRank } from &#x27;src/common/interfaces/type-rank.interfaces&#x27;;
+
+@Injectable()
+export class RankingService {
+  constructor(
+    @InjectModel(&#x27;Preparation&#x27;)
+    private readonly preparationModel: Model&lt;Preparation&gt;,
+    @InjectModel(&#x27;Hospital&#x27;)
+    private readonly hospitalModel: Model&lt;Hospital&gt;,
+    @InjectModel(&#x27;Rank&#x27;)
+    private readonly rankModel: Model&lt;Rank&gt;,
+  ) {}
+
+  /**
+   * @description According to this article ( https://jkchu.com/2016/02/17/designing-and-implementing-a-ranking-algorithm/ ),
+   *  I&#x27;ve decided to implement the ranking as a query because of low-impact and relatively semplicity.
+   *  A better way could be to write the ranking table in a collection and retrive it from a simpler query, updating it every day or,
+   *  in an even better way scheduling a trigger that reacts to the &#x27;hospitals&#x27; and &#x27;preparations&#x27; collections.
+   */
+  async getTypeRank(
+    pType: PreparationType,
+    dateUnit: DateUnit,
+    hospitalID?: Types.ObjectId,
+  ): Promise&lt;[TypeRank]&gt; {
+    let query: any[];
+    switch (dateUnit) {
+      case &#x27;day&#x27;:
+        query &#x3D; this.getRanksQuery(
+          moment(Date.now()).startOf(&#x27;day&#x27;),
+          moment(Date.now()).endOf(&#x27;day&#x27;),
+          pType,
+        );
+        break;
+      case &#x27;month&#x27;:
+        query &#x3D; this.getRanksQuery(
+          moment(Date.now()).startOf(&#x27;month&#x27;),
+          moment(Date.now()).endOf(&#x27;month&#x27;),
+          pType,
+        );
+        break;
+      case &#x27;year&#x27;:
+        query &#x3D; this.getRanksQuery(
+          moment(Date.now()).startOf(&#x27;year&#x27;),
+          moment(Date.now()).endOf(&#x27;year&#x27;),
+          pType,
+        );
+        break;
+      default:
+        throw new Error(&#x60;&#x27;${dateUnit}&#x27; unknown&#x60;);
+    }
+    if (hospitalID) {
+      query.push({ $match: { _id: hospitalID } });
+    }
+    return await this.preparationModel.aggregate(query).exec();
+  }
+
+  async getAverageRank(dateUnit: DateUnit, hospitalId: Types.ObjectId) {
+    return (await this.hospitalModel
+      .findById(hospitalId, &#x27;averageRanks&#x27;)
+      .exec()).averageRanks.find(r &#x3D;&gt; r.period &#x3D;&#x3D;&#x3D; dateUnit);
+  }
+
+  /**
+   * @description It sets the average hospitals&#x27; ranks
+   * @param dateUnit the date unit to calculate
+   */
+  async setAverageRanks() {
+    const hospitalsMap: Map&lt;string, Map&lt;DateUnit, number[]&gt;&gt; &#x3D; new Map();
+    // const start &#x3D; Date.now();
+    for (const type of PreparationTypesArray) {
+      for (const dateUnit of DateUnitsArray) {
+        for (const rankingEntry of await this.getTypeRank(type, dateUnit)) {
+          if (hospitalsMap.has(rankingEntry._id.toHexString())) {
+            if (
+              hospitalsMap.get(rankingEntry._id.toHexString()).has(dateUnit)
+            ) {
+              hospitalsMap
+                .get(rankingEntry._id.toHexString())
+                .get(dateUnit)
+                .push(rankingEntry.ranking);
+            } else {
+              hospitalsMap
+                .get(rankingEntry._id.toHexString())
+                .set(dateUnit, [rankingEntry.ranking]);
+            }
+          } else {
+            hospitalsMap.set(
+              rankingEntry._id.toHexString(),
+              new Map([[dateUnit, [rankingEntry.ranking]]]),
+            );
+          }
+        }
+      }
+    }
+    for (const hospitalEntry of hospitalsMap) {
+      const vals &#x3D; new Array();
+      for (const periodValues of hospitalEntry[1]) {
+        const rank &#x3D; new this.rankModel();
+        rank._id &#x3D; null;
+        rank.period &#x3D; periodValues[0];
+        rank.rank &#x3D; Math.ceil(
+          periodValues[1].reduce((a, b) &#x3D;&gt; a + b) / periodValues[1].length,
+        );
+        rank.lastUpdate &#x3D; new Date(Date.now());
+        vals.push(rank);
+      }
+      await this.hospitalModel
+        .findByIdAndUpdate(Types.ObjectId(hospitalEntry[0]), {
+          averageRanks: vals,
+        })
+        .exec();
+    }
+    // console.log(Date.now() - start);
+    return true;
+  }
+
+  private getRanksQuery(
+    start: moment.Moment,
+    end: moment.Moment,
+    pType,
+  ): any[] {
+    return [
+      {
+        $match: {
+          type: pType,
+          date: {
+            $gte: start.toDate(),
+            $lte: end.toDate(),
+          },
+        },
+      },
+      {
+        $group: {
+          _id: &#x27;$hospital&#x27;,
+          tot: {
+            $sum: &#x27;$numberOfPreparations&#x27;,
+          },
+        },
+      },
+      {
+        $project: {
+          media: {
+            $divide: [&#x27;$tot&#x27;, end.diff(start, &#x27;day&#x27;) + 1],
+          },
+        },
+      },
+      {
+        $sort: {
+          media: -1,
+        },
+      },
+      {
+        $group: {
+          _id: 0,
+          hospitals: {
+            $push: {
+              hospId: &#x27;$_id&#x27;,
+              media: &#x27;$media&#x27;,
+            },
+          },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+        },
+      },
+      {
+        $unwind: {
+          path: &#x27;$hospitals&#x27;,
+          includeArrayIndex: &#x27;ranking&#x27;,
+        },
+      },
+      {
+        $lookup: {
+          from: &#x27;hospitals&#x27;,
+          localField: &#x27;hospitals.hospId&#x27;,
+          foreignField: &#x27;_id&#x27;,
+          as: &#x27;hospitals.hospName&#x27;,
+        },
+      },
+      {
+        $project: {
+          _id: &#x27;$hospitals.hospId&#x27;,
+          name: &#x27;$hospitals.hospName.name&#x27;,
+          media: &#x27;$hospitals.media&#x27;,
+          ranking: 1,
+        },
+      },
+      {
+        $unwind: {
+          path: &#x27;$name&#x27;,
+        },
+      },
+    ];
+  }
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'RankingService.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
