@@ -12,7 +12,7 @@ const fgcolors = [
   '\x1b[35m',
 ];
 
-// TODO Return e 'log' function instead of a class?
+// TODO Return a 'log' function instead of a class?
 /**
  * @classdesc Logging and other tools
  */
