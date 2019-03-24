@@ -34,9 +34,9 @@ export class PreparationsController {
   @UseGuards(new AdminGuard())
   async createPreparation(@Body() prep: CreatePreparationDto) {
     const newPrep = await this.preparationsService.create(prep);
-    await this.preparationsService.addPreparation(
-      newPrep.hospital as Types.ObjectId,
+    return await this.preparationsService.addPreparation(
       newPrep._id,
+      newPrep.hospital as Types.ObjectId,
     );
   }
 

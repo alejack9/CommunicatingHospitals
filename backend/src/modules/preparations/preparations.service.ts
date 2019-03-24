@@ -21,11 +21,13 @@ export class PreparationsService {
     preparationID: Types.ObjectId,
     hospitalID: Types.ObjectId,
   ): Promise<Hospital> {
-    // produces a false deprecation warning
-    return this.hospitalModel
-      .findByIdAndUpdate(hospitalID, {
-        $push: { preparations: preparationID },
-      })
+    return await this.hospitalModel
+      .updateOne(
+        { _id: hospitalID },
+        {
+          $push: { preparations: preparationID },
+        },
+      )
       .exec();
   }
 
