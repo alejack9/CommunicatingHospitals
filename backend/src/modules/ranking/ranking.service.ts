@@ -117,9 +117,12 @@ export class RankingService {
         vals.push(rank);
       }
       await this.hospitalModel
-        .findByIdAndUpdate(Types.ObjectId(hospitalEntry[0]), {
-          averageRanks: vals,
-        })
+        .updateOne(
+          { _id: Types.ObjectId(hospitalEntry[0]) },
+          {
+            averageRanks: vals,
+          },
+        )
         .exec();
     }
     // console.log(Date.now() - start);
