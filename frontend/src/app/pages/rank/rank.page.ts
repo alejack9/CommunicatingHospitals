@@ -1,3 +1,4 @@
+import { __await } from 'tslib';
 import { Period } from './../tab1/map.service';
 import { ModalController } from '@ionic/angular';
 import { RankService } from './../../services/rank/rank.service';
@@ -10,9 +11,10 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class RankPage implements OnInit {
   rows = new Array<string[]>();
-  data = Array<{ ranking: number; name: string; avg: number }>();
+  data = Array<{ ranking: number; name: string; media: number }>();
   period: Period | 'day' = 'month';
-  readonly titles = ['Rank', 'Hospital'];
+  readonly titles = ['Rank', 'Hospital', 'Avg'];
+  myRank;
   // "value" passed in componentProps
   @Input() value: string;
 
@@ -21,31 +23,36 @@ export class RankPage implements OnInit {
     private modal: ModalController
   ) {}
 
-  /**
-   * allows closing the window with the preparation statistics
-   */
   closeModal() {
     this.modal.dismiss();
   }
 
   async ngOnInit() {
     await this.getRank();
+    await this.getMyRank();
   }
 
   async getRank() {
     this.data = await this.rankService.getRank(this.value, this.period);
+
     this.rows = new Array<string[]>();
     this.data.forEach(r => {
-      this.rows.push([r.ranking.toString(), r.name, r.avg.toString()]);
+      this.rows.push([
+        (r.ranking + 1).toString(),
+        r.name,
+        (Math.round(r.media * 100) / 100).toString()
+      ]);
     });
   }
+  async getMyRank() {
+    this.myRank =
+      (await this.rankService.getMyRank(this.value, this.period))[0].ranking +
+      1;
+  }
 
-  /**
-   * possibility to dynamically search hospitals and redraw the map
-   * @param e
-   */
   async segmentChanged(e) {
     this.period = e.detail.value;
     await this.getRank();
+    await this.getMyRank();
   }
 }

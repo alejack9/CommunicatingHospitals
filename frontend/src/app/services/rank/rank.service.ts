@@ -24,6 +24,14 @@ export class RankService {
         params: { dateUnit },
         headers: this.headers
       })
-      .toPromise()) as Array<{ ranking: number; name: string; avg: number }>;
+      .toPromise()) as Array<{ ranking: number; name: string; media: number }>;
+  }
+  async getMyRank(type: PreparationType, dateUnit: Period | 'day') {
+    return await this.http
+      .get(environment.BACKEND + `ranking/${type}/me`, {
+        params: { dateUnit },
+        headers: this.headers
+      })
+      .toPromise();
   }
 }

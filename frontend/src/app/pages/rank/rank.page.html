@@ -1,7 +1,13 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
+    <ion-label>
+      {{ value }}
+    </ion-label>
+    <ion-chip *ngIf="myRank">
+      <ion-label color="light">{{ myRank }}</ion-label>
+    </ion-chip>
     <ion-buttons slot="end">
-      <ion-button (click)="closeModal()" color="dark">Close</ion-button>
+      <ion-button (click)="closeModal()" color="light">Close</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
