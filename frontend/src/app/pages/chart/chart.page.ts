@@ -11,7 +11,7 @@ import { __await } from 'tslib';
 })
 export class ChartPage implements OnInit {
   rows = Array<string[]>();
-
+  readonly titles = ['Date', 'Number of Preparations'];
   startDate = new Date(
     new Date().getFullYear(),
     new Date().getMonth() - 1,

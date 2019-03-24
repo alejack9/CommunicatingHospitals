@@ -12,7 +12,7 @@ export class RankPage implements OnInit {
   rows = new Array<string[]>();
   data = Array<{ ranking: number; name: string; avg: number }>();
   period: Period | 'day' = 'month';
-
+  readonly titles = ['Rank', 'Hospital'];
   // "value" passed in componentProps
   @Input() value: string;
 

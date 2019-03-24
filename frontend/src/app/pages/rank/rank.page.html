@@ -27,10 +27,6 @@
     </ion-col>
   </ion-row>
   <section>
-    <app-table
-      *ngIf="rows"
-      titles="['Rank', 'Hospital']"
-      [rows]="rows"
-    ></app-table>
+    <app-table *ngIf="rows" [titles]="titles" [rows]="rows"></app-table>
   </section>
 </ion-content>
