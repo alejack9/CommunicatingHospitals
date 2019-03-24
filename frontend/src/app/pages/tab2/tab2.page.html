@@ -3,7 +3,10 @@
 <ion-content>
   <ion-list>
     <ion-item button *ngFor="let type of types" (click)="onSelect(type)">
-      {{ type }}
+      <ion-label>{{ type }}</ion-label>
+      <ion-button (click)="showRank(type)"
+        ><ion-icon name="american-football"></ion-icon
+      ></ion-button>
     </ion-item>
   </ion-list>
 </ion-content>

@@ -3,6 +3,7 @@ import { OnInit } from '@angular/core';
 import { PreparationService } from 'src/app/services/preparation/preparation.service';
 import { ChartPage } from '../chart/chart.page';
 import { ModalController } from '@ionic/angular';
+import { RankPage } from '../rank/rank.page';
 
 @Component({
   selector: 'app-tab2',
@@ -29,6 +30,14 @@ export class Tab2Page implements OnInit {
   async onSelect(type: string) {
     const modal = await this.modal.create({
       component: ChartPage,
+      componentProps: { value: type }
+    });
+    return await modal.present();
+  }
+
+  async showRank(type: string) {
+    const modal = await this.modal.create({
+      component: RankPage,
       componentProps: { value: type }
     });
     return await modal.present();

@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Tab2Page } from './tab2.page';
 import { ComponentsModule } from 'src/app/components/components.module';
+import { RankPageModule } from '../rank/rank.module';
 
 @NgModule({
   imports: [
@@ -14,6 +15,7 @@ import { ComponentsModule } from 'src/app/components/components.module';
     FormsModule,
     ComponentsModule,
     ChartPageModule,
+    RankPageModule,
     RouterModule.forChild([{ path: '', component: Tab2Page }])
   ],
   declarations: [Tab2Page]
