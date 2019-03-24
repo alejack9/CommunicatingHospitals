@@ -1,12 +1,14 @@
+import { Network } from '@ionic-native/network/ngx';
 import { Component } from '@angular/core';
 
-import { Platform } from '@ionic/angular';
+import { Platform, Events } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Environment } from '@ionic-native/google-maps/ngx';
 import { Tab1Page } from '../app/pages/tab1/tab1.page';
 import { AuthService } from './services/auth/auth.service';
 import { Router } from '@angular/router';
+import { NetworkService } from './services/network/network.service';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +21,10 @@ export class AppComponent {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    public events: Events,
+    public network: Network,
+    private networkProvider: NetworkService
   ) {
     this.initializeApp();
   }
@@ -39,6 +44,18 @@ export class AppComponent {
 
       this.authService.authenticationState.subscribe(s => {
         this.router.navigate([s ? 'tabs' : 'login']);
+      });
+
+      this.networkProvider.initializeNetworkEvents();
+
+      // Offline event
+      this.events.subscribe('network:offline', () => {
+        alert('network:offline ==> ' + this.network.type);
+      });
+
+      // Online event
+      this.events.subscribe('network:online', () => {
+        alert('network:online ==> ' + this.network.type);
       });
     });
   }
