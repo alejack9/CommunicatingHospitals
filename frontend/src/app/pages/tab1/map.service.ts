@@ -161,10 +161,21 @@ export class MapService {
     color: string = 'red',
     period: Period = 'month'
   ): MarkerOptions {
-    let rank;
-    rank = data.averageRanks.find(e => e.period === period);
+    const rank = data.averageRanks.find(e => e.period === period);
+
+    let title = 'Name: ' + data.name;
     if (rank) {
       rank.lastUpdate = new Date(rank.lastUpdate);
+      title = title.concat(
+        '\nRank: ' +
+          (rank.rank + 1).toString() +
+          '\nlast update: ' +
+          rank.lastUpdate.getDate() +
+          '/' +
+          rank.lastUpdate.getMonth() +
+          '/' +
+          rank.lastUpdate.getFullYear()
+      );
     }
     return {
       position: {
@@ -174,17 +185,7 @@ export class MapService {
       styles: {
         'text-align': 'center'
       },
-      title:
-        'Name: ' + data.name + rank
-          ? '\nRank: ' +
-            (rank.rank + 1).toString() +
-            '\nlast update: ' +
-            rank.lastUpdate.getDate() +
-            '/' +
-            rank.lastUpdate.getMonth() +
-            '/' +
-            rank.lastUpdate.getFullYear()
-          : '',
+      title,
       icon: color
     };
   }
