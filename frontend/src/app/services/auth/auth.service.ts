@@ -71,9 +71,9 @@ export class AuthService {
       'location=no',
       'hidenavigationbuttons=yes',
       'hideurlbar=yes',
-      'zoom=no',
-      'clearcache=yes',
-      'clearsessioncache=yes'
+      'zoom=no'
+      // 'clearcache=yes',
+      // 'clearsessioncache=yes'
     ].join(',');
     this.browser = this.iab.create(this.url, '_blank', options);
     this.browser.on('loadstart').subscribe(e => {
