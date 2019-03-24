@@ -11,7 +11,8 @@ import { __await } from 'tslib';
   styleUrls: ['./chart.page.scss']
 })
 export class ChartPage implements OnInit {
-  // type: string;
+  data = Array<any>();
+
   startDate = new Date(
     new Date().getFullYear(),
     new Date().getMonth() - 1,
@@ -47,6 +48,8 @@ export class ChartPage implements OnInit {
       new Date(this.startDate),
       new Date(this.endDate)
     );
+    this.getDates();
+    this.getPrepNumbers();
   }
   /**
    * check dates with possible changes based on the event
@@ -60,13 +63,15 @@ export class ChartPage implements OnInit {
   }
 
   getDates() {
-    return this.preparations.map(
+    this.data[0] = this.preparations.map(
       p =>
         `${new Date(p.date).getDate()}/${new Date(p.date).getMonth() +
           1}/${new Date(p.date).getFullYear()}`
     );
   }
   getPrepNumbers() {
-    return this.preparations.map(p => p.numberOfPreparations.toString());
+    this.data[1] = this.preparations.map(p =>
+      p.numberOfPreparations.toString()
+    );
   }
 }
