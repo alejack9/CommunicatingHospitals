@@ -1,7 +1,6 @@
 import { Preparation } from 'src/app/common/interfaces/preparation.interface';
 import { ModalController } from '@ionic/angular';
 import { Component, OnInit, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { PreparationService } from 'src/app/services/preparation/preparation.service';
 import { __await } from 'tslib';
 
@@ -11,7 +10,7 @@ import { __await } from 'tslib';
   styleUrls: ['./chart.page.scss']
 })
 export class ChartPage implements OnInit {
-  data = Array<any>();
+  rows = Array<string[]>();
 
   startDate = new Date(
     new Date().getFullYear(),
@@ -25,12 +24,11 @@ export class ChartPage implements OnInit {
   @Input() value: string;
 
   constructor(
-    // private readonly route: ActivatedRoute,
     private readonly preparationService: PreparationService,
     private modal: ModalController
   ) {}
+
   async ngOnInit() {
-    // this.type = this.route.snapshot.paramMap.get('type');
     await this.getPreparations();
   }
   /**
@@ -48,8 +46,25 @@ export class ChartPage implements OnInit {
       new Date(this.startDate),
       new Date(this.endDate)
     );
-    this.getDates();
-    this.getPrepNumbers();
+
+    this.rows = Array<string[]>();
+    this.preparations.forEach(p => {
+      this.rows.push([
+        `${new Date(p.date).getDate()}/${new Date(p.date).getMonth() +
+          1}/${new Date(p.date).getFullYear()}`,
+        p.numberOfPreparations.toString()
+      ]);
+    });
+    // this.cols.push(
+    //   this.preparations.map(
+    //     p =>
+    //       `${new Date(p.date).getDate()}/${new Date(p.date).getMonth() +
+    //         1}/${new Date(p.date).getFullYear()}`
+    //   )
+    // );
+    // this.cols.push(
+    //   this.preparations.map(p => p.numberOfPreparations.toString())
+    // );
   }
   /**
    * check dates with possible changes based on the event
@@ -60,18 +75,5 @@ export class ChartPage implements OnInit {
       this.endDate = this.startDate;
     }
     await this.getPreparations();
-  }
-
-  getDates() {
-    this.data[0] = this.preparations.map(
-      p =>
-        `${new Date(p.date).getDate()}/${new Date(p.date).getMonth() +
-          1}/${new Date(p.date).getFullYear()}`
-    );
-  }
-  getPrepNumbers() {
-    this.data[1] = this.preparations.map(p =>
-      p.numberOfPreparations.toString()
-    );
   }
 }

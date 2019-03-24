@@ -11,10 +11,13 @@ import { TypeRank } from 'src/app/common/interfaces/type-rank.interface';
 })
 export class PreparationService {
   constructor(private authService: AuthService, private http: HttpClient) {}
-  private headers = new HttpHeaders()
-    .set('Authorization', `Bearer ${this.authService.access_token}`)
-    .append('Access-Control-Allow-Origin', 'http://localhost:8100')
-    .append('Content-Type', 'application/json');
+
+  get headers() {
+    return new HttpHeaders()
+      .set('Authorization', `Bearer ${this.authService.access_token}`)
+      .append('Access-Control-Allow-Origin', 'http://localhost:8100')
+      .append('Content-Type', 'application/json');
+  }
   /**
    * retrieve the list of preparations indicating the type
    */

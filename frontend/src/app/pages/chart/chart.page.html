@@ -1,18 +1,10 @@
 <ion-header>
   <ion-toolbar>
-    <ion-chip> </ion-chip>
     <ion-buttons slot="end">
       <ion-button (click)="closeModal()" color="dark">Close</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-<!-- <ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button (click)="closeModal()"></ion-back-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header> -->
 <ion-content>
   <ion-row>
     <ion-col>
@@ -38,11 +30,9 @@
   <section>
     <app-chart [preparations]="preparations"></app-chart>
     <app-table
-      *ngIf="data"
-      first-column-title="Date"
-      second-column-title="Number of Preparations"
-      [first-column-data]="data[0]"
-      [second-column-data]="data[1]"
+      *ngIf="rows"
+      titles='["Date", "Number of Preparations"]'
+      [rows]="rows"
     ></app-table>
   </section>
 </ion-content>
