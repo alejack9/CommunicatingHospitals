@@ -1,3 +1,4 @@
+import { Preparation } from 'src/app/common/interfaces/preparation.interface';
 import { ModalController } from '@ionic/angular';
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -17,7 +18,7 @@ export class ChartPage implements OnInit {
     new Date().getDate()
   ).toISOString();
   endDate = new Date().toISOString();
-  preparations;
+  preparations: Preparation[];
 
   // "value" passed in componentProps
   @Input() value: string;
@@ -56,5 +57,16 @@ export class ChartPage implements OnInit {
       this.endDate = this.startDate;
     }
     await this.getPreparations();
+  }
+
+  getDates() {
+    return this.preparations.map(
+      p =>
+        `${new Date(p.date).getDate()}/${new Date(p.date).getMonth() +
+          1}/${new Date(p.date).getFullYear()}`
+    );
+  }
+  getPrepNumbers() {
+    return this.preparations.map(p => p.numberOfPreparations.toString());
   }
 }

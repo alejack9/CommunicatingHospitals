@@ -1,5 +1,6 @@
 <ion-header>
   <ion-toolbar>
+    <ion-chip> </ion-chip>
     <ion-buttons slot="end">
       <ion-button (click)="closeModal()" color="dark">Close</ion-button>
     </ion-buttons>
@@ -36,6 +37,11 @@
   </ion-row>
   <section>
     <app-chart [preparations]="preparations"></app-chart>
-    <app-table [preparations]="preparations"></app-table>
+    <app-table
+      first-column-title="Date"
+      second-column-title="Number of Preparations"
+      [first-column-data]="getDates()"
+      [second-column-data]="getPrepNumbers()"
+    ></app-table>
   </section>
 </ion-content>
