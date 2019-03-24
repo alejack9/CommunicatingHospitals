@@ -163,7 +163,9 @@ export class MapService {
   ): MarkerOptions {
     let rank;
     rank = data.averageRanks.find(e => e.period === period);
-    rank.lastUpdate = new Date(rank.lastUpdate);
+    if (rank) {
+      rank.lastUpdate = new Date(rank.lastUpdate);
+    }
     return {
       position: {
         lat: data.coordinates.coordinates[0][1],
@@ -173,16 +175,16 @@ export class MapService {
         'text-align': 'center'
       },
       title:
-        'Name: ' +
-        data.name +
-        '\nRank: ' +
-        (rank.rank + 1).toString() +
-        '\nlast update: ' +
-        rank.lastUpdate.getDate() +
-        '/' +
-        rank.lastUpdate.getMonth() +
-        '/' +
-        rank.lastUpdate.getFullYear(),
+        'Name: ' + data.name + rank
+          ? '\nRank: ' +
+            (rank.rank + 1).toString() +
+            '\nlast update: ' +
+            rank.lastUpdate.getDate() +
+            '/' +
+            rank.lastUpdate.getMonth() +
+            '/' +
+            rank.lastUpdate.getFullYear()
+          : '',
       icon: color
     };
   }
