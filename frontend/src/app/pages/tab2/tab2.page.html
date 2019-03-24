@@ -5,10 +5,10 @@
     <ion-item button *ngFor="let type of types">
       <ion-label>{{ type }}</ion-label>
       <ion-button (click)="showRank(type)"
-        ><ion-icon name="american-football"></ion-icon
+        ><ion-icon name="trophy"></ion-icon
       ></ion-button>
-      <ion-button (click)="onSelect(type)"
-        ><ion-icon name="airplane"></ion-icon
+      <ion-button (click)="showGraphs(type)"
+        ><ion-icon name="podium"></ion-icon
       ></ion-button>
     </ion-item>
   </ion-list>

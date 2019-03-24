@@ -27,7 +27,7 @@ export class Tab2Page implements OnInit {
    * when you select an item with the preparation it creates a page that allows you to see the various statistics
    * @param type type of prepration selected
    */
-  async onSelect(type: string) {
+  async showGraphs(type: string) {
     const modal = await this.modal.create({
       component: ChartPage,
       componentProps: { value: type }

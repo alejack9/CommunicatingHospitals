@@ -161,7 +161,8 @@ export class MapService {
     color: string = 'red',
     period: Period = 'month'
   ): MarkerOptions {
-    const rank = data.averageRanks.find(e => e.period === period);
+    let rank;
+    rank = data.averageRanks.find(e => e.period === period);
     rank.lastUpdate = new Date(rank.lastUpdate);
     return {
       position: {
