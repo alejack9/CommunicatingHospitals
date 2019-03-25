@@ -3,7 +3,13 @@ export const POSTS: Post[] = [
   {
     name: 'Mazzoni',
     photo: '../../../assets/profile.png',
-    date: new Date(),
+    date: new Date(
+      2019,
+      Math.round(Math.random() * 2),
+      Math.round(1 + Math.random() * 27),
+      Math.round(Math.random() * 23),
+      Math.round(Math.random() * 59)
+    ),
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ' +
       'Nunc ut eleifend metus, sed lacinia ligula. ' +
@@ -15,7 +21,13 @@ export const POSTS: Post[] = [
   {
     name: 'Salesi',
     photo: '../../../assets/profile.png',
-    date: new Date(),
+    date: new Date(
+      2019,
+      Math.round(Math.random() * 3),
+      Math.round(Math.random() * 28),
+      Math.round(Math.random() * 23),
+      Math.round(Math.random() * 59)
+    ),
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ' +
       'Nunc ut eleifend metus, sed lacinia ligula. ' +
@@ -27,7 +39,13 @@ export const POSTS: Post[] = [
   {
     name: 'Santa Lucia',
     photo: '../../../assets/profile.png',
-    date: new Date(),
+    date: new Date(
+      2019,
+      Math.round(Math.random() * 3),
+      Math.round(Math.random() * 28),
+      Math.round(Math.random() * 23),
+      Math.round(Math.random() * 59)
+    ),
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ' +
       'Nunc ut eleifend metus, sed lacinia ligula. ' +

@@ -13,13 +13,7 @@ export enum ConnectionStatusEnum {
 export class NetworkService {
   previousStatus;
 
-  constructor(
-    public alertCtrl: AlertController,
-    public network: Network,
-    public eventCtrl: Events
-  ) {
-    console.log('Hello NetworkProvider Provider');
-
+  constructor(public network: Network, public eventCtrl: Events) {
     this.previousStatus = ConnectionStatusEnum.Online;
   }
 
