@@ -22,7 +22,11 @@ const routes: Routes = [
     path: 'login',
     loadChildren: './pages/login/login.module#LoginPageModule'
   },
-  { path: 'unauthorized', loadChildren: './pages/unauthorized/unauthorized.module#UnauthorizedPageModule' }
+  {
+    path: 'unauthorized',
+    loadChildren:
+      './pages/unauthorized/unauthorized.module#UnauthorizedPageModule'
+  }
 ];
 @NgModule({
   imports: [

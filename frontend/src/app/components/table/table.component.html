@@ -1,23 +1,20 @@
 <ion-grid>
   <ion-row justify-content-start class="Firstrow">
-    <ion-col style="text-align: center">
+    <ion-col style="text-align: center" *ngFor="let title of titles">
       <ion-label>
-        Date
+        {{ title }}
       </ion-label>
     </ion-col>
-    <ion-col style="text-align: center">
-      <ion-label>Number of Preparations</ion-label>
-    </ion-col>
   </ion-row>
+  <!--
+    *ngFor="let firstColumn of firstColumnData; let odd = odd; let i = index"
+    -->
   <ion-row
-    *ngFor="let prep of data; let odd = odd"
+    *ngFor="let row of rows; let odd = odd; let i = index"
     [class]="odd ? 'odd' : 'even'"
   >
-    <ion-col style="text-align: center">
-      {{ prep.date }}
-    </ion-col>
-    <ion-col style="text-align: center">
-      {{ prep.numberOfPreparations }}
-    </ion-col>
+    <ion-col *ngFor="let col of row" style="text-align: center">
+      {{ col }}</ion-col
+    >
   </ion-row>
 </ion-grid>

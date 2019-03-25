@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-label>
+      {{ value }}
+    </ion-label>
+    <ion-chip *ngIf="myRank">
+      <ion-label color="light">{{ myRank }}</ion-label>
+    </ion-chip>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()" color="light">Close</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-row>
+    <ion-col>
+      <ion-item>
+        <ion-segment (ionChange)="segmentChanged($event)" [value]="period">
+          <ion-segment-button value="day">
+            <ion-label>Dayly</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="month">
+            <ion-label>Monthly</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="year">
+            <ion-label>Yearly</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+  <section>
+    <app-table *ngIf="rows" [titles]="titles" [rows]="rows"></app-table>
+  </section>
+</ion-content>

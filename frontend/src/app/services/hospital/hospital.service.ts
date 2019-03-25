@@ -9,11 +9,13 @@ import { Hospital } from 'src/app/common/interfaces/hospital.interface';
 })
 export class HospitalService {
   // header setting to make http requests
-  headers = new HttpHeaders()
-    .set('Authorization', `Bearer ${this.authService.access_token}`)
-    .append('Access-Control-Allow-Origin', 'http://localhost:8100')
-    .append('Content-Type', 'application/json');
   constructor(private http: HttpClient, private authService: AuthService) {}
+  get headers() {
+    return new HttpHeaders()
+      .set('Authorization', `Bearer ${this.authService.access_token}`)
+      .append('Access-Control-Allow-Origin', 'http://localhost:8100')
+      .append('Content-Type', 'application/json');
+  }
 
   /**
    * returns all hospitals after an http request based on the distance indicated by the point

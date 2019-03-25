@@ -1,17 +1,13 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
+    <ion-label>
+      {{ value }}
+    </ion-label>
     <ion-buttons slot="end">
-      <ion-button (click)="closeModal()" color="dark">Close</ion-button>
+      <ion-button (click)="closeModal()" color="light">Close</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-<!-- <ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button (click)="closeModal()"></ion-back-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header> -->
 <ion-content>
   <ion-row>
     <ion-col>
@@ -36,6 +32,6 @@
   </ion-row>
   <section>
     <app-chart [preparations]="preparations"></app-chart>
-    <app-table [preparations]="preparations"></app-table>
+    <app-table *ngIf="rows" [titles]="titles" [rows]="rows"></app-table>
   </section>
 </ion-content>

@@ -3,12 +3,12 @@
 <ion-content>
   <ion-card *ngFor="let post of posts">
     <ion-card-header>
-      <ion-card-title class="setting"
-        ><ion-item>
-          <ion-avatar>
+      <ion-card-title>
+        <ion-item>
+          <ion-avatar slot="start">
             <img [src]="post.photo" />
           </ion-avatar>
-          <ion-label> {{ post.name }}</ion-label>
+          <ion-label>{{ post.name }}</ion-label>
         </ion-item>
       </ion-card-title>
 

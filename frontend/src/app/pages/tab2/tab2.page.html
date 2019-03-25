@@ -2,8 +2,14 @@
 
 <ion-content>
   <ion-list>
-    <ion-item button *ngFor="let type of types" (click)="onSelect(type)">
-      {{ type }}
+    <ion-item button *ngFor="let type of types">
+      <ion-label>{{ type }}</ion-label>
+      <ion-button (click)="showRank(type)"
+        ><ion-icon name="trophy"></ion-icon
+      ></ion-button>
+      <ion-button (click)="showGraphs(type)"
+        ><ion-icon name="podium"></ion-icon
+      ></ion-button>
     </ion-item>
   </ion-list>
 </ion-content>
