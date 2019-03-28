@@ -9,11 +9,11 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { HospitalService } from './services/hospital/hospital.service';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthService } from './services/auth/auth.service';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { Network } from '@ionic-native/network/ngx';
+import { InterceptorService } from './services/interceptor/interceptor.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -27,10 +27,10 @@ import { Network } from '@ionic-native/network/ngx';
     StatusBar,
     SplashScreen,
     AuthService,
-    HospitalService,
     InAppBrowser,
     Network,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    { provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true }
   ],
   bootstrap: [AppComponent]
 })
