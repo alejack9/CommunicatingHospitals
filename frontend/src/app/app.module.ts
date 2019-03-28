@@ -14,6 +14,7 @@ import { AuthService } from './services/auth/auth.service';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { Network } from '@ionic-native/network/ngx';
 import { InterceptorService } from './services/interceptor/interceptor.service';
+import { IonicStorageModule } from '@ionic/storage';
 
 @NgModule({
   declarations: [AppComponent],
@@ -21,6 +22,7 @@ import { InterceptorService } from './services/interceptor/interceptor.service';
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
+    IonicStorageModule.forRoot(),
     HttpClientModule
   ],
   providers: [

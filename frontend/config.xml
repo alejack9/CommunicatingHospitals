@@ -4,7 +4,7 @@
     <description>Let's start with Ionic...</description>
     <author email="manuel.cretone@studenti.unicam.it" href="https://github.com/manuel-cretone">Cretone M.</author>
     <author email="alessandro.giacche@studenti.unicam.it" href="https://github.com/alejack9">Giacchè A.</author>
-    <content original-src="index.html" src="http://10.0.4.254:8100" />
+    <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -97,7 +97,7 @@
         <variable name="PLAY_SERVICES_VERSION" value="15.0.1" />
         <variable name="ANDROID_SUPPORT_V4_VERSION" value="27.+" />
     </plugin>
-    <allow-navigation href="http://10.0.4.254:8100" sessionid="f89c22be" />
+    <plugin name="cordova-sqlite-storage" spec="3.2.0" />
     <engine name="browser" spec="5.0.4" />
     <engine name="android" spec="7.1.4" />
 </widget>

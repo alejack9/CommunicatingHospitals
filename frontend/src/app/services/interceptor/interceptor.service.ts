@@ -10,11 +10,10 @@ import { mergeMap, catchError } from 'rxjs/operators';
 })
 export class InterceptorService implements HttpInterceptor {
   
+  constructor(private readonly authService: AuthService, private readonly alertCtrl: AlertController) { }
+
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return Observable.create((observer) =>{
-      observer.next(localStorage.getItem('access_token'));
-      observer.complete();
-    }).pipe(
+    return from(this.authService.access_token).pipe(
       mergeMap((token) =>
         next.handle(this.addToken(req, token)).pipe(catchError(e => {
           this.alertCtrl.create({
@@ -29,15 +28,12 @@ export class InterceptorService implements HttpInterceptor {
   }
 
   private addToken(req: HttpRequest<any>, token) {
-    let cloned = req.clone({
+    return req.clone({
       setHeaders: {
-        'Authorization': `Bearer ${this.authService.access_token}`,
+        'Authorization': `Bearer ${token}`,
         'Access-Control-Allow-Origin': 'http://localhost:8100',
         'Content-Type': 'application/json'
       }
     });
-    return cloned;
   }
-
-  constructor(private readonly authService: AuthService, private readonly alertCtrl: AlertController) { }
 }
