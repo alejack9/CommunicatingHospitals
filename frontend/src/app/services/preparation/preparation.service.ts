@@ -10,22 +10,14 @@ import { TypeRank } from 'src/app/common/interfaces/type-rank.interface';
   providedIn: 'root'
 })
 export class PreparationService {
-  constructor(private authService: AuthService, private http: HttpClient) {}
+  constructor(private http: HttpClient) {}
 
-  get headers() {
-    return new HttpHeaders()
-      .set('Authorization', `Bearer ${this.authService.access_token}`)
-      .append('Access-Control-Allow-Origin', 'http://localhost:8100')
-      .append('Content-Type', 'application/json');
-  }
   /**
    * retrieve the list of preparations indicating the type
    */
   async getPreparationTypes() {
     return await this.http
-      .get(environment.BACKEND + 'hospitals/preparationsTypes', {
-        headers: this.headers
-      })
+      .get(environment.BACKEND + 'hospitals/preparationsTypes')
       .toPromise();
   }
   /**
@@ -41,7 +33,6 @@ export class PreparationService {
 
     return (await this.http
       .get(environment.BACKEND + 'preparations/' + type, {
-        headers: this.headers,
         params
       })
       .toPromise()) as Array<Preparation>;
