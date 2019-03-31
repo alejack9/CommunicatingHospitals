@@ -3,7 +3,12 @@
     <ion-title>
       {{ title }}
     </ion-title>
-    <ion-chip (click)="presentAlert()" color="light" slot="end">
+    <ion-chip
+      *ngIf="getProfile()"
+      (click)="presentAlert()"
+      color="light"
+      slot="end"
+    >
       <ion-label>{{ getProfile().name }}</ion-label>
       <ion-avatar>
         <img [src]="getProfile().picture" />
