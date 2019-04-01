@@ -8,14 +8,19 @@ import {
 @Injectable()
 export class PointPipe implements PipeTransform {
   transform(value: any, metadata: ArgumentMetadata) {
-    if (
-      value.lat &&
-      value.lng &&
-      Math.abs(value.lng) <= 180 &&
-      Math.abs(value.lat) <= 90
-    ) {
-      return value;
+    try {
+      value = JSON.parse(value);
+      if (
+        value &&
+        value.lat &&
+        value.lng &&
+        Math.abs(value.lng) <= 180 &&
+        Math.abs(value.lat) <= 90
+      ) {
+        return value;
+      }
+    } catch (e) {
+      throw new BadRequestException();
     }
-    throw new BadRequestException();
   }
 }

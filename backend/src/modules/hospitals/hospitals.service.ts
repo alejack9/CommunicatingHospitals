@@ -62,6 +62,7 @@ export class HospitalsService {
                 [nw.lng, nw.lat],
                 [sw.lng, sw.lat],
                 [se.lng, se.lat],
+                [ne.lng, ne.lat],
               ],
             ],
           },
