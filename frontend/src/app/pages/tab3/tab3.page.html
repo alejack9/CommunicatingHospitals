@@ -13,13 +13,8 @@
       </ion-card-title>
 
       <ion-card-subtitle>
-        {{ post.date.getDate() }}/{{ post.date.getMonth() }}/{{
-          post.date.getFullYear()
-        }}
-        {{ post.date.getHours() }}:{{
-          post.date.getMinutes()
-        }}</ion-card-subtitle
-      >
+        {{ post.date | date: "short" }}
+      </ion-card-subtitle>
     </ion-card-header>
     <ion-card-content
       ><ion-text color="dark">

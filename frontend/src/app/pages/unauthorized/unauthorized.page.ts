@@ -9,16 +9,11 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./unauthorized.page.scss']
 })
 export class UnauthorizedPage implements OnInit {
-  constructor(
-    private readonly authService: AuthService,
-    private readonly router: Router
-  ) {}
+  profile = this.authService.profile;
 
-  ngOnInit() {
-    this.authService.authenticationState
-      .pipe(filter(s => !s))
-      .subscribe(() => this.router.navigate(['login']));
-  }
+  constructor(private readonly authService: AuthService) {}
+
+  ngOnInit() {}
 
   getProfile() {
     return this.authService.profile;

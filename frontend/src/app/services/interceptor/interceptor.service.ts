@@ -25,7 +25,6 @@ export class InterceptorService implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    console.log(req);
     return from(this.authService.access_token).pipe(
       mergeMap(token =>
         next.handle(this.addToken(req, token)).pipe(

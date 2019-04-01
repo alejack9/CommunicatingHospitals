@@ -91,7 +91,6 @@ export class AuthService {
         ',',
         ['clearcache=yes', 'clearsessioncache=yes'].join(',')
       );
-      await this.storage.remove('loggedOut');
     }
     this.browser = this.iab.create(this.url, '_blank', options);
     this.browser.on('loadstart').subscribe(e => {
@@ -101,6 +100,7 @@ export class AuthService {
           this.getParam(e.url, 'access_token'),
           this.getParam(e.url, 'id_token')
         ).then(() => this.authenticationState.next(true));
+        this.storage.remove('loggedOut');
       }
     });
     this.browser.show();
@@ -123,7 +123,6 @@ export class AuthService {
     await this.storage.remove('id_token');
     await this.storage.set('loggedOut', true);
     this.authenticationState.next(false);
-    console.log('done');
   }
   /**
    *
