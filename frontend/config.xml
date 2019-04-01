@@ -91,12 +91,6 @@
     <allow-navigation href="http://10.0.10.176:8100" sessionid="299b3a4f" />
     <allow-navigation href="http://10.0.9.143:8100" sessionid="4a5e4c87" />
     <plugin name="cordova-plugin-network-information" spec="2.0.1" />
-    <plugin name="cordova-plugin-googlemaps" spec="git+https://github.com/mapsplugin/cordova-plugin-googlemaps.git#multiple_maps">
-        <variable name="API_KEY_FOR_ANDROID" value="AIzaSyDe4nQAX-jZ11waVuhK2LgTi_ECnOrhB4o" />
-        <variable name="API_KEY_FOR_IOS" value="AIzaSyDe4nQAX-jZ11waVuhK2LgTi_ECnOrhB4o" />
-        <variable name="PLAY_SERVICES_VERSION" value="15.0.1" />
-        <variable name="ANDROID_SUPPORT_V4_VERSION" value="27.+" />
-    </plugin>
     <plugin name="cordova-sqlite-storage" spec="3.2.0" />
     <plugin name="cordova-plugin-geolocation" spec="4.0.1">
         <variable name="GEOLOCATION_USAGE_DESCRIPTION" value="let's track you." />
@@ -107,4 +101,8 @@
     <allow-navigation href="http://192.168.1.169:8100" sessionid="58587854" />
     <engine name="browser" spec="5.0.4" />
     <engine name="android" spec="7.1.4" />
+    <plugin name="cordova-plugin-googlemaps" spec="git+https://github.com/mapsplugin/cordova-plugin-googlemaps.git#multiple_maps">
+        <variable name="API_KEY_FOR_ANDROID" value="AIzaSyDe4nQAX-jZ11waVuhK2LgTi_ECnOrhB4o" />
+        <variable name="API_KEY_FOR_IOS" value="AIzaSyDe4nQAX-jZ11waVuhK2LgTi_ECnOrhB4o" />
+    </plugin>
 </widget>

@@ -1,3 +1,4 @@
+import { Point } from './../../common/dtos/point';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { AuthService } from '../auth/auth.service';
@@ -28,13 +29,23 @@ export class HospitalService {
       })
       .toPromise()) as Array<Hospital>;
   }
+
+  async getHospitalsNearbyV2(NE: Point, SW: Point) {
+    const params = new HttpParams()
+      .set('NE', JSON.stringify(NE))
+      .set('SW', JSON.stringify(SW));
+    return (await this.http
+      .get(environment.BACKEND + 'hospitals/v2/location', {
+        params
+      })
+      .toPromise()) as Array<Hospital>;
+  }
   /**
    * returns his hospital
    */
   async getMyHospital() {
     return await this.http
-      .get(environment.BACKEND + 'hospitals/myHospital', {
-      })
+      .get(environment.BACKEND + 'hospitals/myHospital', {})
       .toPromise();
   }
 }

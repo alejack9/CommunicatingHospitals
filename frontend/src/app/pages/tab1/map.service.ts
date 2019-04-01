@@ -101,22 +101,14 @@ export class MapService {
     return this.map.on(GoogleMapsEvent.MAP_DRAG_END).pipe(
       map(() => {
         return {
-          NE: [
-            this.map.getVisibleRegion().northeast.lng,
-            this.map.getVisibleRegion().northeast.lat
-          ],
-          SW: [
-            this.map.getVisibleRegion().southwest.lng,
-            this.map.getVisibleRegion().southwest.lat
-          ],
-          SE: [
-            this.map.getVisibleRegion().northeast.lng,
-            this.map.getVisibleRegion().southwest.lat
-          ],
-          NW: [
-            this.map.getVisibleRegion().southwest.lng,
-            this.map.getVisibleRegion().northeast.lat
-          ]
+          NE: {
+            lng: this.map.getVisibleRegion().northeast.lng,
+            lat: this.map.getVisibleRegion().northeast.lat
+          },
+          SW: {
+            lng: this.map.getVisibleRegion().southwest.lng,
+            lat: this.map.getVisibleRegion().southwest.lat
+          }
         };
       })
     );
