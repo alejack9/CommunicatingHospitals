@@ -31,7 +31,6 @@ export class AppComponent {
 
   initializeApp() {
     this.platform.ready().then(() => {
-      // this.rootPage = Tab1Page;
       Environment.setEnv({
         // api key for server
         API_KEY_FOR_BROWSER_RELEASE: 'AIzaSyDe4nQAX-jZ11waVuhK2LgTi_ECnOrhB4o',
