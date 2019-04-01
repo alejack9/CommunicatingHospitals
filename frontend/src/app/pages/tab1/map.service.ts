@@ -1,17 +1,16 @@
 import { Injectable } from '@angular/core';
-import { ILatLng, Spherical } from '@ionic-native/google-maps/ngx';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+
 import {
   GoogleMap,
-  Marker,
   MarkerCluster,
   GoogleMapsEvent,
   GoogleMaps,
-  Circle,
   MarkerOptions
 } from '@ionic-native/google-maps';
-import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Hospital } from 'src/app/common/interfaces/hospital.interface';
+import { environment } from 'src/environments/environment';
 
 export type Period = 'month' | 'year';
 
@@ -19,13 +18,13 @@ export type Period = 'month' | 'year';
   providedIn: 'root'
 })
 export class MapService {
+  constructor(private readonly geolocation: Geolocation) {}
+
   private map: GoogleMap;
-  private hospitalsMarkers: Array<MarkerOptions>;
+  private hospitalsMarkers = Array<MarkerOptions>();
   private myHospitalMarker: MarkerOptions;
   private markerCluster: MarkerCluster;
-  /**
-   *
-   */
+
   getMyHospital(): MarkerOptions {
     return this.myHospitalMarker;
   }
@@ -35,18 +34,23 @@ export class MapService {
    * @param period
    */
   setMyHospital(v: Hospital, period: Period) {
-    this.myHospitalMarker = this.objectToMarker(v, 'blue', period);
+    this.myHospitalMarker = this.hospitalToMarker(v, 'blue', period);
   }
   /**
    * set the parameters of the hospital markers
-   * @param v
+   * @param hospitals
    * @param period
    */
-  setNearbyHospitals(v: Hospital[], period: Period) {
-    this.hospitalsMarkers = [];
-    v.forEach(e => {
-      this.hospitalsMarkers.push(this.objectToMarker(e, undefined, period));
-    });
+  setNearbyHospitals(hospitals: Hospital[], period: Period) {
+    this.hospitalsMarkers.splice(
+      0,
+      this.hospitalsMarkers.length,
+      ...hospitals.map(p => this.hospitalToMarker(p, undefined, period))
+    );
+    // this.hospitalsMarkers = [];
+    // hospitals.forEach(e => {
+    //   this.hospitalsMarkers.push(this.hospitalToMarker(e, undefined, period));
+    // });
   }
   /**
    * returns hospital markers
@@ -58,58 +62,69 @@ export class MapService {
   /**
    * load the map with related options
    */
-  loadMap(): Observable<{ lat: number; lng: number; radius: number }> {
+  async loadMap() {
+    // : Observable<{ lat: number; lng: number; radius: number }> {
     this.map = GoogleMaps.create('map_canvas');
+    let camera: { lat: number; lng: number } = !environment.production
+      ? {
+          lat: this.myHospitalMarker.position.lat,
+          lng: this.myHospitalMarker.position.lng
+        }
+      : undefined;
+    if (environment.production) {
+      try {
+        const a = await this.geolocation.getCurrentPosition({
+          enableHighAccuracy: true,
+          timeout: 5000,
+          maximumAge: 1
+        });
+        camera = {
+          lat: a.coords.latitude,
+          lng: a.coords.longitude
+        };
+      } catch (e) {
+        camera = {
+          lat: this.myHospitalMarker.position.lat,
+          lng: this.myHospitalMarker.position.lng
+        };
+      }
+    }
     this.map.moveCamera({
       target: {
-        lat: this.myHospitalMarker.position.lat,
-        lng: this.myHospitalMarker.position.lng
+        lat: camera.lat,
+        lng: camera.lng
       },
-      zoom: 8
+      zoom: 9
     });
     this.fillCluster();
-    const circle: Circle = this.map.addCircleSync({
-      center: {
-        lat: this.myHospitalMarker.position.lat,
-        lng: this.myHospitalMarker.position.lng
-      },
-      radius: 100 * 1000,
-      fillColor: 'rgba(0,0,0,0.2)',
-      strokeColor: 'rgba(150,15,15,1)',
-      strokeWidth: 3
-    });
-    // Calculate the positions
-    const positions: ILatLng[] = [0, 90, 180, 270].map((degree: number) => {
-      return Spherical.computeOffset(circle.getCenter(), 100 * 1000, degree);
-    });
-
-    const marker: Marker = this.map.addMarkerSync({
-      icon: 'green',
-      position: positions[0],
-      draggable: true,
-      title: 'Drag me!'
-    });
-    marker.trigger(GoogleMapsEvent.MARKER_CLICK);
-    marker.trigger(GoogleMapsEvent.MARKER_DRAG_END);
-    this.drawCircle(circle, marker);
-
-    marker.on('position_changed').subscribe(params => {
-      this.drawCircle(circle, marker);
-    });
-    return marker.on(GoogleMapsEvent.MARKER_DRAG_END).pipe(
-      map(par => {
+    this.map.trigger(GoogleMapsEvent.MAP_DRAG_END);
+    return this.map.on(GoogleMapsEvent.MAP_DRAG_END).pipe(
+      map(() => {
         return {
-          lat: this.myHospitalMarker.position.lat,
-          lng: this.myHospitalMarker.position.lng,
-          radius: circle.getRadius()
+          NE: [
+            this.map.getVisibleRegion().northeast.lng,
+            this.map.getVisibleRegion().northeast.lat
+          ],
+          SW: [
+            this.map.getVisibleRegion().southwest.lng,
+            this.map.getVisibleRegion().southwest.lat
+          ],
+          SE: [
+            this.map.getVisibleRegion().northeast.lng,
+            this.map.getVisibleRegion().southwest.lat
+          ],
+          NW: [
+            this.map.getVisibleRegion().southwest.lng,
+            this.map.getVisibleRegion().northeast.lat
+          ]
         };
       })
     );
   }
+
   /**
    * fill the Cluster marker with all the hospitals found to add to the map
    */
-
   fillCluster() {
     if (this.markerCluster) {
       this.markerCluster.remove();
@@ -136,27 +151,17 @@ export class MapService {
       }
     });
     this.markerCluster.trigger(GoogleMapsEvent.MARKER_CLICK);
+    this.map.setMyLocationButtonEnabled(true);
+    this.map.setMyLocationEnabled(true);
   }
-  /**
-   * draw the circle that allows the dynamic search of the neighboring osepdals
-   * @param circle
-   * @param marker
-   */
-  drawCircle(circle: Circle, marker: Marker) {
-    const newValue: ILatLng = marker.getPosition();
-    const newRadius: number = Spherical.computeDistanceBetween(
-      circle.getCenter(),
-      newValue
-    );
-    circle.setRadius(newRadius);
-  }
+
   /**
    * set the options to be displayed at the click of the marker
    * @param data
    * @param color
    * @param period
    */
-  private objectToMarker(
+  private hospitalToMarker(
     data: Hospital,
     color: string = 'red',
     period: Period = 'month'

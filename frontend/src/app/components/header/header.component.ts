@@ -42,8 +42,8 @@ export class HeaderComponent implements OnInit {
   /**
    *
    */
-  logout() {
-    return this.authService.logout();
+  async logout() {
+    return await this.authService.logout();
   }
   /**
    *

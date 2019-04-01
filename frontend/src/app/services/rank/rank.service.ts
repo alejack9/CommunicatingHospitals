@@ -9,20 +9,12 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class RankService {
-  constructor(private authService: AuthService, private http: HttpClient) {}
-
-  get headers() {
-    return new HttpHeaders()
-      .set('Authorization', `Bearer ${this.authService.access_token}`)
-      .append('Access-Control-Allow-Origin', 'http://localhost:8100')
-      .append('Content-Type', 'application/json');
-  }
-
+  constructor(private http: HttpClient) {}
+  
   async getRank(type: PreparationType, dateUnit: Period | 'day') {
     return (await this.http
       .get(environment.BACKEND + `ranking/${type}`, {
         params: { dateUnit },
-        headers: this.headers
       })
       .toPromise()) as Array<{ ranking: number; name: string; media: number }>;
   }
@@ -30,7 +22,6 @@ export class RankService {
     return await this.http
       .get(environment.BACKEND + `ranking/${type}/me`, {
         params: { dateUnit },
-        headers: this.headers
       })
       .toPromise();
   }

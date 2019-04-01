@@ -6,7 +6,8 @@ import {
   InAppBrowserObject
 } from '@ionic-native/in-app-browser/ngx';
 import { BehaviorSubject } from 'rxjs';
-import { Platform } from '@ionic/angular';
+import { Platform, ToastController } from '@ionic/angular';
+import { Storage } from '@ionic/storage';
 
 @Injectable({
   providedIn: 'root'
@@ -16,10 +17,21 @@ export class AuthService {
   // https://communicating-hospitals.eu.auth0.com/authorize?response_type=id_token token&client_id=hafjbtKs0JXZQYr7ctxt8SO4cF20SVf3&redirect_uri=http://localhost:8100/callback&scope=openid profile&nonce=pawm&audience=http://localhost:3000
   constructor(
     private readonly iab: InAppBrowser,
-    private readonly plt: Platform
+    private readonly plt: Platform,
+    private readonly storage: Storage,
+    private readonly toastCtrl: ToastController
   ) {
     this.helper = new JwtHelperService();
-    this.plt.ready().then(() => this.checkToken());
+    this.plt.ready().then(async () => {
+      const toast = await this.toastCtrl.create({
+        message: 'Checking User Login...',
+        duration: 10000
+      });
+      toast.present();
+      const tor = await this.checkToken();
+      toast.dismiss();
+      return tor;
+    });
   }
   private readonly url =
     'https://' +
@@ -40,7 +52,7 @@ export class AuthService {
    * allows to read the access token
    */
   get access_token() {
-    return localStorage.getItem('access_token');
+    return this.storage.get('access_token');
   }
   /**
    * allow to read the user profile
@@ -53,10 +65,11 @@ export class AuthService {
    *  if it exists the authentication is continued
    *  otherwise if the token does not exist the logout is made
    */
-  private checkToken() {
-    if (localStorage.getItem('id_token')) {
-      if (!this.helper.isTokenExpired(localStorage.getItem('access_token'))) {
-        this.user = this.helper.decodeToken(localStorage.getItem('id_token'));
+  private async checkToken() {
+    const id_token = await this.storage.get('id_token');
+    if (id_token) {
+      if (!this.helper.isTokenExpired(id_token)) {
+        this.user = this.helper.decodeToken(await this.storage.get('id_token'));
         this.authenticationState.next(true);
       } else {
         this.logout();
@@ -66,15 +79,19 @@ export class AuthService {
   /**
    * allows you to log in to the application after making all the necessary checks
    */
-  login() {
-    const options = [
+  async login() {
+    let options = [
       'location=no',
       'hidenavigationbuttons=yes',
       'hideurlbar=yes',
       'zoom=no'
-      // 'clearcache=yes',
-      // 'clearsessioncache=yes'
     ].join(',');
+    if (await this.storage.get('loggedOut')) {
+      options = options.concat(
+        ',',
+        ['clearcache=yes', 'clearsessioncache=yes'].join(',')
+      );
+    }
     this.browser = this.iab.create(this.url, '_blank', options);
     this.browser.on('loadstart').subscribe(e => {
       if (e.url.indexOf(environment.AUTH0_REDIRECTURL) === 0) {
@@ -82,8 +99,8 @@ export class AuthService {
         this.setTokens(
           this.getParam(e.url, 'access_token'),
           this.getParam(e.url, 'id_token')
-        );
-        this.authenticationState.next(true);
+        ).then(() => this.authenticationState.next(true));
+        this.storage.remove('loggedOut');
       }
     });
     this.browser.show();
@@ -93,17 +110,18 @@ export class AuthService {
    * @param accessToken
    * @param idToken
    */
-  private setTokens(accessToken: string, idToken: string) {
-    localStorage.setItem('access_token', accessToken);
-    localStorage.setItem('id_token', idToken);
+  private async setTokens(accessToken: string, idToken: string) {
+    await this.storage.set('access_token', accessToken);
+    await this.storage.set('id_token', idToken);
     this.user = this.helper.decodeToken(idToken);
   }
   /**
    * allows to log out from the application
    */
-  logout() {
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('id_token');
+  async logout() {
+    await this.storage.remove('access_token');
+    await this.storage.remove('id_token');
+    await this.storage.set('loggedOut', true);
     this.authenticationState.next(false);
   }
   /**
