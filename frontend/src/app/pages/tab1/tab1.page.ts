@@ -1,8 +1,8 @@
+import { Point } from './../../common/dtos/point';
 import { Component, OnInit } from '@angular/core';
 import { HospitalService } from '../../services/hospital/hospital.service';
 import { Platform } from '@ionic/angular';
 import { MapService, Period } from './map.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tab1',
@@ -13,8 +13,7 @@ export class Tab1Page implements OnInit {
   constructor(
     private platform: Platform,
     private hospitalService: HospitalService,
-    private mapService: MapService,
-    private router: Router
+    private mapService: MapService
   ) {}
   hospitals: Array<any>;
   myHospital: any;
@@ -25,7 +24,7 @@ export class Tab1Page implements OnInit {
       await this.getMyHospital();
     } catch (e) {
       if (e.status === 403) {
-        this.router.navigate(['/unauthorized']);
+        return;
       }
     }
     await this.getNearbyHospitals(
@@ -35,13 +34,11 @@ export class Tab1Page implements OnInit {
     );
 
     await this.platform.ready();
-    await this.mapService.loadMap().subscribe(params => {
-      this.getNearbyHospitals(
-        params.lat,
-        params.lng,
-        params.radius / 1000
-      ).then(() => {
-        this.mapService.fillCluster();
+    this.mapService.loadMap().then(map => {
+      map.subscribe(params => {
+        this.getNearbyHospitalsV2(params.NE, params.SW).then(() => {
+          this.mapService.fillCluster();
+        });
       });
     });
     this.mapService.fillCluster();
@@ -76,6 +73,20 @@ export class Tab1Page implements OnInit {
       ),
       1
     );
+    this.mapService.setNearbyHospitals(this.hospitals, this.period);
+  }
+
+  async getNearbyHospitalsV2(NE: Point, SW: Point) {
+    this.hospitals = await this.hospitalService.getHospitalsNearbyV2(NE, SW);
+    const toRemove = this.hospitals.findIndex(
+      e => e._id === this.myHospital._id
+    );
+    if (toRemove !== -1) {
+      this.hospitals.splice(
+        this.hospitals.findIndex(e => e._id === this.myHospital._id),
+        1
+      );
+    }
     this.mapService.setNearbyHospitals(this.hospitals, this.period);
   }
   /**
