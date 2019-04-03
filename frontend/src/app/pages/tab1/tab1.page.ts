@@ -1,7 +1,7 @@
 import { Point } from './../../common/dtos/point';
 import { Component, OnInit } from '@angular/core';
 import { HospitalService } from '../../services/hospital/hospital.service';
-import { Platform, AlertController } from '@ionic/angular';
+import { Platform } from '@ionic/angular';
 import { MapService, Period } from './map.service';
 
 @Component({
@@ -13,8 +13,7 @@ export class Tab1Page implements OnInit {
   constructor(
     private platform: Platform,
     private hospitalService: HospitalService,
-    private mapService: MapService,
-    private alertCtrl: AlertController
+    private mapService: MapService
   ) {}
   hospitals: Array<any>;
   myHospital: any;
@@ -35,18 +34,13 @@ export class Tab1Page implements OnInit {
     );
 
     await this.platform.ready();
-    this.mapService.loadMap().then(map =>
+    this.mapService.loadMap().then(map => {
       map.subscribe(params => {
-        this.alertCtrl
-          .create({
-            message: JSON.stringify(params)
-          })
-          .then(alert => alert.present());
         this.getNearbyHospitalsV2(params.NE, params.SW).then(() => {
           this.mapService.fillCluster();
         });
-      })
-    );
+      });
+    });
     this.mapService.fillCluster();
   }
 
@@ -84,16 +78,15 @@ export class Tab1Page implements OnInit {
 
   async getNearbyHospitalsV2(NE: Point, SW: Point) {
     this.hospitals = await this.hospitalService.getHospitalsNearbyV2(NE, SW);
-    this.hospitals.splice(
-      this.hospitals.findIndex(
-        e =>
-          e.coordinates.coordinates[0][0] ===
-            this.myHospital.coordinates.coordinates[0][0] &&
-          e.coordinates.coordinates[0][1] ===
-            this.myHospital.coordinates.coordinates[0][1]
-      ),
-      1
+    const toRemove = this.hospitals.findIndex(
+      e => e._id === this.myHospital._id
     );
+    if (toRemove !== -1) {
+      this.hospitals.splice(
+        this.hospitals.findIndex(e => e._id === this.myHospital._id),
+        1
+      );
+    }
     this.mapService.setNearbyHospitals(this.hospitals, this.period);
   }
   /**
