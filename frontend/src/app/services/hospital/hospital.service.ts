@@ -34,11 +34,13 @@ export class HospitalService {
     const params = new HttpParams()
       .set('NE', JSON.stringify(NE))
       .set('SW', JSON.stringify(SW));
-    return (await this.http
+    const hospitals = (await this.http
       .get(environment.BACKEND + 'hospitals/v2/location', {
         params
       })
       .toPromise()) as Array<Hospital>;
+    hospitals.forEach(h => (h.preparations = null));
+    return hospitals;
   }
   /**
    * returns his hospital
