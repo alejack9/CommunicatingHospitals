@@ -15,6 +15,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { Network } from '@ionic-native/network/ngx';
 import { InterceptorService } from './services/interceptor/interceptor.service';
 import { IonicStorageModule } from '@ionic/storage';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -32,7 +33,8 @@ import { IonicStorageModule } from '@ionic/storage';
     InAppBrowser,
     Network,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    { provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true },
+    Geolocation,
   ],
   bootstrap: [AppComponent]
 })

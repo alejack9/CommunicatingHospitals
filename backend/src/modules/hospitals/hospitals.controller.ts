@@ -1,3 +1,4 @@
+import { PointPipe } from './../../common/pipes/point.pipe';
 import { Controller, Body, Get, UseGuards, Post, Query } from '@nestjs/common';
 import { HospitalsService } from './hospitals.service';
 import { UserService } from 'src/modules/user/user.service';
@@ -10,6 +11,7 @@ import { PreparationType } from 'src/common/preparation.type';
 import { LongitudinePipe } from 'src/common/pipes/longitudine.pipe';
 import { LatitudinePipe } from 'src/common/pipes/latitudine.pipe';
 import { DistancePipe } from 'src/common/pipes/distance.pipe';
+import { Point } from 'src/common/interfaces/point.interface';
 
 @Controller('hospitals')
 export class HospitalsController {
@@ -50,6 +52,25 @@ export class HospitalsController {
     @Query('distance', new DistancePipe()) distance: number,
   ): Promise<Hospital[]> {
     return this.hospitalsService.find(latitude, longitude, distance);
+  }
+
+  /**
+   * Returns all hospitals in the passed range
+   * @param longitude the longitude of the starting point
+   * @param latitude the latitude of the starting point
+   * @param distance the radius of the circle
+   */
+  @Get('/v2/location')
+  async findV2(
+    @Query('NE', new PointPipe()) ne: Point,
+    @Query('SW', new PointPipe()) sw: Point,
+  ): Promise<Hospital[]> {
+    return this.hospitalsService.findByRec(
+      ne,
+      { lng: sw.lng, lat: ne.lat },
+      { lng: ne.lng, lat: sw.lat },
+      sw,
+    );
   }
 
   /**

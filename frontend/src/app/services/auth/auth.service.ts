@@ -6,9 +6,8 @@ import {
   InAppBrowserObject
 } from '@ionic-native/in-app-browser/ngx';
 import { BehaviorSubject } from 'rxjs';
-import { Platform } from '@ionic/angular';
+import { Platform, ToastController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
-
 
 @Injectable({
   providedIn: 'root'
@@ -19,10 +18,20 @@ export class AuthService {
   constructor(
     private readonly iab: InAppBrowser,
     private readonly plt: Platform,
-    private readonly storage: Storage
+    private readonly storage: Storage,
+    private readonly toastCtrl: ToastController
   ) {
     this.helper = new JwtHelperService();
-    this.plt.ready().then(async () => await this.checkToken());
+    this.plt.ready().then(async () => {
+      const toast = await this.toastCtrl.create({
+        message: 'Checking User Login...',
+        duration: 10000
+      });
+      toast.present();
+      const tor = await this.checkToken();
+      toast.dismiss();
+      return tor;
+    });
   }
   private readonly url =
     'https://' +
@@ -43,7 +52,7 @@ export class AuthService {
    * allows to read the access token
    */
   get access_token() {
-    return this.storage.get('access_token')
+    return this.storage.get('access_token');
   }
   /**
    * allow to read the user profile
@@ -70,15 +79,19 @@ export class AuthService {
   /**
    * allows you to log in to the application after making all the necessary checks
    */
-  login() {
-    const options = [
+     async login() {
+    let options = [
       'location=no',
       'hidenavigationbuttons=yes',
       'hideurlbar=yes',
       'zoom=no'
-      // 'clearcache=yes',
-      // 'clearsessioncache=yes'
     ].join(',');
+    if (await this.storage.get('loggedOut')) {
+      options = options.concat(
+        ',',
+        ['clearcache=yes', 'clearsessioncache=yes'].join(',')
+      );
+    }
     this.browser = this.iab.create(this.url, '_blank', options);
     this.browser.on('loadstart').subscribe(e => {
       if (e.url.indexOf(environment.AUTH0_REDIRECTURL) === 0) {
@@ -86,7 +99,8 @@ export class AuthService {
         this.setTokens(
           this.getParam(e.url, 'access_token'),
           this.getParam(e.url, 'id_token')
-        ).then(() => this.authenticationState.next(true)); 
+        ).then(() => this.authenticationState.next(true));
+        this.storage.remove('loggedOut');
       }
     });
     this.browser.show();
@@ -107,6 +121,7 @@ export class AuthService {
   async logout() {
     await this.storage.remove('access_token');
     await this.storage.remove('id_token');
+    await this.storage.set('loggedOut', true);
     this.authenticationState.next(false);
   }
   /**

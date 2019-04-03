@@ -24,7 +24,6 @@ const routes: Routes = [
     ComponentsModule,
     RouterModule.forChild(routes)
   ],
-  providers: [AuthService],
   declarations: [UnauthorizedPage]
 })
 export class UnauthorizedPageModule {}

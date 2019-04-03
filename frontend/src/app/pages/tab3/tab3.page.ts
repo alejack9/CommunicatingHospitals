@@ -13,6 +13,5 @@ export class Tab3Page implements OnInit {
 
   async ngOnInit() {
     this.posts = this.linkedinService.getPosts();
-    console.log(this.linkedinService.getPosts());
   }
 }

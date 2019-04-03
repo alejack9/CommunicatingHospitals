@@ -1,3 +1,4 @@
+import { Point } from './../../common/interfaces/point.interface';
 import { Model, Types } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
@@ -43,6 +44,28 @@ export class HospitalsService {
           },
           // "distance" is in kilomiters and maxDistance works in meters.
           $maxDistance: (distance || 100) * 1000,
+        },
+      },
+    };
+    return this.hospitalModel.find(query).exec();
+  }
+
+  async findByRec(ne: Point, nw: Point, se: Point, sw: Point) {
+    const query = {
+      coordinates: {
+        $geoWithin: {
+          $geometry: {
+            type: 'Polygon',
+            coordinates: [
+              [
+                [ne.lng, ne.lat],
+                [nw.lng, nw.lat],
+                [sw.lng, sw.lat],
+                [se.lng, se.lat],
+                [ne.lng, ne.lat],
+              ],
+            ],
+          },
         },
       },
     };

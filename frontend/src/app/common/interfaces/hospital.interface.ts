@@ -5,6 +5,6 @@ import { Rank } from './rank.interface';
 export interface Hospital extends Document {
   readonly name: string;
   readonly coordinates: GeoJSONMultiPoint;
-  readonly preparations: [Preparation];
+  preparations: [Preparation];
   readonly averageRanks: [Rank];
 }
