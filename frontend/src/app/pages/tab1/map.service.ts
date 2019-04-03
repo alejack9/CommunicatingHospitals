@@ -169,7 +169,7 @@ export class MapService {
           '\nlast update: ' +
           rank.lastUpdate.getDate() +
           '/' +
-          rank.lastUpdate.getMonth() +
+          (rank.lastUpdate.getMonth() + 1) +
           '/' +
           rank.lastUpdate.getFullYear()
       );
