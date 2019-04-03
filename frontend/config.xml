@@ -99,10 +99,10 @@
         <string>Let's track you</string>
     </edit-config>
     <allow-navigation href="http://192.168.1.169:8100" sessionid="58587854" />
-    <engine name="browser" spec="5.0.4" />
-    <engine name="android" spec="7.1.4" />
-    <plugin name="cordova-plugin-googlemaps" spec="git+https://github.com/mapsplugin/cordova-plugin-googlemaps.git#multiple_maps">
+    <plugin name="cordova-plugin-googlemaps" spec="2.5.3">
         <variable name="API_KEY_FOR_ANDROID" value="AIzaSyDe4nQAX-jZ11waVuhK2LgTi_ECnOrhB4o" />
         <variable name="API_KEY_FOR_IOS" value="AIzaSyDe4nQAX-jZ11waVuhK2LgTi_ECnOrhB4o" />
     </plugin>
+    <engine name="browser" spec="5.0.4" />
+    <engine name="android" spec="7.1.4" />
 </widget>
